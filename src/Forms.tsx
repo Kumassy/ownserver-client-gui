@@ -1,14 +1,10 @@
 import React from 'react'
-import { launchLocal, interruptLocal, updateCommand, updateFilepath,  updateLocalPort, runChecksAndLaunchLocal } from './features/localSlice'
-import { AppDispatch, RootState } from './app/store';
-import { LocalStateMessage } from './features/localSlice'
+import { interruptLocal, updateCommand, updateFilepath,  updateLocalPort, runChecksAndLaunchLocal } from './features/localSlice'
 import { useAppSelector, useAppDispatch } from './app/hooks'
 
 import { open } from '@tauri-apps/api/dialog'
-import { styled } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -83,12 +79,7 @@ export const ResultChip: React.VFC<ResultChipProps> = ({ status }) => {
   }
 }
 
-const Input = styled('input')({
-  display: 'none',
-});
-
 export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) => {
-  const localError = useAppSelector(state => state.local.error)
   const localMessages = useAppSelector(state => state.local.messages)
   const localStatus = useAppSelector(state => state.local.status)
   const localPort = useAppSelector(state => state.local.port)
@@ -219,7 +210,6 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
 }
 
 export const FormCustom: React.VFC<FormProps> = ({ handleBack, handleNext }) => {
-  const localError = useAppSelector(state => state.local.error)
   const localMessages = useAppSelector(state => state.local.messages)
   const localPort = useAppSelector(state => state.local.port)
   const localStatus = useAppSelector(state => state.local.status)

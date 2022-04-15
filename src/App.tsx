@@ -1,50 +1,24 @@
 import React, { useEffect } from 'react'
 import './App.css'
-import { invoke } from '@tauri-apps/api/tauri'
-import { emit, listen } from '@tauri-apps/api/event'
-import { useAppSelector, useAppDispatch } from './app/hooks'
+import { listen } from '@tauri-apps/api/event'
+import { useAppDispatch } from './app/hooks'
 import { ClientInfo, updateClientInfo } from './features/tunnelSlice'
-import { receiveMessage, runChecks } from './features/localSlice'
+import { receiveMessage } from './features/localSlice'
 import { LocalMessage } from './data'
 
-import { styled } from '@mui/material/styles';
-import { SelectChangeEvent } from "@mui/material";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import FilledInput from '@mui/material/FilledInput';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Chip from '@mui/material/Chip';
 
 
-import AutoScroll from '@brianmcallister/react-auto-scroll';
-import { StepLauchLocalServer, StepSelectGame, StepLaunchTunnel, StepMonitoring, StepContent } from './Steps'
-
-function invokeCommand() {
-  invoke('long_running_command').then((message) => console.log(message))
-}
-
-function emitCancelCommand() {
-  emit('cancel_command');
-}
+import { StepContent } from './Steps'
 
 function isLocalMessage(arg: any): arg is LocalMessage {
   return 'message' in arg;
@@ -78,7 +52,7 @@ function App() {
       return unlisten
     }
     f()
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     const f = async () => {
@@ -93,7 +67,7 @@ function App() {
       return unlisten
     }
     f()
-  }, []);
+  }, [dispatch]);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);

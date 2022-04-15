@@ -1,9 +1,8 @@
 import { createSlice, PayloadAction, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
-import type { AppDispatch, RootState } from '../app/store'
+import type { RootState } from '../app/store'
 import { invoke } from '@tauri-apps/api/tauri'
 import { emit } from '@tauri-apps/api/event'
 import { LaunchLocalResultError } from '../data'
-import { Command } from '@tauri-apps/api/shell'
 import { CheckError, CheckId, checkRegistry, CheckResult, StatusCodeError, getCheckList } from '../checks'
 import { GameId } from '../common'
 
@@ -215,7 +214,7 @@ export const runCheck = createAsyncThunk<CheckResult, CheckId, { state: RootStat
       return rejectWithValue(`error during check: ${JSON.stringify(e)}`)
     }
   } else {
-    throw `error: check not found with id: ${id}`
+    throw new Error(`error: check not found with id: ${id}`)
   }
 })
 

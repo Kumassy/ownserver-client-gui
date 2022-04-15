@@ -20,7 +20,7 @@ serde = { version = "1.0", features = ["derive"] }
 tauri = { version = "1.0.0-rc.4", features = ["api-all"] }
 tokio = { version = "1", features = ["full"] }
 tokio-util = "0.6.8"
-playhub-client = { git = "ssh://git@github.com/Kumassy/playhub-client.git", branch = "main", version = "0.2.0" }
+playhub-client = { git = "https://github.com/Kumassy/playhub-client.git", branch = "main", version = "0.2.0" }
 lazy_static = "1.4"
 log = "0.4"
 futures = "0.3"

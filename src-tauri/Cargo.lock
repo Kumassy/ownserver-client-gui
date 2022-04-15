@@ -2576,7 +2576,7 @@ checksum = "12295df4f294471248581bc09bef3c38a5e46f1e36d6a37353621a0c6c357e1f"
 [[package]]
 name = "playhub-client"
 version = "0.2.0"
-source = "git+ssh://git@github.com/Kumassy/playhub-client.git?branch=main#9bfb338f4795a40d8cff85af890a2643d1e56461"
+source = "git+https://github.com/Kumassy/playhub-client.git?branch=main#9bfb338f4795a40d8cff85af890a2643d1e56461"
 dependencies = [
  "anyhow",
  "futures",

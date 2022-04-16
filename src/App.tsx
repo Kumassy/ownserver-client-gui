@@ -95,7 +95,7 @@ function App() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Magic Tunnel Client
+            Playhub Client
           </Typography>
           <Button color="inherit">Login</Button>
         </Toolbar>

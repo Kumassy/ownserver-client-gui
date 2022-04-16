@@ -83,7 +83,7 @@
     },
     "windows": [
       {
-        "title": "Magic Tunnel Client",
+        "title": "Playhub Client",
         "width": 800,
         "height": 600,
         "resizable": true,

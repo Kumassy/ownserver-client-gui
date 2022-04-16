@@ -31,6 +31,10 @@ export type LaunchResultError =
 
 export type LaunchLocalResultError =
   | {
+    kind: "StatusCodeError";
+    [k: string]: unknown;
+  }
+  | {
     kind: "SpawnFailed";
     payload: string;
     [k: string]: unknown;
@@ -46,6 +50,10 @@ export type LaunchLocalResultError =
   | {
     kind: "LineCorrupted";
     payload: string;
+    [k: string]: unknown;
+  }
+  | {
+    kind: "WaitFailed";
     [k: string]: unknown;
   };
 

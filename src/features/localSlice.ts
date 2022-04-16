@@ -164,7 +164,9 @@ export const localSlice = createSlice({
         const err = action.payload
 
         if (err) {
-          if (err.kind === "SpawnFailed") {
+          if (err.kind === "StatusCodeError") {
+            state.error = `exited with non-zero code`
+          } else if (err.kind === "SpawnFailed") {
             state.error = `Failed to spawn executables ${err.payload}`
           } else if (err.kind === "NoStdout") {
             state.error = `Failed to fetch stdout`
@@ -172,6 +174,8 @@ export const localSlice = createSlice({
             state.error = `Failed to fetch stderr`
           } else if(err.kind === "LineCorrupted") {
             state.error = `Failed to parse stdout ${err.payload}`
+          } else if (err.kind === "WaitFailed") {
+            state.error = `Failed to wait local server`
           } else {
             state.error = "Internal client error: other error"
           }

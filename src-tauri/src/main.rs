@@ -142,36 +142,61 @@ async fn launch_local_server(window: tauri::Window, command: String) -> Result<(
     let mut stderr_reader = FramedRead::new(stderr, LinesCodec::new());
 
     let ct = cancellation_token.clone();
-    tokio::spawn(async move {
-        ct.cancelled().await;
-        drop(child);
-    });
 
-    loop {
-        tokio::select! {
-            Some(line) = stdout_reader.next() => {
-                let line = line.map_err(|e| LaunchLocalResultError::LineCorrupted(e.to_string()))?;
-                println!("{}", line);
+    let read_stream = async {
+        loop {
+            tokio::select! {
+                Some(line) = stdout_reader.next() => {
+                    let line = line.map_err(|e| LaunchLocalResultError::LineCorrupted(e.to_string()))?;
+                    println!("{}", line);
 
-                let payload = LocalMessage {
-                    message: line
-                };
-                let _ = window.emit_all("local_server_message", payload);
+                    let payload = LocalMessage {
+                        message: line
+                    };
+                    let _ = window.emit_all("local_server_message", payload);
+                }
+                Some(line) = stderr_reader.next() => {
+                    let line = line.map_err(|e| LaunchLocalResultError::LineCorrupted(e.to_string()))?;
+                    println!("{}", line);
+
+                    let payload = LocalMessage {
+                        message: line
+                    };
+                    let _ = window.emit_all("local_server_message", payload);
+                }
+                else => break
             }
-            Some(line) = stderr_reader.next() => {
-                let line = line.map_err(|e| LaunchLocalResultError::LineCorrupted(e.to_string()))?;
-                println!("{}", line);
+        }
+        Ok::<(), LaunchLocalResultError>(())
+    };
 
-                let payload = LocalMessage {
-                    message: line
-                };
-                let _ = window.emit_all("local_server_message", payload);
+    tokio::select! {
+        result = read_stream => {
+            if let Err(e) = result {
+                return Err(e);
             }
-            else => break,
+        }
+        _ = ct.cancelled() => {
+            window.unlisten(unlisten);
+            return Ok(());
         }
     }
 
-    window.unlisten(unlisten);
+    tokio::select! {
+        status = child.wait() => {
+            window.unlisten(unlisten);
+
+            let status = status.map_err(|_| LaunchLocalResultError::WaitFailed)?;
+            if !status.success() {
+                return Err(LaunchLocalResultError::StatusCodeError);
+            }
+        }
+        _ = ct.cancelled() => {
+            window.unlisten(unlisten);
+            return Ok(())
+        }
+    }
+
     Ok(())
 }
 

@@ -40,6 +40,10 @@ export type LaunchLocalResultError =
     [k: string]: unknown;
   }
   | {
+    kind: "NoStderr";
+    [k: string]: unknown;
+  }
+  | {
     kind: "LineCorrupted";
     payload: string;
     [k: string]: unknown;

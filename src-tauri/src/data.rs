@@ -14,6 +14,7 @@ pub type LaunchResult = Result<(), LaunchResultError>;
 pub enum LaunchLocalResultError {
     SpawnFailed(String),
     NoStdout,
+    NoStderr,
     LineCorrupted(String),
 }
 

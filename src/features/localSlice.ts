@@ -168,6 +168,8 @@ export const localSlice = createSlice({
             state.error = `Failed to spawn executables ${err.payload}`
           } else if (err.kind === "NoStdout") {
             state.error = `Failed to fetch stdout`
+          } else if (err.kind === "NoStderr") {
+            state.error = `Failed to fetch stderr`
           } else if(err.kind === "LineCorrupted") {
             state.error = `Failed to parse stdout ${err.payload}`
           } else {

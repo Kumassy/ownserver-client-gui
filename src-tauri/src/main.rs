@@ -123,6 +123,7 @@ async fn launch_local_server(window: tauri::Window, command: String) -> Result<(
         .arg(command)
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
         .spawn()
         .map_err(|e| LaunchLocalResultError::SpawnFailed(e.to_string()))?;
     let stdout = match child.stdout.take() {
@@ -131,7 +132,14 @@ async fn launch_local_server(window: tauri::Window, command: String) -> Result<(
             return Err(LaunchLocalResultError::NoStdout);
         }
     };
-    let mut reader = FramedRead::new(stdout, LinesCodec::new());
+    let stderr = match child.stderr.take() {
+        Some(stderr) => stderr,
+        None => {
+            return Err(LaunchLocalResultError::NoStderr);
+        }
+    };
+    let mut stdout_reader = FramedRead::new(stdout, LinesCodec::new());
+    let mut stderr_reader = FramedRead::new(stderr, LinesCodec::new());
 
     let ct = cancellation_token.clone();
     tokio::spawn(async move {
@@ -139,14 +147,28 @@ async fn launch_local_server(window: tauri::Window, command: String) -> Result<(
         drop(child);
     });
 
-    while let Some(line) = reader.next().await {
-        let line = line.map_err(|e| LaunchLocalResultError::LineCorrupted(e.to_string()))?;
-        println!("{}", line);
+    loop {
+        tokio::select! {
+            Some(line) = stdout_reader.next() => {
+                let line = line.map_err(|e| LaunchLocalResultError::LineCorrupted(e.to_string()))?;
+                println!("{}", line);
 
-        let payload = LocalMessage {
-            message: line
-        };
-        let _ = window.emit_all("local_server_message", payload);
+                let payload = LocalMessage {
+                    message: line
+                };
+                let _ = window.emit_all("local_server_message", payload);
+            }
+            Some(line) = stderr_reader.next() => {
+                let line = line.map_err(|e| LaunchLocalResultError::LineCorrupted(e.to_string()))?;
+                println!("{}", line);
+
+                let payload = LocalMessage {
+                    message: line
+                };
+                let _ = window.emit_all("local_server_message", payload);
+            }
+            else => break,
+        }
     }
 
     window.unlisten(unlisten);

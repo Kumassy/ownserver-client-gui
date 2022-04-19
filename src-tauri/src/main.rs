@@ -20,7 +20,7 @@ use log::*;
 use playhub_client::{proxy_client::run, ActiveStreams, error::Error};
 use tokio_util::sync::CancellationToken;
 use std::process::Stdio;
-use tokio::process::Command;
+use tokio::process::{Command, Child};
 use tokio_util::codec::{FramedRead, LinesCodec};
 use futures::prelude::*;
 
@@ -108,6 +108,33 @@ async fn launch_tunnel(window: tauri::Window, token_server: String, local_port: 
     }
 }
 
+#[cfg(target_os = "windows")]
+fn spawn_command(command: String) -> Result<Child, LaunchLocalResultError> {
+    let child = Command::new("cmd")
+        .kill_on_drop(true)
+        .arg("/c")
+        .arg(command)
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .map_err(|e| LaunchLocalResultError::SpawnFailed(e.to_string()))?;
+    Ok(child)
+}
+
+#[cfg(not(target_os = "windows"))]
+fn spawn_command(command: String) -> Result<Child, LaunchLocalResultError> {
+    let child = Command::new("sh")
+        .kill_on_drop(true)
+        .arg("-c")
+        .arg(command)
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .map_err(|e| LaunchLocalResultError::SpawnFailed(e.to_string()))?;
+    Ok(child)
+}
 
 #[tauri::command]
 async fn launch_local_server(window: tauri::Window, command: String) -> Result<(), LaunchLocalResultError> {
@@ -117,15 +144,7 @@ async fn launch_local_server(window: tauri::Window, command: String) -> Result<(
         ct.cancel();
     });
 
-    let mut child = Command::new("bash")
-        .kill_on_drop(true)
-        .arg("-c")
-        .arg(command)
-        .stdin(Stdio::piped())
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .spawn()
-        .map_err(|e| LaunchLocalResultError::SpawnFailed(e.to_string()))?;
+    let mut child = spawn_command(command)?;
     let stdout = match child.stdout.take() {
         Some(stdout) => stdout,
         None => {

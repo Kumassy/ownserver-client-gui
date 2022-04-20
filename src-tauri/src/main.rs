@@ -136,14 +136,7 @@ fn spawn_command(command: String) -> Result<Child, LaunchLocalResultError> {
     Ok(child)
 }
 
-#[tauri::command]
-async fn launch_local_server(window: tauri::Window, command: String) -> Result<(), LaunchLocalResultError> {
-    let cancellation_token = CancellationToken::new();
-    let ct = cancellation_token.clone();
-    let unlisten = window.once("interrupt_launch_local_server", move |event| {
-        ct.cancel();
-    });
-
+async fn spawn_command_and_aggregate_output(window: &tauri::Window, command: String) -> Result<(), LaunchLocalResultError> {
     let mut child = spawn_command(command)?;
     let stdout = match child.stdout.take() {
         Some(stdout) => stdout,
@@ -160,63 +153,59 @@ async fn launch_local_server(window: tauri::Window, command: String) -> Result<(
     let mut stdout_reader = FramedRead::new(stdout, LinesCodec::new());
     let mut stderr_reader = FramedRead::new(stderr, LinesCodec::new());
 
+    loop {
+        tokio::select! {
+            Some(line) = stdout_reader.next() => {
+                let line = line.map_err(|e| LaunchLocalResultError::LineCorrupted(e.to_string()))?;
+                println!("{}", line);
+
+                let payload = LocalMessage {
+                    message: line
+                };
+                let _ = window.emit_all("local_server_message", payload);
+            }
+            Some(line) = stderr_reader.next() => {
+                let line = line.map_err(|e| LaunchLocalResultError::LineCorrupted(e.to_string()))?;
+                println!("{}", line);
+
+                let payload = LocalMessage {
+                    message: line
+                };
+                let _ = window.emit_all("local_server_message", payload);
+            }
+            else => break
+        }
+    }
+
+    if let Ok(status) = child.wait().await {
+        if !status.success() {
+            return Err(LaunchLocalResultError::StatusCodeError)
+        }
+    }
+    Ok(())
+}
+
+#[tauri::command]
+async fn launch_local_server(window: tauri::Window, command: String) -> Result<(), LaunchLocalResultError> {
+    let cancellation_token = CancellationToken::new();
+    let ct = cancellation_token.clone();
+    let unlisten = window.once("interrupt_launch_local_server", move |event| {
+        ct.cancel();
+    });
+
     let ct = cancellation_token.clone();
 
-    let read_stream = async {
-        loop {
-            tokio::select! {
-                Some(line) = stdout_reader.next() => {
-                    let line = line.map_err(|e| LaunchLocalResultError::LineCorrupted(e.to_string()))?;
-                    println!("{}", line);
-
-                    let payload = LocalMessage {
-                        message: line
-                    };
-                    let _ = window.emit_all("local_server_message", payload);
-                }
-                Some(line) = stderr_reader.next() => {
-                    let line = line.map_err(|e| LaunchLocalResultError::LineCorrupted(e.to_string()))?;
-                    println!("{}", line);
-
-                    let payload = LocalMessage {
-                        message: line
-                    };
-                    let _ = window.emit_all("local_server_message", payload);
-                }
-                else => break
-            }
+    let ret = tokio::select! {
+        result = spawn_command_and_aggregate_output(&window, command) => {
+            result
         }
-        Ok::<(), LaunchLocalResultError>(())
+        _ = ct.cancelled() => {
+            Ok(())
+        }
     };
 
-    tokio::select! {
-        result = read_stream => {
-            if let Err(e) = result {
-                return Err(e);
-            }
-        }
-        _ = ct.cancelled() => {
-            window.unlisten(unlisten);
-            return Ok(());
-        }
-    }
-
-    tokio::select! {
-        status = child.wait() => {
-            window.unlisten(unlisten);
-
-            let status = status.map_err(|_| LaunchLocalResultError::WaitFailed)?;
-            if !status.success() {
-                return Err(LaunchLocalResultError::StatusCodeError);
-            }
-        }
-        _ = ct.cancelled() => {
-            window.unlisten(unlisten);
-            return Ok(())
-        }
-    }
-
-    Ok(())
+    window.unlisten(unlisten);
+    ret
 }
 
 fn main() {

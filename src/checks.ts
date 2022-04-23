@@ -57,7 +57,7 @@ export const getCheckList = (game: GameId): Array<CheckId> => {
     case 'http':
       return [CHECK_BASH_VERSION]
     case 'minecraft':
-      return [CHECK_BASH_VERSION, CHECK_NODE_VERSION, CHECK_JAVA_VERSION]
+      return [CHECK_JAVA_VERSION]
     case 'factorio':
       return [CHECK_JAVA_VERSION, CHECK_BASH_VERSION, CHECK_NODE_VERSION]
   }

@@ -15,6 +15,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Chip from '@mui/material/Chip';
 
 import AutoScroll from '@brianmcallister/react-auto-scroll';
+import Stack from '@mui/material/Stack';
 
 export type FormProps = {
   handleNext: () => void,
@@ -85,6 +86,7 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
   const localPort = useAppSelector(state => state.local.port)
   const command = useAppSelector(state => state.local.command)
   const checks = useAppSelector(state => state.local.checks)
+  const filepath = useAppSelector(state => state.local.filepath)
   const dispatch = useAppDispatch()
 
   return (
@@ -95,36 +97,56 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
           '& .MuiTextField-root': { marginBottom: 1 },
         }}
       >
-        <TextField
-          fullWidth
-          id="local-server-path"
-          label="Local Server Executable Path"
-          variant="outlined"
-          onChange={e => dispatch(updateCommand(e.target.value))}
-          value={command}
-        />
-        <TextField
-          fullWidth
-          id="local-port"
-          label="Local Port"
-          type="number"
-          variant="outlined"
-          onChange={e => dispatch(updateLocalPort(parseInt(e.target.value)))}
-          value={localPort}
-        />
+        <Typography sx={{ mb: 2 }} variant="h6" component="div">
+          Settings
+        </Typography>
 
-        <Button
-          variant="contained"
-          onClick={async () => {
-            const file = await open({ multiple: false });
+        <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 2}}>
+          <Button
+            variant="contained"
+            onClick={async () => {
+              const file = await open({ multiple: false });
 
-            if (typeof file === 'string') {
-              dispatch(updateFilepath(file))
-            }
-          }}
-        >
-          Select file
-        </Button>
+              if (typeof file === 'string') {
+                dispatch(updateFilepath(file))
+              }
+            }}
+          >
+            Select file
+          </Button>
+          <Typography>{filepath}</Typography>
+        </Stack>
+
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+          >
+            <Typography>Advanced Settings</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <TextField
+              fullWidth
+              id="local-server-path"
+              label="Local Server Executable Path"
+              variant="outlined"
+              onChange={e => dispatch(updateCommand(e.target.value))}
+              value={command}
+            />
+            <TextField
+              fullWidth
+              id="local-port"
+              label="Local Port"
+              type="number"
+              variant="outlined"
+              onChange={e => dispatch(updateLocalPort(parseInt(e.target.value)))}
+              value={localPort}
+            />
+          </AccordionDetails>
+        </Accordion>
+
+
+
+
 
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -224,6 +246,10 @@ export const FormCustom: React.VFC<FormProps> = ({ handleBack, handleNext }) => 
           '& .MuiTextField-root': { marginBottom: 1 },
         }}
       >
+        <Typography sx={{ mb: 2 }} variant="h6" component="div">
+          Settings
+        </Typography>
+
         <TextField
           fullWidth
           id="local-server-path"

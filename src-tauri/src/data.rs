@@ -12,9 +12,12 @@ pub type LaunchResult = Result<(), LaunchResultError>;
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(tag = "kind", content = "payload")]
 pub enum LaunchLocalResultError {
+    StatusCodeError,
     SpawnFailed(String),
     NoStdout,
+    NoStderr,
     LineCorrupted(String),
+    WaitFailed,
 }
 
 pub type LaunchLocalResult = Result<(), LaunchLocalResultError>;

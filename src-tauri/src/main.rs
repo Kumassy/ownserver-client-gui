@@ -20,7 +20,7 @@ use log::*;
 use playhub_client::{proxy_client::run, ActiveStreams, error::Error};
 use tokio_util::sync::CancellationToken;
 use std::process::Stdio;
-use tokio::process::Command;
+use tokio::process::{Command, Child};
 use tokio_util::codec::{FramedRead, LinesCodec};
 use futures::prelude::*;
 
@@ -108,6 +108,82 @@ async fn launch_tunnel(window: tauri::Window, token_server: String, local_port: 
     }
 }
 
+#[cfg(target_os = "windows")]
+fn spawn_command(command: String) -> Result<Child, LaunchLocalResultError> {
+    let child = Command::new("cmd")
+        .kill_on_drop(true)
+        .arg("/c")
+        .arg(command)
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .map_err(|e| LaunchLocalResultError::SpawnFailed(e.to_string()))?;
+    Ok(child)
+}
+
+#[cfg(not(target_os = "windows"))]
+fn spawn_command(command: String) -> Result<Child, LaunchLocalResultError> {
+    let child = Command::new("sh")
+        .kill_on_drop(true)
+        .arg("-c")
+        .arg(command)
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .map_err(|e| LaunchLocalResultError::SpawnFailed(e.to_string()))?;
+    Ok(child)
+}
+
+async fn spawn_command_and_aggregate_output(window: &tauri::Window, command: String) -> Result<(), LaunchLocalResultError> {
+    let mut child = spawn_command(command)?;
+    let stdout = match child.stdout.take() {
+        Some(stdout) => stdout,
+        None => {
+            return Err(LaunchLocalResultError::NoStdout);
+        }
+    };
+    let stderr = match child.stderr.take() {
+        Some(stderr) => stderr,
+        None => {
+            return Err(LaunchLocalResultError::NoStderr);
+        }
+    };
+    let mut stdout_reader = FramedRead::new(stdout, LinesCodec::new());
+    let mut stderr_reader = FramedRead::new(stderr, LinesCodec::new());
+
+    loop {
+        tokio::select! {
+            Some(line) = stdout_reader.next() => {
+                let line = line.map_err(|e| LaunchLocalResultError::LineCorrupted(e.to_string()))?;
+                println!("{}", line);
+
+                let payload = LocalMessage {
+                    message: line
+                };
+                let _ = window.emit_all("local_server_message", payload);
+            }
+            Some(line) = stderr_reader.next() => {
+                let line = line.map_err(|e| LaunchLocalResultError::LineCorrupted(e.to_string()))?;
+                println!("{}", line);
+
+                let payload = LocalMessage {
+                    message: line
+                };
+                let _ = window.emit_all("local_server_message", payload);
+            }
+            else => break
+        }
+    }
+
+    if let Ok(status) = child.wait().await {
+        if !status.success() {
+            return Err(LaunchLocalResultError::StatusCodeError)
+        }
+    }
+    Ok(())
+}
 
 #[tauri::command]
 async fn launch_local_server(window: tauri::Window, command: String) -> Result<(), LaunchLocalResultError> {
@@ -117,40 +193,19 @@ async fn launch_local_server(window: tauri::Window, command: String) -> Result<(
         ct.cancel();
     });
 
-    let mut child = Command::new("bash")
-        .kill_on_drop(true)
-        .arg("-c")
-        .arg(command)
-        .stdin(Stdio::piped())
-        .stdout(Stdio::piped())
-        .spawn()
-        .map_err(|e| LaunchLocalResultError::SpawnFailed(e.to_string()))?;
-    let stdout = match child.stdout.take() {
-        Some(stdout) => stdout,
-        None => {
-            return Err(LaunchLocalResultError::NoStdout);
+    let ct = cancellation_token.clone();
+
+    let ret = tokio::select! {
+        result = spawn_command_and_aggregate_output(&window, command) => {
+            result
+        }
+        _ = ct.cancelled() => {
+            Ok(())
         }
     };
-    let mut reader = FramedRead::new(stdout, LinesCodec::new());
-
-    let ct = cancellation_token.clone();
-    tokio::spawn(async move {
-        ct.cancelled().await;
-        drop(child);
-    });
-
-    while let Some(line) = reader.next().await {
-        let line = line.map_err(|e| LaunchLocalResultError::LineCorrupted(e.to_string()))?;
-        println!("{}", line);
-
-        let payload = LocalMessage {
-            message: line
-        };
-        let _ = window.emit_all("local_server_message", payload);
-    }
 
     window.unlisten(unlisten);
-    Ok(())
+    ret
 }
 
 fn main() {

@@ -40,7 +40,7 @@ export const OperationButton: React.VFC<OperationButtonProps> = ({ status, launc
           variant="contained"
           onClick={() => dispatch(launch())}
         >
-          Lauch
+          Start
         </Button>
       )
     case 'running':
@@ -148,7 +148,7 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
 
 
 
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{ mb: 2 }}>
           <Grid item xs={12}>
             <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
               Check List
@@ -268,7 +268,7 @@ export const FormCustom: React.VFC<FormProps> = ({ handleBack, handleNext }) => 
           value={localPort}
         />
 
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{ mb: 2 }}>
           <Grid item xs={12}>
             <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
               Check List

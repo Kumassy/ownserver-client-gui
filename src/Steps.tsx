@@ -94,16 +94,28 @@ export const StepLaunchTunnel: React.VFC<StepLaunchTunnelProps> = ({ handleBack,
           '& .MuiTextField-root': { marginBottom: 1 },
         }}
       >
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{ mb: 2 }}>
           <Grid item xs={12}>
-            <TextField
-              fullWidth
-              id="auth-server-url"
-              label="Auth Server URL"
-              variant="outlined"
-              onChange={e => dispatch(updateTokenServer(e.target.value))}
-              value={tokenServer}
-            />
+            <Typography sx={{ mb: 2 }} variant="h6" component="div">
+              Settings
+            </Typography>
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+              >
+                <Typography>Advanced Settings</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <TextField
+                  fullWidth
+                  id="auth-server-url"
+                  label="Auth Server URL"
+                  variant="outlined"
+                  onChange={e => dispatch(updateTokenServer(e.target.value))}
+                  value={tokenServer}
+                />
+              </AccordionDetails>
+            </Accordion>
           </Grid>
           <Grid item xs={12}>
             <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
@@ -180,12 +192,12 @@ export const StepMonitoring: React.VFC<StepMonitoringProps> = ({ handleBack, han
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Typography>
-              Your Tunnel Public Address: {clientInfo ? clientInfo.remote_addr : "<error>"}
+              Your Server Address: {clientInfo ? clientInfo.remote_addr : "<error>"}
             </Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography>
-              Local Server Log:
+              Server Log:
             </Typography>
 
             <Box

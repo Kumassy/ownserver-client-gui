@@ -42,7 +42,7 @@ const initialState: LocalState = {
   error: null,
   message: '',
   messages: [],
-  command: 'nc -kl 3010',
+  command: 'echo "Select minecraft-server.jar" && false',
   filepath: null,
   port: toLocalPort('minecraft'),
   game: 'minecraft',
@@ -94,7 +94,17 @@ export const localSlice = createSlice({
           message: "",
         }
       })
+
+      state.filepath = null
       state.port = toLocalPort(game);
+      switch (game) {
+        case 'custom':
+          state.command = 'nc -kl 3010'
+          break;
+        case 'minecraft':
+          state.command = 'echo "Select minecraft-server.jar" && false'
+          break;
+      }
     },
     interruptLocal: {
       reducer: state => {

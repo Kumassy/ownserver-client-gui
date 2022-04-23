@@ -2,7 +2,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Box, Button, FormControl
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React from "react";
 import { launchTunnel, interruptTunnel, updateTokenServer } from "./features/tunnelSlice";
-import { FormCustom, FormMinecraft, OperationButton, ResultChip } from "./Forms";
+import { FormCustom, FormMinecraft, NotFoundCustom, OperationButton, ResultChip } from "./Forms";
 import { useAppSelector, useAppDispatch } from './app/hooks'
 import AutoScroll from "@brianmcallister/react-auto-scroll";
 import { updateGame } from "./features/localSlice";
@@ -31,10 +31,10 @@ export const StepSelectGame: React.VFC<StepSelectGameProps> = ({ handleBack, han
           label="Game"
           onChange={(e: SelectChangeEvent<GameId>) => dispatch(updateGame(e.target.value as GameId))}
         >
-          <MenuItem value={'http'}>HTTP</MenuItem>
+          {/* <MenuItem value={'http'}>HTTP</MenuItem> */}
           <MenuItem value={'custom'}>Custom</MenuItem>
           <MenuItem value={'minecraft'}>Minecraft</MenuItem>
-          <MenuItem value={'factorio'}>Factorio</MenuItem>
+          {/* <MenuItem value={'factorio'}>Factorio</MenuItem> */}
         </Select>
       </FormControl>
 
@@ -72,7 +72,7 @@ export const StepLauchLocalServer: React.VFC<StepLaunchLocalServerProps> = (prop
       )
     default:
       return (
-        <React.Fragment></React.Fragment>
+        <NotFoundCustom {...props} />
       )
   }
 }
@@ -94,16 +94,28 @@ export const StepLaunchTunnel: React.VFC<StepLaunchTunnelProps> = ({ handleBack,
           '& .MuiTextField-root': { marginBottom: 1 },
         }}
       >
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{ mb: 2 }}>
           <Grid item xs={12}>
-            <TextField
-              fullWidth
-              id="auth-server-url"
-              label="Auth Server URL"
-              variant="outlined"
-              onChange={e => dispatch(updateTokenServer(e.target.value))}
-              value={tokenServer}
-            />
+            <Typography sx={{ mb: 2 }} variant="h6" component="div">
+              Settings
+            </Typography>
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+              >
+                <Typography>Advanced Settings</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <TextField
+                  fullWidth
+                  id="auth-server-url"
+                  label="Auth Server URL"
+                  variant="outlined"
+                  onChange={e => dispatch(updateTokenServer(e.target.value))}
+                  value={tokenServer}
+                />
+              </AccordionDetails>
+            </Accordion>
           </Grid>
           <Grid item xs={12}>
             <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
@@ -180,12 +192,12 @@ export const StepMonitoring: React.VFC<StepMonitoringProps> = ({ handleBack, han
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Typography>
-              Your Tunnel Public Address: {clientInfo ? clientInfo.remote_addr : "<error>"}
+              Your Server Address: {clientInfo ? clientInfo.remote_addr : "<error>"}
             </Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography>
-              Local Server Log:
+              Server Log:
             </Typography>
 
             <Box

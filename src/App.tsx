@@ -30,8 +30,8 @@ function isClientInfo(arg: any): arg is ClientInfo {
 
 const steps = [
   'Select game',
-  'Launch local server',
-  'Configure proxy',
+  'Start local server',
+  'Configure tunnel',
   'Monitor'
 ];
 
@@ -97,7 +97,7 @@ function App() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Playhub Client
           </Typography>
-          <Button color="inherit">Login</Button>
+          {/* <Button color="inherit">Login</Button> */}
         </Toolbar>
       </AppBar>
 

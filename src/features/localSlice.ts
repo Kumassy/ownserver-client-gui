@@ -2,9 +2,11 @@ import { createSlice, PayloadAction, nanoid, createAsyncThunk } from '@reduxjs/t
 import type { RootState } from '../app/store'
 import { invoke } from '@tauri-apps/api/tauri'
 import { emit } from '@tauri-apps/api/event'
+import { dirname } from '@tauri-apps/api/path'
+
 import { LaunchLocalResultError } from '../data'
 import { CheckError, CheckId, checkRegistry, CheckResult, StatusCodeError, getCheckList } from '../checks'
-import { GameId } from '../common'
+import { GameId, toLocalPort } from '../common'
 
 export type LocalStateMessage = {
   key: string,
@@ -40,15 +42,15 @@ const initialState: LocalState = {
   error: null,
   message: '',
   messages: [],
-  command: "nc -kl 3010",
+  command: 'echo "Select minecraft-server.jar" && false',
   filepath: null,
-  port: 3010,
+  port: toLocalPort('minecraft'),
   game: 'minecraft',
   checks: getCheckList('minecraft').map((id: CheckId) => {
     return {
       id,
       status: 'idle',
-      message: "",
+      message: '',
     }
   })
 }
@@ -79,11 +81,6 @@ export const localSlice = createSlice({
     updateCommand: (state, action: PayloadAction<string>) => {
       state.command = action.payload
     },
-    updateFilepath: (state, action: PayloadAction<string>) => {
-      const filepath = action.payload
-      state.filepath = filepath
-      state.command = `java -Xmx1024M -Xms1024M -jar ${filepath} nogui`
-    },
     updateLocalPort: (state, action: PayloadAction<number>) => {
       state.port = action.payload
     },
@@ -97,6 +94,17 @@ export const localSlice = createSlice({
           message: "",
         }
       })
+
+      state.filepath = null
+      state.port = toLocalPort(game);
+      switch (game) {
+        case 'custom':
+          state.command = 'nc -kl 3010'
+          break;
+        case 'minecraft':
+          state.command = 'echo "Select minecraft-server.jar" && false'
+          break;
+      }
     },
     interruptLocal: {
       reducer: state => {
@@ -145,7 +153,7 @@ export const localSlice = createSlice({
         } else {
           state.message = `${action.error.message}`
         }
-        console.log(`rejected check ${checkId}, ${JSON.stringify(state)}`)
+        console.error(`rejected check ${checkId}, ${JSON.stringify(state)}`)
       })
       .addCase(launchLocal.pending, (state, { meta }) => {
         state.status = 'running'
@@ -183,7 +191,7 @@ export const localSlice = createSlice({
           state.error = `Unkwown error: ${action.error.message}`
         }
 
-        console.log(`rejected local ${JSON.stringify(state)}`)
+        console.error(`rejected local ${JSON.stringify(state)}`)
       })
       .addCase(runChecksAndLaunchLocal.pending, (state, action) => {
         console.log(`start runCHecksAndLaunchLocal`)
@@ -192,7 +200,16 @@ export const localSlice = createSlice({
         console.log(`fullfilled runCHecksAndLaunchLocal`)
       })
       .addCase(runChecksAndLaunchLocal.rejected, (state, action) => {
-        console.log(`rejected runCHecksAndLaunchLocal`)
+        console.error(`rejected runCHecksAndLaunchLocal`)
+      })
+      .addCase(updateFilepath.fulfilled, (state, action) => {
+        const dir = action.payload
+        const filepath = action.meta.arg
+        state.filepath = filepath
+        state.command = `cd ${dir} && java -Xmx1024M -Xms1024M -jar ${filepath} nogui`
+      })
+      .addCase(updateFilepath.rejected, () => {
+        console.error(`rejected updateFilepath`)
       })
   },
 })
@@ -238,6 +255,10 @@ export const runChecksAndLaunchLocal = createAsyncThunk<void, undefined, { state
   await dispatch(launchLocal()).unwrap()
 })
 
-export const { receiveMessage, updateCommand, updateFilepath, updateLocalPort, updateGame, interruptLocal } = localSlice.actions
+export const updateFilepath = createAsyncThunk<string, string>('updateFilepath', async (filepath) => {
+  return await dirname(filepath)
+})
+
+export const { receiveMessage, updateCommand, updateLocalPort, updateGame, interruptLocal } = localSlice.actions
 
 export default localSlice.reducer

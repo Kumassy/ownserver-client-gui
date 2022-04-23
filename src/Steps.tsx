@@ -2,7 +2,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Box, Button, FormControl
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React from "react";
 import { launchTunnel, interruptTunnel, updateTokenServer } from "./features/tunnelSlice";
-import { FormCustom, FormMinecraft, OperationButton, ResultChip } from "./Forms";
+import { FormCustom, FormMinecraft, NotFoundCustom, OperationButton, ResultChip } from "./Forms";
 import { useAppSelector, useAppDispatch } from './app/hooks'
 import AutoScroll from "@brianmcallister/react-auto-scroll";
 import { updateGame } from "./features/localSlice";
@@ -31,10 +31,10 @@ export const StepSelectGame: React.VFC<StepSelectGameProps> = ({ handleBack, han
           label="Game"
           onChange={(e: SelectChangeEvent<GameId>) => dispatch(updateGame(e.target.value as GameId))}
         >
-          <MenuItem value={'http'}>HTTP</MenuItem>
+          {/* <MenuItem value={'http'}>HTTP</MenuItem> */}
           <MenuItem value={'custom'}>Custom</MenuItem>
           <MenuItem value={'minecraft'}>Minecraft</MenuItem>
-          <MenuItem value={'factorio'}>Factorio</MenuItem>
+          {/* <MenuItem value={'factorio'}>Factorio</MenuItem> */}
         </Select>
       </FormControl>
 
@@ -72,7 +72,7 @@ export const StepLauchLocalServer: React.VFC<StepLaunchLocalServerProps> = (prop
       )
     default:
       return (
-        <React.Fragment></React.Fragment>
+        <NotFoundCustom {...props} />
       )
   }
 }

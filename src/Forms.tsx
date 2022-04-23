@@ -324,3 +324,36 @@ export const FormCustom: React.VFC<FormProps> = ({ handleBack, handleNext }) => 
     </React.Fragment>
   )
 }
+
+export const NotFoundCustom: React.VFC<FormProps> = ({ handleBack, handleNext }) => {
+  return (
+    <React.Fragment>
+      <Box
+        component="form"
+        sx={{
+          '& .MuiTextField-root': { marginBottom: 1 },
+        }}
+      >
+        <Typography sx={{ mt: 4, mb: 2 }} variant="h3" component="div">
+          Not Yet Implemented
+        </Typography>
+      </Box>
+      <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+        <Button
+          color="inherit"
+          onClick={handleBack}
+        >
+          Back
+        </Button>
+        <Box sx={{ flex: '1 1 auto' }} />
+
+        <Button
+          onClick={handleNext}
+          disabled={true}
+        >
+          Next
+        </Button>
+      </Box>
+    </React.Fragment>
+  )
+}

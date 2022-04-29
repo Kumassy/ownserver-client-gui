@@ -30,10 +30,10 @@ Start Playhub Client.
 Select Minecraft and click *NEXT*.
 ![](../img/minecraft/step_selectgame.png)
 
-Click *SELECT FILE* and open the `server.jar` file you have just downloaded. You will see the path to `server.jar`.
+Click *SELECT FILE* and open the `server.jar` file you have just downloaded. You will see the path to `server.jar`. Then, click *START* to launch Minecraft Server.
 ![](../img/minecraft/step_confgame_start.png)
 
-Then, click *START* to launch Minecraft Server.
+Tap *NEXT*.
 ![](../img/minecraft/step_confgame_next.png)
 
 Clicking Start will publish your game server to the Internet!

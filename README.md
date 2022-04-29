@@ -22,7 +22,7 @@ Lots of new features like save data backup are under development.
 ## How to Use
 See: 
 
-## Road Map
+## Roadmap
 - [ ] Suppor more games
 - [ ] Secure tunnel
 - [ ] User authentication

@@ -12,6 +12,22 @@ NOT OFFICIAL MINECRAFT PRODUCT.NOT APPROVED BY OR ASSOCIATED WITH MOJANG
 ```
 
 # Play Minecraft
+## Why Playhub
+You must prepare a server to enjoy Minecraft with your friends. There are several ways to achieve this:
+
+| method | price | difficulty | extensibility |
+|:---|:---|:---|:---|:---|
+| Realms | 🙂 | 😄 | 😢 |
+| Cloud / VPS | 😢 | 🙂 | 😄 |
+| Home Server | 😄 | 😢 | 😄 |
+
+Realms is an official Minecraft server. It is easy to install and affordable, but have limitations such as not being able to install mods.  
+Using a cloud/VPS server gives you more flexibility, allows you to install mods. However, they are more expensive depending on the server specs and hassle to set up: you'll need to configure Linux servers.  
+Home servers are superior in terms of price and scalability, but are difficult to configure to publish to the Internet. Global IP addresses, DDNS, open ports, firewalls, and other settings may be required.
+
+Playhub has developed to achieve three goals: affordability, ease of use, and extensibility.
+With a simple GUI operation, you can publish your home server to the Internet and start playing games with your friends right away!
+
 ## Configure Minecraft Server
 Please refer to this guide to install `java` on your computer.
 

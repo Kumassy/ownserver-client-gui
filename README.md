@@ -20,7 +20,7 @@ Lots of new features like save data backup are under development.
 
 
 ## How to Use
-See: 
+See: [https://playhub.kumassy.com](https://playhub.kumassy.com)
 
 ## Roadmap
 - [ ] Suppor more games

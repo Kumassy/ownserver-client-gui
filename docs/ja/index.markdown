@@ -24,6 +24,9 @@ Project Status: Alpha release
 セーブデータのバックアップなどのたくさんの機能が開発中です
 
 ## 使い方
+ここから Playhub client をダウンロードしてインストールしてください:   
+[https://github.com/Kumassy/playhub-client-gui/releases](https://github.com/Kumassy/playhub-client-gui/releases)
+
 ゲームのごとの使い方は以下を参照してください
 
 - [マインクラフトのサーバーをたてる](./games/minecraft.html)

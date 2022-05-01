@@ -23,6 +23,10 @@ A built-in server manager allows you to prepare game servers without struggling 
 Lots of new features like save data backup are under development.
 
 ## How to Use
+Download and install Playhub client from here:  
+[https://github.com/Kumassy/playhub-client-gui/releases](https://github.com/Kumassy/playhub-client-gui/releases)
+
+
 - [Run Minecraft Server](./games/minecraft.html)
 
 

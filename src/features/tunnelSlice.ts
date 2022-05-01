@@ -22,7 +22,7 @@ const initialState: TunnelState = {
   tunnelStatus: 'idle',
   clientInfo: null,
   error: null,
-  tokenServer: "http://localhost:8123/v0/request_token",
+  tokenServer: "https://auth.playhub.kumassy.com/v0/request_token",
 }
 
 export const tunnelSlice = createSlice({

@@ -6,12 +6,7 @@ import { ClientInfo, updateClientInfo } from './features/tunnelSlice'
 import { receiveMessage } from './features/localSlice'
 import { LocalMessage } from './data'
 
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';

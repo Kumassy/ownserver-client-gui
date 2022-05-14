@@ -26,9 +26,9 @@ NOT OFFICIAL MINECRAFT PRODUCT.NOT APPROVED BY OR ASSOCIATED WITH MOJANG
 > [https://www.minecraft.net/ja-jp/download/server](https://www.minecraft.net/ja-jp/download/server)
 
 
-Playhub Client がインストールされていることを確認します。
+OwnServer Client がインストールされていることを確認します。
 
-Playhub Client を起動して、 `Minecraft` を選択して *NEXT* をクリックします
+OwnServer Client を起動して、 `Minecraft` を選択して *NEXT* をクリックします
 ![](/img/minecraft/step_selectgame.png)
 
 *SELECT FILE* をクリックして、先程ダウンロードした `server.jar` を探して開いてください。 `server.jar` へのパスが表示されるでしょう。次に、 *START* をクリックして Minecraft サーバーを起動します。
@@ -51,4 +51,4 @@ Minecraft を起動して、 *Multiplayer* -> *Add Server* を選択します。
 
 サーバーのアドレスを貼り付けてください。
 ![](/img/minecraft/step_ingame.png)
-サーバーのアドレスは Playhub client を起動するたびに変更されることに注意してください。
+サーバーのアドレスは OwnServer client を起動するたびに変更されることに注意してください。

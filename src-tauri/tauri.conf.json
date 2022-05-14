@@ -1,7 +1,7 @@
 {
   "package": {
-    "productName": "playhub-client-gui",
-    "version": "0.2.0"
+    "productName": "ownserver-client-gui",
+    "version": "0.3.0"
   },
   "build": {
     "distDir": "../build",
@@ -84,7 +84,7 @@
     },
     "windows": [
       {
-        "title": "Playhub Client",
+        "title": "OwnServer Client",
         "width": 800,
         "height": 600,
         "resizable": true,

@@ -2190,6 +2190,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "ownserver-client-gui"
+version = "0.3.0"
+dependencies = [
+ "futures",
+ "lazy_static",
+ "log",
+ "playhub-client",
+ "pretty_env_logger",
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-build",
+ "thiserror",
+ "tokio",
+ "tokio-util",
+]
+
+[[package]]
 name = "pango"
 version = "0.15.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2446,24 +2464,6 @@ dependencies = [
  "tokio-util",
  "url",
  "warp",
-]
-
-[[package]]
-name = "playhub-client-gui"
-version = "0.2.0"
-dependencies = [
- "futures",
- "lazy_static",
- "log",
- "playhub-client",
- "pretty_env_logger",
- "serde",
- "serde_json",
- "tauri",
- "tauri-build",
- "thiserror",
- "tokio",
- "tokio-util",
 ]
 
 [[package]]

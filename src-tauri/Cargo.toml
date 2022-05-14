@@ -1,11 +1,11 @@
 [package]
-name = "playhub-client-gui"
-version = "0.2.0"
-description = "Playhub Client GUI"
+name = "ownserver-client-gui"
+version = "0.3.0"
+description = "OwnServer Client GUI"
 authors = ["Kumassy"]
 license = ""
 repository = ""
-default-run = "playhub-client-gui"
+default-run = "ownserver-client-gui"
 edition = "2021"
 build = "src/build.rs"
 

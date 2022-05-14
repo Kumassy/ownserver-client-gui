@@ -1,4 +1,4 @@
-# PlayHub Client GUI
+# OwnServer Client GUI
 <img src="docs/img/logo.svg" width="200">
 
 Expose your local game server to the Internet
@@ -20,7 +20,7 @@ Lots of new features like save data backup are under development.
 
 
 ## How to Use
-See: [https://playhub.kumassy.com](https://playhub.kumassy.com)
+See: [https://ownserver.kumassy.com](https://ownserver.kumassy.com)
 
 ## Roadmap
 - [ ] Suppor more games

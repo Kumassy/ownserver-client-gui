@@ -23,7 +23,7 @@ export const StepSelectGame: React.VFC<StepSelectGameProps> = ({ handleBack, han
   return (
     <React.Fragment>
       <FormControl fullWidth>
-        <InputLabel id="select-game-label">Select Game</InputLabel>
+        <InputLabel id="select-game-label">ゲームを選択</InputLabel>
         <Select
           labelId="select-game-label"
           id="select-game"
@@ -32,7 +32,7 @@ export const StepSelectGame: React.VFC<StepSelectGameProps> = ({ handleBack, han
           onChange={(e: SelectChangeEvent<GameId>) => dispatch(updateGame(e.target.value as GameId))}
         >
           {/* <MenuItem value={'http'}>HTTP</MenuItem> */}
-          <MenuItem value={'custom'}>Custom</MenuItem>
+          <MenuItem value={'custom'}>カスタム設定</MenuItem>
           <MenuItem value={'minecraft'}>Minecraft</MenuItem>
           {/* <MenuItem value={'factorio'}>Factorio</MenuItem> */}
         </Select>
@@ -44,12 +44,12 @@ export const StepSelectGame: React.VFC<StepSelectGameProps> = ({ handleBack, han
           disabled={true}
           onClick={handleBack}
         >
-          Back
+          前へ
         </Button>
         <Box sx={{ flex: '1 1 auto' }} />
 
         <Button onClick={handleNext}>
-          Next
+          次へ
         </Button>
       </Box>
     </React.Fragment>
@@ -97,13 +97,13 @@ export const StepLaunchTunnel: React.VFC<StepLaunchTunnelProps> = ({ handleBack,
         <Grid container spacing={2} sx={{ mb: 2 }}>
           <Grid item xs={12}>
             <Typography sx={{ mb: 2 }} variant="h6" component="div">
-              Settings
+              設定
             </Typography>
             <Accordion>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
               >
-                <Typography>Advanced Settings</Typography>
+                <Typography>上級者向け設定</Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <TextField
@@ -119,14 +119,14 @@ export const StepLaunchTunnel: React.VFC<StepLaunchTunnelProps> = ({ handleBack,
           </Grid>
           <Grid item xs={12}>
             <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
-              Check List
+              タスク一覧
             </Typography>
 
             <Accordion>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
               >
-                <Typography>Launch tunnel <ResultChip status={tunnelStatus}/></Typography>
+                <Typography>OwnServer を起動 <ResultChip status={tunnelStatus}/></Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <Typography>
@@ -165,7 +165,7 @@ export const StepLaunchTunnel: React.VFC<StepLaunchTunnelProps> = ({ handleBack,
           disabled={tunnelStatus === 'running'}
           onClick={handleBack}
         >
-          Back
+          前へ
         </Button>
         <Box sx={{ flex: '1 1 auto' }} />
 
@@ -173,7 +173,7 @@ export const StepLaunchTunnel: React.VFC<StepLaunchTunnelProps> = ({ handleBack,
           onClick={handleNext}
           disabled={tunnelStatus !== 'running'}
         >
-          Next
+          次へ
         </Button>
       </Box>
     </React.Fragment>
@@ -192,12 +192,12 @@ export const StepMonitoring: React.VFC<StepMonitoringProps> = ({ handleBack, han
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Typography>
-              Your Server Address: {clientInfo ? clientInfo.remote_addr : "<error>"}
+              あなたのサーバーのアドレス: {clientInfo ? clientInfo.remote_addr : "<error>"}
             </Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography>
-              Server Log:
+              サーバーのログ:
             </Typography>
 
             <Box
@@ -229,7 +229,7 @@ export const StepMonitoring: React.VFC<StepMonitoringProps> = ({ handleBack, han
           color="inherit"
           onClick={handleBack}
         >
-          Back
+          前へ
         </Button>
         <Box sx={{ flex: '1 1 auto' }} />
 

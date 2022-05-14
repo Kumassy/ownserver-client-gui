@@ -98,7 +98,7 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
         }}
       >
         <Typography sx={{ mb: 2 }} variant="h6" component="div">
-          Settings
+          設定
         </Typography>
 
         <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 2}}>
@@ -112,7 +112,7 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
               }
             }}
           >
-            Select file
+            ファイル選択
           </Button>
           <Typography>{filepath}</Typography>
         </Stack>
@@ -121,7 +121,7 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
           >
-            <Typography>Advanced Settings</Typography>
+            <Typography>上級者向け設定</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <TextField
@@ -151,7 +151,7 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
         <Grid container spacing={2} sx={{ mb: 2 }}>
           <Grid item xs={12}>
             <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
-              Check List
+              タスク一覧
             </Typography>
 
             {checks.map(check => {
@@ -174,7 +174,7 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
               >
-                <Typography>Launch Local Server <ResultChip status={localStatus} /></Typography>
+                <Typography>ゲームサーバーを起動 <ResultChip status={localStatus} /></Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <AutoScroll
@@ -216,7 +216,7 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
           disabled={localStatus === 'running'}
           onClick={handleBack}
         >
-          Back
+          前へ
         </Button>
         <Box sx={{ flex: '1 1 auto' }} />
 
@@ -224,7 +224,7 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
           onClick={handleNext}
           disabled={localStatus !== 'running'}
         >
-          Next
+          次へ
         </Button>
       </Box>
     </React.Fragment>
@@ -247,7 +247,7 @@ export const FormCustom: React.VFC<FormProps> = ({ handleBack, handleNext }) => 
         }}
       >
         <Typography sx={{ mb: 2 }} variant="h6" component="div">
-          Settings
+          設定
         </Typography>
 
         <TextField
@@ -271,7 +271,7 @@ export const FormCustom: React.VFC<FormProps> = ({ handleBack, handleNext }) => 
         <Grid container spacing={2} sx={{ mb: 2 }}>
           <Grid item xs={12}>
             <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
-              Check List
+              タスク一覧
             </Typography>
 
             {checks.map(check => {
@@ -295,7 +295,7 @@ export const FormCustom: React.VFC<FormProps> = ({ handleBack, handleNext }) => 
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
               >
-                <Typography>Launch Local Server <ResultChip status={localStatus} /></Typography>
+                <Typography>ゲームサーバーを起動 <ResultChip status={localStatus} /></Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <AutoScroll

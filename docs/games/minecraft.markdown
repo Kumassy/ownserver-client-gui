@@ -4,10 +4,10 @@
 
 # layout: default
 layout: pages
-title: Play Minecraft
+title: OwnServer を使って無料で Minecraft のサーバーを用意する
 ---
 
-# マインクラフトのサーバーをたてる
+# マインクラフトのサーバーを用意する
 ## 免責事項
 ```
 NOT OFFICIAL MINECRAFT PRODUCT.NOT APPROVED BY OR ASSOCIATED WITH MOJANG
@@ -18,13 +18,14 @@ NOT OFFICIAL MINECRAFT PRODUCT.NOT APPROVED BY OR ASSOCIATED WITH MOJANG
 
 > チュートリアル/サーバーのセットアップ  
 > [https://minecraft.fandom.com/ja/wiki/チュートリアル/サーバーのセットアップ](https://minecraft.fandom.com/ja/wiki/%E3%83%81%E3%83%A5%E3%83%BC%E3%83%88%E3%83%AA%E3%82%A2%E3%83%AB/%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC%E3%81%AE%E3%82%BB%E3%83%83%E3%83%88%E3%82%A2%E3%83%83%E3%83%97)
+{: .blockquote }
 
 デスクトップなどに、新しいフォルダを作成します。  
 こちらの Web ページから `server.jar` をダウンロードして、先程作成したフォルダの中に配置します
 
 > MINECRAFT: JAVA EDITIONのサーバーをダウンロードします  
 > [https://www.minecraft.net/ja-jp/download/server](https://www.minecraft.net/ja-jp/download/server)
-
+{: .blockquote }
 
 OwnServer Client がインストールされていることを確認します。
 

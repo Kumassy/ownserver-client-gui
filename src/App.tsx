@@ -28,10 +28,10 @@ function isClientInfo(arg: any): arg is ClientInfo {
 }
 
 const steps = [
-  'Select game',
-  'Start local server',
-  'Configure tunnel',
-  'Monitor'
+  'ゲーム選択',
+  'ゲームサーバーの起動',
+  'OwnServerの設定',
+  'サーバー管理'
 ];
 
 function App() {

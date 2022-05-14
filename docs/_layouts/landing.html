@@ -14,106 +14,12 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
 
-    <style>
-        :root {
-            --circle-size: clamp(1.5rem, 4vw, 2rem);
-            --spacing: clamp(0.25rem, 2vw, 0.5rem);
-        }
-
-        .c-stepper-item {
-            position: relative;
-            display: flex;
-            gap: 1rem;
-            padding-bottom: 4rem;
-        }
-
-        .c-stepper {
-            padding: 0;
-        }
-
-        .c-stepper-item:before {
-            content: "";
-            flex: 0 0 var(--circle-size);
-            height: var(--circle-size);
-            border-radius: 50%;
-            background-color: #207178;
-        }
-
-        .c-stepper-item:not(:last-child):after {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: calc(var(--circle-size) + var(--spacing));
-            bottom: var(--spacing);
-            /* z-index: -1; */
-            transform: translateX(calc(var(--circle-size) / 2));
-            width: 2px;
-            background-color: #207178;
-        }
-
-        .c-stepper-title {
-            font-weight: bold;
-            font-size: clamp(1rem, 4vw, 1.25rem);
-            margin-bottom: clamp(0.85rem, 2vmax, 1rem);
-        }
-
-        .c-stepper-desc {
-            color: grey;
-            font-size: clamp(0.85rem, 2vmax, 1rem);
-        }
-
-        .c-stepper-content {
-            max-width: 700px;
-        }
-
-        .stretch-height {
-            height: 100%;
-        }
-
-        body > section:nth-child(even) {
-            /* background: #70BDC4; */
-            /* background: #BDB08C; */
-            background: #EFE0B1;
-        }
-        body > section:nth-child(odd) {
-            /* background: #EFE0B1; */
-            background: #FFF5D6;
-        }
-        nav {
-            border-bottom: 2px solid #207178;
-        }
-
-    </style>
-
+    <link rel="stylesheet" href="/style.css">
     {% include head-custom-google-analytics.html %}
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#"><img src="/img/logo_t.png" width="42px">OwnServer</a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#how-to-use">使い方</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#download">ダウンロード</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">GitHub</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
+    {% include header.html %}
     <section>
         <div class="container py-5">
             <div class="row">
@@ -211,7 +117,7 @@
                     <div class="card stretch-height">
                         <div class="card-body">
                             <h5 class="card-title">Minecraft</h5>
-                            <button type="button" class="btn btn-primary">詳しい使い方をみる</button>
+                            <a href="/games/minecraft.html" class="btn btn-primary">詳しい使い方をみる</a>
                         </div>
                     </div>
                 </div>
@@ -229,7 +135,7 @@
                     <div class="card stretch-height">
                         <div class="card-body">
                             <h5 class="card-title">...その他のゲームも対応予定</h5>
-                            <button type="button" class="btn btn-secondary">リクエストを送る</button>
+                            <a href="#contact" class="btn btn-secondary">リクエストを送る</a>
                         </div>
                     </div>
                 </div>
@@ -270,10 +176,23 @@
     </section>
     <section id="contact">
         <div class="container py-5">
-            <h2 class="text-center mb-3">問い合わせ</h2>
-            使ってみた感想やバグ報告、機能の要望等ありましたら以下のリンクよりメッセージを送ってください。フィードバックお待ちしています！
+            <h2 class="text-center mb-3">お問い合わせ</h2>
+            <p>
+                使ってみた感想やバグ報告、機能の要望等ありましたら以下のリンクよりメッセージを送ってください。フィードバックお待ちしています！
+            </p>
             <a href="https://marshmallow-qa.com/kumassy_?utm_medium=url_text&utm_source=promotion" target="_blank" class="btn btn-primary">
                 メッセージを送る
+            </a>
+        </div>
+    </section>
+    <section id="contact">
+        <div class="container py-5">
+            <h2 class="text-center mb-3">開発に参加する</h2>
+            <p>
+                OwnServer の一部のソースコードは GitHub にて公開しています。 Issue や Pull Request 大歓迎です！
+            </p>
+            <a href="https://marshmallow-qa.com/kumassy_?utm_medium=url_text&utm_source=promotion" target="_blank" class="btn btn-primary">
+                GitHub を開く
             </a>
         </div>
     </section>
@@ -297,6 +216,7 @@ NOT OFFICIAL MINECRAFT PRODUCT.NOT APPROVED BY OR ASSOCIATED WITH MOJANG
 
     </section>
 
+    {% include footer.html %}
 </body>
 
 </html>

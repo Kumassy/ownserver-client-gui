@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,115 +9,25 @@
 
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!-- JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-
-    <style>
-                :root {
-            --circle-size: clamp(1.5rem, 4vw, 2rem);
-            --spacing: clamp(0.25rem, 2vw, 0.5rem);
-        }
-
-        .c-stepper-item {
-            position: relative;
-            display: flex;
-            gap: 1rem;
-            padding-bottom: 4rem;
-        }
-
-        .c-stepper {
-            padding: 0;
-        }
-
-        .c-stepper-item:before {
-            content: "";
-            flex: 0 0 var(--circle-size);
-            height: var(--circle-size);
-            border-radius: 50%;
-            background-color: #207178;
-        }
-
-        .c-stepper-item:not(:last-child):after {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: calc(var(--circle-size) + var(--spacing));
-            bottom: var(--spacing);
-            /* z-index: -1; */
-            transform: translateX(calc(var(--circle-size) / 2));
-            width: 2px;
-            background-color: #207178;
-        }
-
-        .c-stepper-title {
-            font-weight: bold;
-            font-size: clamp(1rem, 4vw, 1.25rem);
-            margin-bottom: clamp(0.85rem, 2vmax, 1rem);
-        }
-
-        .c-stepper-desc {
-            color: grey;
-            font-size: clamp(0.85rem, 2vmax, 1rem);
-        }
-
-        .c-stepper-content {
-            max-width: 700px;
-        }
-
-        .stretch-height {
-            height: 100%;
-        }
-
-        body > section:nth-child(even) {
-            /* background: #70BDC4; */
-            /* background: #BDB08C; */
-            background: #EFE0B1;
-        }
-        body > section:nth-child(odd) {
-            /* background: #EFE0B1; */
-            background: #FFF5D6;
-        }
-        nav {
-            border-bottom: 2px solid #207178;
-        }
-
-        img {
-            max-width: 100%;
-        }
-    </style>
+    <link rel="stylesheet" href="/style.css">
     {% include head-custom-google-analytics.html %}
 </head>
+
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#"><img src="/img/logo.svg" width="42px">OwnServer</a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">使い方</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">ダウンロード</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
+    {% include header.html %}
     <section>
-        <div class="container">
+        <div class="container py-5">
             {{ content }}
+
         </div>
     </section>
 
+    {% include footer.html %}
 </body>
+
 </html>

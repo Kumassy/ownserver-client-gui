@@ -29,19 +29,22 @@ NOT OFFICIAL MINECRAFT PRODUCT.NOT APPROVED BY OR ASSOCIATED WITH MOJANG
 
 OwnServer Client がインストールされていることを確認します。
 
-OwnServer Client を起動して、 `Minecraft` を選択して *NEXT* をクリックします
+OwnServer Client を起動して、 `Minecraft` を選択して *次へ* をクリックします
 ![](/img/minecraft/step_selectgame.png)
 
-*SELECT FILE* をクリックして、先程ダウンロードした `server.jar` を探して開いてください。 `server.jar` へのパスが表示されるでしょう。次に、 *START* をクリックして Minecraft サーバーを起動します。
+*SELECT FILE* をクリックして、先程ダウンロードした `server.jar` を探して開いてください。 `server.jar` へのパスが表示されます。次に、 *START* をクリックして Minecraft サーバーを起動します。
 ![](/img/minecraft/step_confgame_start.png)
 
-*NEXT* をクリックします。
+サーバーを初めてたちあげるときは、しばらく待つと `you need to agree to the EULA in order to run the server.jar` というメッセージが表示されます。 `server.jar` と同じフォルダに作られた `eula.txt` を編集して EULA に同意してください
+![](/img/minecraft/step_confgame_eula.png)
+
+しばらく待ち、 *ゲームサーバーを起動* の状態が `Running` かつ、 `Done ! For help, type "help"` という Minecraft サーバーが正常に起動できたことを示すメッセージが表示されたことを確認して、 *次へ* をクリックします。
 ![](/img/minecraft/step_confgame_next.png)
 
 *START* をクリックすることで、あなたのパソコンで動いている Minecraft サーバーがインターネットに公開されます！
 ![](/img/minecraft/step_tunnel_start.png)
 
-*Launch tunnel* のステータスが *Running* であれば、インターネットに接続するための専用のトンネルが正しく構成できています。
+*OwnServer を起動* のステータスが *Running* であることを確認して、 *次へ* を選択します。
 ![](/img/minecraft/step_tunnel_next.png)
 
 あなたの Minecraft サーバーに接続するためのアドレスが確認できます。これを友達に共有しましょう！
@@ -52,4 +55,4 @@ Minecraft を起動して、 *Multiplayer* -> *Add Server* を選択します。
 
 サーバーのアドレスを貼り付けてください。
 ![](/img/minecraft/step_ingame.png)
-サーバーのアドレスは OwnServer client を起動するたびに変更されることに注意してください。
+なお、サーバーのアドレスは OwnServer client を起動するたびに変更されることに注意してください。

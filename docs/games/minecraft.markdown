@@ -13,7 +13,7 @@ title: OwnServer を使って無料で Minecraft のサーバーを用意する
 NOT OFFICIAL MINECRAFT PRODUCT.NOT APPROVED BY OR ASSOCIATED WITH MOJANG
 ```
 
-## Minecraft サーバーを設定する
+## 事前準備
 こちらの記事を参考にして、 `java` をパソコンにインストールしてください
 
 > チュートリアル/サーバーのセットアップ  
@@ -29,10 +29,12 @@ NOT OFFICIAL MINECRAFT PRODUCT.NOT APPROVED BY OR ASSOCIATED WITH MOJANG
 
 OwnServer Client がインストールされていることを確認します。
 
+
+## Minecraft サーバーをインターネットに公開する
 OwnServer Client を起動して、 `Minecraft` を選択して *次へ* をクリックします
 ![](/img/minecraft/step_selectgame.png)
 
-*SELECT FILE* をクリックして、先程ダウンロードした `server.jar` を探して開いてください。 `server.jar` へのパスが表示されます。次に、 *START* をクリックして Minecraft サーバーを起動します。
+*ファイル選択* をクリックして、先程ダウンロードした `server.jar` を探して開いてください。 `server.jar` へのパスが表示されます。次に、 *START* をクリックして Minecraft サーバーを起動します。
 ![](/img/minecraft/step_confgame_start.png)
 
 サーバーを初めてたちあげるときは、しばらく待つと `you need to agree to the EULA in order to run the server.jar` というメッセージが表示されます。 `server.jar` と同じフォルダに作られた `eula.txt` を編集して EULA に同意してください

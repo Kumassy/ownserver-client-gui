@@ -50,6 +50,7 @@
         "all": true,
         "shell": {
             "all": true,
+            "execute": true,
             "scope": [
                 {
                     "name": "run-java-version",
@@ -60,6 +61,16 @@
                     "name": "run-bash-version",
                     "cmd": "bash",
                     "args": ["--version"]
+                },
+                {
+                    "name": "run-bash",
+                    "cmd": "bash",
+                    "args": true
+                },
+                {
+                    "name": "run-cmd",
+                    "cmd": "cmd",
+                    "args": true
                 },
                 {
                     "name": "run-node-version",
@@ -79,6 +90,9 @@
             "save": true
         },
         "path": {
+            "all": true
+        },
+        "os": {
             "all": true
         }
     },

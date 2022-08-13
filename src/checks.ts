@@ -44,9 +44,9 @@ export const checkRegistry: CheckRegistry = {
 export const getCheckList = (game: GameId): Array<CheckId> => {
   switch (game) {
     case 'custom':
-      return [CHECK_SH_VERSION]
+      return []
     case 'http':
-      return [CHECK_SH_VERSION]
+      return []
     case 'minecraft':
       return [CHECK_JAVA_VERSION]
     case 'factorio':

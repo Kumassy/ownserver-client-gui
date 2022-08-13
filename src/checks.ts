@@ -16,28 +16,19 @@ export interface CheckRegistry {
 }
 
 export const CHECK_JAVA_VERSION: CheckId = 'check-java-version'
-export const CHECK_BASH_VERSION: CheckId = 'check-bash-version'
-export const CHECK_NODE_VERSION: CheckId = 'check-node-version'
+export const CHECK_SH_VERSION: CheckId = 'check-sh-version'
 
 export const checkRegistry: CheckRegistry = {
   [CHECK_JAVA_VERSION]: async () => {
-    const output = await new Command('run-java-version', ['--version']).execute()
+    const output = await new Command('run-java', ['--version']).execute()
     if (output.code !== 0) {
       const message = `test exited with non-zero code: ${output.code}, stderr: ${output.stderr}`
       throw new StatusCodeError(message)
     }
     return output.stdout
   },
-  [CHECK_BASH_VERSION]: async () => {
-    const output = await new Command('run-bash-version', ['--version']).execute()
-    if (output.code !== 0) {
-      const message = `test exited with non-zero code: ${output.code}, stderr: ${output.stderr}`
-      throw new StatusCodeError(message)
-    }
-    return output.stdout
-  },
-  [CHECK_NODE_VERSION]: async () => {
-    const output = await new Command('run-node-version', ['--version']).execute()
+  [CHECK_SH_VERSION]: async () => {
+    const output = await new Command('run-sh', ['--version']).execute()
     if (output.code !== 0) {
       const message = `test exited with non-zero code: ${output.code}, stderr: ${output.stderr}`
       throw new StatusCodeError(message)
@@ -53,12 +44,12 @@ export const checkRegistry: CheckRegistry = {
 export const getCheckList = (game: GameId): Array<CheckId> => {
   switch (game) {
     case 'custom':
-      return [CHECK_BASH_VERSION]
+      return [CHECK_SH_VERSION]
     case 'http':
-      return [CHECK_BASH_VERSION]
+      return [CHECK_SH_VERSION]
     case 'minecraft':
       return [CHECK_JAVA_VERSION]
     case 'factorio':
-      return [CHECK_JAVA_VERSION, CHECK_BASH_VERSION, CHECK_NODE_VERSION]
+      return [CHECK_JAVA_VERSION, CHECK_SH_VERSION]
   }
 }

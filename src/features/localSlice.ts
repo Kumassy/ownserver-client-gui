@@ -31,7 +31,8 @@ interface LocalState {
   error: null | string,
   message: string,
   messages: Array<LocalStateMessage>,
-  command: string,
+  command: string | null,
+  workdir: string | null,
   filepath: string | null,
   port: number,
   game: GameId,
@@ -45,7 +46,8 @@ const initialState: LocalState = {
   error: null,
   message: '',
   messages: [],
-  command: 'echo "Select minecraft-server.jar" && false',
+  command: null,
+  workdir: null,
   filepath: null,
   port: toLocalPort('minecraft'),
   game: 'minecraft',
@@ -106,13 +108,14 @@ export const localSlice = createSlice({
       })
 
       state.filepath = null
+      state.workdir = null
       state.port = toLocalPort(game);
       switch (game) {
         case 'custom':
           state.command = 'nc -kl 3010'
           break;
         case 'minecraft':
-          state.command = 'echo "Select minecraft-server.jar" && false'
+          state.command = null
           break;
       }
     },
@@ -189,6 +192,8 @@ export const localSlice = createSlice({
             state.error = `exited with non-zero code`
           } else if (err.kind === "SpawnFailed") {
             state.error = `Failed to spawn executables ${err.payload}`
+          } else if (err.kind === "CommandNotSet") {
+            state.error = `command is not set`
           } else {
             state.error = "Internal client error: other error"
           }
@@ -220,7 +225,8 @@ export const localSlice = createSlice({
         const dir = action.payload
         const filepath = action.meta.arg
         state.filepath = filepath
-        state.command = `cd ${dir} && java -Xmx1024M -Xms1024M -jar ${filepath} nogui`
+        state.workdir = dir
+        state.command = `java -Xmx1024M -Xms1024M -jar ${filepath} nogui`
       })
       .addCase(updateFilepath.rejected, () => {
         console.error(`rejected updateFilepath`)
@@ -239,15 +245,45 @@ type LaunchLocalError =
     payload: string;
     [k: string]: unknown;
   }
+  | {
+    kind: "CommandNotSet";
+    [k: string]: unknown;
+  }
 
+
+const getCommand = async (game: GameId, command_inner: string, workdir: string | null) => {
+  const osType = await type();
+
+  switch(game) {
+    case 'minecraft':
+      const args = command_inner.trim().split(/\s+/)
+      if (args[0] !== 'java') {
+        throw new Error('java is expected')
+      }
+      if (workdir == null) {
+        throw new Error('workdir is not set')
+      }
+      return new Command('run-java', args.splice(1), { cwd: workdir })
+    default:
+      if (osType === 'Windows_NT') {
+        return new Command('run-cmd', ['/c', command_inner])
+      } else {
+        return new Command('run-sh', ['-c', command_inner])
+      }
+  }
+}
 
 export const launchLocal = createAsyncThunk<void, undefined, { state: RootState, rejectValue: LaunchLocalError }>('launchLocal', async (_, { getState, rejectWithValue, dispatch }) => {
   const command_inner = getState().local.command;
+  const workdir = getState().local.workdir;
+  const game = getState().local.game;
 
-  const osType = await type();
-  const command = (osType === "Windows_NT")
-    ? new Command('run-cmd', ['/c', command_inner])
-    : new Command('run-bash', ['-c', command_inner]);
+  if (command_inner == null) {
+    return rejectWithValue({
+      'kind': 'CommandNotSet'
+    })
+  }
+  const command = await getCommand(game, command_inner, workdir);
 
   const p = new Promise((res, rej) => {
     command.on('close', data => {

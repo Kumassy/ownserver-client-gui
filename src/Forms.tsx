@@ -256,7 +256,7 @@ export const FormCustom: React.VFC<FormProps> = ({ handleBack, handleNext }) => 
           label="Local Server Executable Path"
           variant="outlined"
           onChange={e => dispatch(updateCommand(e.target.value))}
-          value={command}
+          value={command ? command : ''}
         />
         <TextField
           fullWidth

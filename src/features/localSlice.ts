@@ -37,7 +37,6 @@ interface LocalState {
   port: number,
   game: GameId,
   checks: Array<Check>,
-  msgs: Array<LocalStateMessage>,
   child: Child | null,
 }
 // Define the initial state using that type
@@ -58,7 +57,6 @@ const initialState: LocalState = {
       message: '',
     }
   }),
-  msgs: [],
   child: null
 }
 
@@ -251,24 +249,27 @@ type LaunchLocalError =
   }
 
 
-const getCommand = async (game: GameId, command_inner: string, workdir: string | null) => {
+const getCommand = async (command_inner: string, workdir: string | null) => {
   const osType = await type();
 
-  switch(game) {
-    case 'minecraft':
-      const args = command_inner.trim().split(/\s+/)
-      if (args[0] !== 'java') {
-        throw new Error('java is expected')
-      }
-      if (workdir == null) {
-        throw new Error('workdir is not set')
-      }
-      return new Command('run-java', args.splice(1), { cwd: workdir })
+  const args = command_inner.trim().split(/\s+/)
+  if (args.length === 0) {
+    throw new Error('command is empty')
+  }
+
+  const spawnOptions = workdir !== null ?
+    { cwd: workdir } : undefined
+
+  switch(args[0]) {
+    case 'java':
+      return new Command('run-java', args.splice(1), spawnOptions)
+    case 'docker':
+      return new Command('run-docker', args.splice(1), spawnOptions)
     default:
       if (osType === 'Windows_NT') {
-        return new Command('run-cmd', ['/c', command_inner])
+        return new Command('run-cmd', ['/c', command_inner], spawnOptions)
       } else {
-        return new Command('run-sh', ['-c', command_inner])
+        return new Command('run-sh', ['-c', command_inner], spawnOptions)
       }
   }
 }
@@ -283,7 +284,7 @@ export const launchLocal = createAsyncThunk<void, undefined, { state: RootState,
       'kind': 'CommandNotSet'
     })
   }
-  const command = await getCommand(game, command_inner, workdir);
+  const command = await getCommand(command_inner, workdir);
 
   const p = new Promise((res, rej) => {
     command.on('close', data => {

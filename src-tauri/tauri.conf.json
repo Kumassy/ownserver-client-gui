@@ -1,7 +1,7 @@
 {
   "package": {
     "productName": "ownserver-client-gui",
-    "version": "0.3.0"
+    "version": "0.3.1"
   },
   "build": {
     "distDir": "../build",
@@ -50,26 +50,27 @@
         "all": true,
         "shell": {
             "all": true,
+            "execute": true,
             "scope": [
                 {
-                    "name": "run-java-version",
+                    "name": "run-java",
                     "cmd": "java",
-                    "args": ["--version"]
+                    "args": true
                 },
                 {
-                    "name": "run-bash-version",
-                    "cmd": "bash",
-                    "args": ["--version"]
+                    "name": "run-sh",
+                    "cmd": "sh",
+                    "args": true
                 },
                 {
-                    "name": "run-node-version",
-                    "cmd": "node",
-                    "args": ["--version"]
+                    "name": "run-cmd",
+                    "cmd": "cmd",
+                    "args": true
                 },
                 {
-                    "name": "run-git-commit",
-                    "cmd": "git",
-                    "args": ["commit", "-m", { "validator": "\\S+" }]
+                    "name": "run-docker",
+                    "cmd": "docker",
+                    "args": true
                 }
             ]
         },
@@ -79,6 +80,9 @@
             "save": true
         },
         "path": {
+            "all": true
+        },
+        "os": {
             "all": true
         }
     },

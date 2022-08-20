@@ -1,5 +1,5 @@
 import React from 'react'
-import { interruptLocal, updateCommand, updateFilepath,  updateLocalPort, runChecksAndLaunchLocal } from './features/localSlice'
+import { killChild, updateCommand, updateFilepath,  updateLocalPort, runChecksAndLaunchLocal } from './features/localSlice'
 import { useAppSelector, useAppDispatch } from './app/hooks'
 
 import { open } from '@tauri-apps/api/dialog'
@@ -204,7 +204,7 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
             <OperationButton
               status={localStatus}
               launch={runChecksAndLaunchLocal}
-              interrupt={interruptLocal}
+              interrupt={killChild}
             />
           </Grid>
         </Grid>
@@ -256,7 +256,7 @@ export const FormCustom: React.VFC<FormProps> = ({ handleBack, handleNext }) => 
           label="Local Server Executable Path"
           variant="outlined"
           onChange={e => dispatch(updateCommand(e.target.value))}
-          value={command}
+          value={command ? command : ''}
         />
         <TextField
           fullWidth
@@ -325,7 +325,7 @@ export const FormCustom: React.VFC<FormProps> = ({ handleBack, handleNext }) => 
             <OperationButton
               status={localStatus}
               launch={runChecksAndLaunchLocal}
-              interrupt={interruptLocal}
+              interrupt={killChild}
             />
           </Grid>
         </Grid>

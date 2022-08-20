@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react'
 import './App.css'
 import { listen } from '@tauri-apps/api/event'
-import { useAppDispatch } from './app/hooks'
+import { useAppDispatch, useAppSelector } from './app/hooks'
 import { ClientInfo, updateClientInfo } from './features/tunnelSlice'
-import { receiveMessage } from './features/localSlice'
-import { LocalMessage } from './data'
 
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
@@ -13,10 +11,6 @@ import StepLabel from '@mui/material/StepLabel';
 
 
 import { StepContent } from './Steps'
-
-function isLocalMessage(arg: any): arg is LocalMessage {
-  return 'message' in arg;
-}
 
 function isClientInfo(arg: any): arg is ClientInfo {
   return 'client_id' in arg && 'remote_addr' in arg
@@ -32,21 +26,6 @@ const steps = [
 function App() {
   const dispatch = useAppDispatch()
   const [activeStep, setActiveStep] = React.useState(0);
-
-  useEffect(() => {
-    const f = async () => {
-      const unlisten = await listen('local_server_message', event => {
-        console.log(event.payload);
-        if (isLocalMessage(event.payload)) {
-          const message = event.payload.message;
-          console.log(`got ${event.event} ${JSON.stringify(message)}`);
-          dispatch(receiveMessage(message));
-        }
-      })
-      return unlisten
-    }
-    f()
-  }, [dispatch]);
 
   useEffect(() => {
     const f = async () => {

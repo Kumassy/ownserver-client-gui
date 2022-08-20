@@ -29,7 +29,6 @@ export const checkJavaVersion: Check = {
 interface LocalState {
   status: 'idle' | 'running' | 'succeeded' | 'failed',
   error: null | string,
-  message: string,
   messages: Array<LocalStateMessage>,
   command: string | null,
   workdir: string | null,
@@ -43,7 +42,6 @@ interface LocalState {
 const initialState: LocalState = {
   status: 'idle',
   error: null,
-  message: '',
   messages: [],
   command: null,
   workdir: null,
@@ -69,12 +67,8 @@ export const localSlice = createSlice({
   name: 'local',
   initialState,
   reducers: {
-    clearMessage: state => {
-      state.message = ''
-    },
     receiveMessage: {
       reducer: (state, action: PayloadAction<MessagesEntry>) => {
-        state.message += action.payload.message + '\n'
         state.messages.push(action.payload)
       },
       prepare: (channel: 'stdout' | 'stderr', message: string) => {
@@ -117,21 +111,6 @@ export const localSlice = createSlice({
           break;
       }
     },
-    interruptLocal: {
-      reducer: state => {
-        state.status = 'idle'
-        state.checks.forEach(check => {
-          check.status = 'idle'
-        })
-        state.error = null
-        console.log(`interrupt local ${JSON.stringify(state)}`)
-      },
-      prepare: () => {
-        emit('interrupt_launch_local_server')
-        console.log(`emit: interrupt_launch_local_server`)
-        return { payload: {}}
-      }
-    }
   },
   extraReducers: (builder) => {
     builder
@@ -161,15 +140,12 @@ export const localSlice = createSlice({
             check.message = action.payload;
             check.status = 'failed'
           }
-        } else {
-          state.message = `${action.error.message}`
         }
         console.error(`rejected check ${checkId}, ${JSON.stringify(state)}`)
       })
       .addCase(launchLocal.pending, (state, { meta }) => {
         state.status = 'running'
         state.error = null
-        state.message = ''
 
         console.log(`start local ${JSON.stringify(state)}`)
       })

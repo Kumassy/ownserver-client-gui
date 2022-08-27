@@ -86,7 +86,7 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
   const localPort = useAppSelector(state => state.local.port)
   const command = useAppSelector(state => state.local.command)
   const checks = useAppSelector(state => state.local.checks)
-  const filepath = useAppSelector(state => state.local.filepath)
+  const filepath = useAppSelector(state => 'filepath' in state.local.config ? state.local.config.filepath : 'Error: filepath not exists')
   const dispatch = useAppDispatch()
 
   return (

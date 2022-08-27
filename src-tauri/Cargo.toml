@@ -19,8 +19,9 @@ serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 tauri = { version = "1.0", features = ["api-all"] }
 tokio = { version = "1", features = ["full"] }
-tokio-util = "0.6.8"
-playhub-client = { git = "https://github.com/Kumassy/playhub-client.git", branch = "main", version = "0.2.0" }
+tokio-util = "0.7"
+ownserver = { git = "ssh://git@github.com/Kumassy/ownserver.git", branch = "main", version = "0.5.0" }
+ownserver_lib = { git = "ssh://git@github.com/Kumassy/ownserver.git", branch = "main", version = "0.5.0" }
 lazy_static = "1.4"
 log = "0.4"
 futures = "0.3"

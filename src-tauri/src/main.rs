@@ -9,15 +9,10 @@ use crate::data::{
     LaunchResultError,
 };
 use tauri::Manager;
-use std::collections::HashMap;
-use std::sync::{Arc, RwLock};
 use log::*;
-use playhub_client::{proxy_client::run, ActiveStreams, error::Error};
+use ownserver::{proxy_client::run, error::Error};
+use ownserver_lib::Payload;
 use tokio_util::sync::CancellationToken;
-
-lazy_static::lazy_static! {
-    pub static ref ACTIVE_STREAMS: ActiveStreams = Arc::new(RwLock::new(HashMap::new()));
-}
 
 #[tauri::command]
 async fn launch_tunnel(window: tauri::Window, token_server: String, local_port: u16) -> LaunchResult {
@@ -28,12 +23,14 @@ async fn launch_tunnel(window: tauri::Window, token_server: String, local_port: 
     });
 
 
+    let store = Default::default();
+    let payload = Payload::Other;
     let control_port: u16 = 5000;
     // let local_port: u16 = 12000;
     // let token_server = "http://localhost:8123/v0/request_token";
 
     let (client_info, handle) =
-        match run(&ACTIVE_STREAMS, control_port, local_port, &token_server, cancellation_token).await {
+        match run(store, control_port, local_port, &token_server, payload, cancellation_token).await {
             Ok(r) => r,
             Err(e) => {
             window.unlisten(unlisten);

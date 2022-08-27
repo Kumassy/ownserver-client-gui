@@ -6,7 +6,7 @@ import { Child, Command } from '@tauri-apps/api/shell';
 
 import { LaunchLocalResultError } from '../data'
 import { CheckError, CheckId, checkRegistry, CheckResult, StatusCodeError, getCheckList } from '../checks'
-import { GameId, toLocalPort } from '../common'
+import { GameId, toLocalPort, Protocol } from '../common'
 import { type } from '@tauri-apps/api/os';
 
 export type LocalStateMessage = {
@@ -25,16 +25,29 @@ export const checkJavaVersion: Check = {
   message: "",
 }
 
+export type GameConfig = {
+  kind: 'custom',
+  protocol: Protocol,
+} | {
+  kind: 'minecraft',
+  filepath: string | null,
+  workdir: string | null,
+} | {
+  kind: 'factorio',
+  filepath: string | null,
+  workdir: string | null,
+}
+
+
 // Define a type for the slice state
 interface LocalState {
   status: 'idle' | 'running' | 'succeeded' | 'failed',
   error: null | string,
   messages: Array<LocalStateMessage>,
   command: string | null,
-  workdir: string | null,
-  filepath: string | null,
   port: number,
   game: GameId,
+  config: GameConfig,
   checks: Array<Check>,
   child: Child | null,
 }
@@ -44,8 +57,6 @@ const initialState: LocalState = {
   error: null,
   messages: [],
   command: null,
-  workdir: null,
-  filepath: null,
   port: toLocalPort('minecraft'),
   game: 'minecraft',
   checks: getCheckList('minecraft').map((id: CheckId) => {
@@ -55,6 +66,11 @@ const initialState: LocalState = {
       message: '',
     }
   }),
+  config: {
+    kind: 'minecraft',
+    filepath: null,
+    workdir: null
+  },
   child: null
 }
 
@@ -99,15 +115,22 @@ export const localSlice = createSlice({
         }
       })
 
-      state.filepath = null
-      state.workdir = null
       state.port = toLocalPort(game);
       switch (game) {
         case 'custom':
           state.command = 'nc -kl 3010'
+          state.config = {
+            kind: 'custom',
+            protocol: 'tcp'
+          }
           break;
         case 'minecraft':
           state.command = null
+          state.config = {
+            kind: 'minecraft',
+            filepath: null,
+            workdir: null
+          }
           break;
       }
     },
@@ -198,9 +221,20 @@ export const localSlice = createSlice({
       .addCase(updateFilepath.fulfilled, (state, action) => {
         const dir = action.payload
         const filepath = action.meta.arg
-        state.filepath = filepath
-        state.workdir = dir
-        state.command = `java -Xmx1024M -Xms1024M -jar ${filepath} nogui`
+
+        switch(state.config.kind) {
+          case 'minecraft':
+            state.config.filepath = filepath
+            state.config.workdir = dir
+            state.command = `java -Xmx1024M -Xms1024M -jar ${filepath} nogui`
+            break;
+          // TODO
+          // case 'factorio':
+          //   state.config.filepath = filepath
+          //   state.config.workdir = dir
+          //   state.command = `false`
+          //   break;
+        }
       })
       .addCase(updateFilepath.rejected, () => {
         console.error(`rejected updateFilepath`)
@@ -225,16 +259,25 @@ type LaunchLocalError =
   }
 
 
-const getCommand = async (command_inner: string, workdir: string | null) => {
-  const osType = await type();
+const getCommand = async (localState: LocalState) => {
+  const { command, config } = localState
+  if (command === null) {
+    throw new Error('command is null')
+  }
 
-  const args = command_inner.trim().split(/\s+/)
-  if (args.length === 0) {
+  const osType = await type();
+  // note: '.split('\s+')' -> [']
+  const args = command.trim().split(/\s+/)
+  if (args[0] === '') {
     throw new Error('command is empty')
   }
 
-  const spawnOptions = workdir !== null ?
-    { cwd: workdir } : undefined
+  let spawnOptions = undefined
+  if ('workdir' in config && config.workdir) {
+    spawnOptions = {
+      cwd: config.workdir
+    }
+  }
 
   switch(args[0]) {
     case 'java':
@@ -243,59 +286,55 @@ const getCommand = async (command_inner: string, workdir: string | null) => {
       return new Command('run-docker', args.splice(1), spawnOptions)
     default:
       if (osType === 'Windows_NT') {
-        return new Command('run-cmd', ['/c', command_inner], spawnOptions)
+        return new Command('run-cmd', ['/c', command], spawnOptions)
       } else {
-        return new Command('run-sh', ['-c', command_inner], spawnOptions)
+        return new Command('run-sh', ['-c', command], spawnOptions)
       }
   }
 }
 
 export const launchLocal = createAsyncThunk<void, undefined, { state: RootState, rejectValue: LaunchLocalError }>('launchLocal', async (_, { getState, rejectWithValue, dispatch }) => {
-  const command_inner = getState().local.command;
-  const workdir = getState().local.workdir;
-  const game = getState().local.game;
+  try {
+    const command = await getCommand(getState().local)
+    const p = new Promise((res, rej) => {
+      command.on('close', data => {
+        console.log(`command finished with code ${data.code} and signal ${data.signal}`);
 
-  if (command_inner == null) {
+        if (data.code === 0 || data.signal != null) {
+          // also success when child is killed by user (when data.signal != null)
+          res(null);
+        } else {
+          rej({
+            kind: "StatusCodeError",
+            code: data.code
+          })
+        }
+      });
+      command.on('error', error => {
+        console.error(`command error: "${error}"`)
+        rej({
+          kind: "SpawnFailed",
+          payload: `command error: "${error}"`,
+        });
+      });
+    })
+
+    command.stdout.on('data', line => dispatch(receiveMessage('stdout', line)));
+    command.stderr.on('data', line => dispatch(receiveMessage('stderr', line)));
+
+    const child = await command.spawn();
+    dispatch(setChild(child))
+
+    try {
+      await p
+    } catch (e) {
+      const err = e as LaunchLocalError;
+      return rejectWithValue(err)
+    }
+  } catch (e) {
     return rejectWithValue({
       'kind': 'CommandNotSet'
     })
-  }
-  const command = await getCommand(command_inner, workdir);
-
-  const p = new Promise((res, rej) => {
-    command.on('close', data => {
-      console.log(`command finished with code ${data.code} and signal ${data.signal}`);
-
-      if (data.code === 0 || data.signal != null) {
-        // also success when child is killed by user (when data.signal != null)
-        res(null);
-      } else {
-        rej({
-          kind: "StatusCodeError",
-          code: data.code
-        })
-      }
-    });
-    command.on('error', error => {
-      console.error(`command error: "${error}"`)
-      rej({
-        kind: "SpawnFailed",
-        payload: `command error: "${error}"`,
-      });
-    });
-  })
-
-  command.stdout.on('data', line => dispatch(receiveMessage('stdout', line)));
-  command.stderr.on('data', line => dispatch(receiveMessage('stderr', line)));
-
-  const child = await command.spawn();
-  dispatch(setChild(child))
-
-  try {
-    await p
-  } catch (e) {
-    const err = e as LaunchLocalError;
-    return rejectWithValue(err)
   }
 })
 

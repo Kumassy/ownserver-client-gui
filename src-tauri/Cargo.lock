@@ -2085,7 +2085,7 @@ dependencies = [
 
 [[package]]
 name = "ownserver-client-gui"
-version = "0.3.1"
+version = "0.3.2"
 dependencies = [
  "futures",
  "lazy_static",

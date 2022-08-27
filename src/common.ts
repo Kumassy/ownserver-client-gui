@@ -1,4 +1,5 @@
 export type GameId = 'custom' | 'http' | 'minecraft' | 'factorio'
+export type Protocol = 'tcp' | 'udp'
 
 export function toLocalPort(game: GameId): number {
   switch(game) {

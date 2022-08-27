@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import type { RootState } from '../app/store'
-import { emit } from '@tauri-apps/api/event'
 import { dirname } from '@tauri-apps/api/path'
 import { Child, Command } from '@tauri-apps/api/shell';
 

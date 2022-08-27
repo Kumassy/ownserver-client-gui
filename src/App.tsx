@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import './App.css'
 import { listen } from '@tauri-apps/api/event'
-import { useAppDispatch, useAppSelector } from './app/hooks'
+import { useAppDispatch } from './app/hooks'
 import { ClientInfo, updateClientInfo } from './features/tunnelSlice'
 
 import Box from '@mui/material/Box';

@@ -73,7 +73,7 @@ export const tunnelSlice = createSlice({
         if (action.payload) {
           state.error = `${JSON.stringify(action.payload)}`
         } else {
-          state.error = `${action.error}`
+          state.error = `${JSON.stringify(action.error)}`
         }
         console.log(`rejected tunnel: ${JSON.stringify(state)}`)
       })
@@ -82,10 +82,11 @@ export const tunnelSlice = createSlice({
 
 export const launchTunnel = createAsyncThunk<void, undefined, { state: RootState, rejectValue: LaunchResultError }>('launchTunnel', async (_, { getState, rejectWithValue }) => {
   const stateBefore = getState()
+  const payload = stateBefore.local.protocol
   try {
     // this handle Ok value of launch_tunnel, ()
     // when launch_tunnel returns (), invoke is evaluated as null
-    await invoke('launch_tunnel', { tokenServer: stateBefore.tunnel.tokenServer, localPort: stateBefore.local.port })
+    await invoke('launch_tunnel', { tokenServer: stateBefore.tunnel.tokenServer, localPort: stateBefore.local.port, payload })
     return;
   } catch (e) {
     if (isLaunchResultError(e)) {

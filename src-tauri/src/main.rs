@@ -15,18 +15,19 @@ use ownserver_lib::Payload;
 use tokio_util::sync::CancellationToken;
 
 #[tauri::command]
-async fn launch_tunnel(window: tauri::Window, token_server: String, local_port: u16) -> LaunchResult {
+async fn launch_tunnel(window: tauri::Window, token_server: String, local_port: u16, payload: String) -> LaunchResult {
     let cancellation_token = CancellationToken::new();
     let ct = cancellation_token.clone();
     let unlisten = window.once("interrupt_launch_tunnel", move |event| {
         ct.cancel();
     });
 
-
+    let payload = match payload.as_str() {
+        "udp" => Payload::UDP,
+        _ => Payload::Other,
+    };
     let store = Default::default();
-    let payload = Payload::Other;
     let control_port: u16 = 5000;
-    // let local_port: u16 = 12000;
     // let token_server = "http://localhost:8123/v0/request_token";
 
     let (client_info, handle) =

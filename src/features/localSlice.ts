@@ -25,7 +25,6 @@ export const checkJavaVersion: Check = {
 
 export type GameConfig = {
   kind: 'custom',
-  protocol: Protocol,
 } | {
   kind: 'minecraft',
   filepath: string | null,
@@ -44,6 +43,7 @@ interface LocalState {
   messages: Array<LocalStateMessage>,
   command: string | null,
   port: number,
+  protocol: Protocol,
   game: GameId,
   config: GameConfig,
   checks: Array<Check>,
@@ -56,6 +56,7 @@ const initialState: LocalState = {
   messages: [],
   command: null,
   port: toLocalPort('minecraft'),
+  protocol: 'tcp',
   game: 'minecraft',
   checks: getCheckList('minecraft').map((id: CheckId) => {
     return {
@@ -119,8 +120,8 @@ export const localSlice = createSlice({
           state.command = 'nc -kl 3010'
           state.config = {
             kind: 'custom',
-            protocol: 'tcp'
           }
+          state.protocol = 'tcp'
           break;
         case 'minecraft':
           state.command = null
@@ -129,8 +130,12 @@ export const localSlice = createSlice({
             filepath: null,
             workdir: null
           }
+          state.protocol = 'tcp'
           break;
       }
+    },
+    updateProtocol: (state, action: PayloadAction<Protocol>) => {
+      state.protocol = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -379,6 +384,6 @@ export const updateFilepath = createAsyncThunk<string, string>('updateFilepath',
 })
 
 const { setChild } = localSlice.actions;
-export const { receiveMessage, updateCommand, updateLocalPort, updateGame } = localSlice.actions
+export const { receiveMessage, updateCommand, updateLocalPort, updateGame, updateProtocol } = localSlice.actions
 
 export default localSlice.reducer

@@ -1,5 +1,5 @@
 import React from 'react'
-import { killChild, updateCommand, updateFilepath,  updateLocalPort, runChecksAndLaunchLocal } from './features/localSlice'
+import { killChild, updateCommand, updateFilepath,  updateLocalPort, runChecksAndLaunchLocal, updateProtocol } from './features/localSlice'
 import { useAppSelector, useAppDispatch } from './app/hooks'
 
 import { open } from '@tauri-apps/api/dialog'
@@ -16,6 +16,8 @@ import Chip from '@mui/material/Chip';
 
 import AutoScroll from '@brianmcallister/react-auto-scroll';
 import Stack from '@mui/material/Stack';
+import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { Protocol } from './common';
 
 export type FormProps = {
   handleNext: () => void,
@@ -237,6 +239,7 @@ export const FormCustom: React.VFC<FormProps> = ({ handleBack, handleNext }) => 
   const localStatus = useAppSelector(state => state.local.status)
   const checks = useAppSelector(state => state.local.checks)
   const command = useAppSelector(state => state.local.command)
+  const protocol = useAppSelector(state => state.local.protocol)
   const dispatch = useAppDispatch()
   return (
     <React.Fragment>
@@ -267,6 +270,18 @@ export const FormCustom: React.VFC<FormProps> = ({ handleBack, handleNext }) => 
           onChange={e => dispatch(updateLocalPort(parseInt(e.target.value)))}
           value={localPort}
         />
+
+        <InputLabel id="select-protocol-label">プロトコルを選択</InputLabel>
+        <Select
+          labelId="select-protocol-label"
+          id="select-protocol"
+          value={protocol}
+          label="Protocol"
+          onChange={(e: SelectChangeEvent<Protocol>) => dispatch(updateProtocol(e.target.value as Protocol))}
+        >
+          <MenuItem value={'tcp'}>TCP</MenuItem>
+          <MenuItem value={'udp'}>UDP</MenuItem>
+        </Select>
 
         <Grid container spacing={2} sx={{ mb: 2 }}>
           <Grid item xs={12}>

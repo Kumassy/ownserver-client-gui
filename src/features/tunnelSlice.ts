@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../app/store'
 import { invoke } from '@tauri-apps/api/tauri'
-import { LaunchResult } from '../data'
+import { isLaunchResultError, LaunchResultError } from '../data'
 import { emit } from '@tauri-apps/api/event'
 
 export interface ClientInfo {
@@ -71,7 +71,7 @@ export const tunnelSlice = createSlice({
         state.tunnelStatus = 'failed'
 
         if (action.payload) {
-          state.error = action.payload
+          state.error = `${JSON.stringify(action.payload)}`
         } else {
           state.error = `${action.error}`
         }
@@ -80,23 +80,19 @@ export const tunnelSlice = createSlice({
   }
 })
 
-export const launchTunnel = createAsyncThunk<void, undefined, { state: RootState, rejectValue: string }>('launchTunnel', async (_, { getState, rejectWithValue }) => {
+export const launchTunnel = createAsyncThunk<void, undefined, { state: RootState, rejectValue: LaunchResultError }>('launchTunnel', async (_, { getState, rejectWithValue }) => {
   const stateBefore = getState()
   try {
-    const json: string = await invoke('launch_tunnel', { tokenServer: stateBefore.tunnel.tokenServer, localPort: stateBefore.local.port })
-    const result: LaunchResult = JSON.parse(json)
-
-    if (result.Ok) {
-      return;
-    } else if (result.Err) {
-      if (result.Err) {
-        return rejectWithValue(JSON.stringify(result.Err))
-      }
-    } else {
-      return rejectWithValue("Internal client error: json parse error")
-    }
+    // this handle Ok value of launch_tunnel, ()
+    // when launch_tunnel returns (), invoke is evaluated as null
+    await invoke('launch_tunnel', { tokenServer: stateBefore.tunnel.tokenServer, localPort: stateBefore.local.port })
+    return;
   } catch (e) {
-    return rejectWithValue(JSON.stringify(e))
+    if (isLaunchResultError(e)) {
+      return rejectWithValue(e)
+    } else {
+      throw new Error('unknown error')
+    }
   }
 })
 

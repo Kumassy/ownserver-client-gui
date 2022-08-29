@@ -3,7 +3,6 @@ import type { RootState } from '../app/store'
 import { dirname } from '@tauri-apps/api/path'
 import { Child, Command } from '@tauri-apps/api/shell';
 
-import { LaunchLocalResultError } from '../data'
 import { CheckError, CheckId, checkRegistry, CheckResult, StatusCodeError, getCheckList } from '../checks'
 import { GameId, toLocalPort, Protocol } from '../common'
 import { type } from '@tauri-apps/api/os';
@@ -337,7 +336,7 @@ export const launchLocal = createAsyncThunk<void, undefined, { state: RootState,
   }
 })
 
-export const killChild = createAsyncThunk<void, undefined, { state: RootState, rejectValue: LaunchLocalResultError }>('killChild', async (_, { getState, rejectWithValue, dispatch }) => {
+export const killChild = createAsyncThunk<void, undefined, { state: RootState }>('killChild', async (_, { getState }) => {
   const child = getState().local.child;
   await child?.kill();
 })

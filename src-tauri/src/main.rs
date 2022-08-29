@@ -34,7 +34,7 @@ async fn launch_tunnel(window: tauri::Window, token_server: String, local_port: 
             Ok(r) => r,
             Err(e) => {
             window.unlisten(unlisten);
-            return Err(LaunchResultError::LaunchFailed(e.to_string()));
+            return Err(LaunchResultError::LaunchFailed{ message: e.to_string() });
             }
         };
     info!("client is running under configuration: {:?}", client_info);
@@ -43,18 +43,19 @@ async fn launch_tunnel(window: tauri::Window, token_server: String, local_port: 
     let v = handle.await;
     window.unlisten(unlisten);
 
+    println!("{:?}", v);
     match v {
         Err(e) => {
             error!("join error {:?} for client", e);
-            Err(LaunchResultError::InternalClientError(e.to_string()))
+            Err(LaunchResultError::InternalClientError{ message: e.to_string()})
         }
         Ok(Err(Error::JoinError(e))) => {
             error!("internal join error {:?} for client", e);
-            Err(LaunchResultError::InternalClientError(e.to_string()))
+            Err(LaunchResultError::InternalClientError{ message: e.to_string()})
         }
         Ok(Err(e)) => {
             error!("client exited. reason: {:?}", e);
-            Err(LaunchResultError::ClientExited(e.to_string()))
+            Err(LaunchResultError::ClientExited{ message: e.to_string()})
         }
         Ok(Ok(_)) => {
             info!("client successfully terminated");
@@ -67,9 +68,7 @@ fn main() {
     pretty_env_logger::init();
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
-            // long_running_command,
             launch_tunnel,
-            // launch_local_server
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

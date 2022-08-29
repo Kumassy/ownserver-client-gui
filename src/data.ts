@@ -1,63 +1,30 @@
-export type LaunchResult =
-  | {
-    Ok: null;
-    [k: string]: unknown;
-  }
-  | {
-    Err: LaunchResultError;
-    [k: string]: unknown;
-  };
-
 export type LaunchResultError =
   | {
-    LaunchFailed: string;
+    kind: 'LaunchFailed',
+    message: string
   }
   | {
-    InternalClientError: string;
+    kind: 'InternalClientError',
+    message: string
   }
   | {
-    ClientExited: string;
+    kind: 'ClientExited',
+    message: string
   };
 
-// export type LaunchLocalResult =
-//   | {
-//     Ok: null;
-//     [k: string]: unknown;
-//   }
-//   | {
-//     Err: LaunchLocalResultError;
-//     [k: string]: unknown;
-//   };
-
-export type LaunchLocalResultError =
-  | {
-    kind: "StatusCodeError";
-    [k: string]: unknown;
+export const isLaunchResultError = (e: unknown): e is LaunchResultError => {
+  const error = e as LaunchResultError;
+  if (typeof error !== 'object' || e === null) {
+    return false;
   }
-  | {
-    kind: "SpawnFailed";
-    payload: string;
-    [k: string]: unknown;
+  if ('kind' in error) {
+    if (
+      error.kind === 'LaunchFailed' ||
+      error.kind === 'InternalClientError' ||
+      error.kind === 'ClientExited'
+    ) {
+      return true
+    }
   }
-  | {
-    kind: "NoStdout";
-    [k: string]: unknown;
-  }
-  | {
-    kind: "NoStderr";
-    [k: string]: unknown;
-  }
-  | {
-    kind: "LineCorrupted";
-    payload: string;
-    [k: string]: unknown;
-  }
-  | {
-    kind: "WaitFailed";
-    [k: string]: unknown;
-  };
-
-export interface LocalMessage {
-  message: string;
-  [k: string]: unknown;
+  return false
 }

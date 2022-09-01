@@ -1,5 +1,5 @@
 import React from 'react'
-import { killChild, updateCommand, updateFilepath,  updateLocalPort, runChecksAndLaunchLocal } from './features/localSlice'
+import { killChild, updateCommand, updateFilepath,  updateLocalPort, runChecksAndLaunchLocal, updateProtocol } from './features/localSlice'
 import { useAppSelector, useAppDispatch } from './app/hooks'
 
 import { open } from '@tauri-apps/api/dialog'
@@ -16,6 +16,8 @@ import Chip from '@mui/material/Chip';
 
 import AutoScroll from '@brianmcallister/react-auto-scroll';
 import Stack from '@mui/material/Stack';
+import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { Protocol } from './common';
 
 export type FormProps = {
   handleNext: () => void,
@@ -231,12 +233,165 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
   )
 }
 
+
+export const FormFactorio: React.VFC<FormProps> = ({ handleBack, handleNext }) => {
+  const localMessages = useAppSelector(state => state.local.messages)
+  const localStatus = useAppSelector(state => state.local.status)
+  const localPort = useAppSelector(state => state.local.port)
+  const command = useAppSelector(state => state.local.command)
+  const checks = useAppSelector(state => state.local.checks)
+  const filepath = useAppSelector(state => 'savepath' in state.local.config ? state.local.config.savepath : 'Error: savepath not exists')
+  const dispatch = useAppDispatch()
+
+  return (
+    <React.Fragment>
+      <Box
+        component="form"
+        sx={{
+          '& .MuiTextField-root': { marginBottom: 1 },
+        }}
+      >
+        <Typography sx={{ mb: 2 }} variant="h6" component="div">
+          設定
+        </Typography>
+
+        <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 2}}>
+          <Button
+            variant="contained"
+            onClick={async () => {
+              const file = await open({ multiple: false, directory: true });
+
+              if (typeof file === 'string') {
+                dispatch(updateFilepath(file))
+              }
+            }}
+          >
+            フォルダ選択
+          </Button>
+          <Typography>{filepath}</Typography>
+        </Stack>
+
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+          >
+            <Typography>上級者向け設定</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <TextField
+              fullWidth
+              id="local-server-path"
+              label="Local Server Executable Path"
+              variant="outlined"
+              onChange={e => dispatch(updateCommand(e.target.value))}
+              value={command}
+            />
+            <TextField
+              fullWidth
+              id="local-port"
+              label="Local Port"
+              type="number"
+              variant="outlined"
+              onChange={e => dispatch(updateLocalPort(parseInt(e.target.value)))}
+              value={localPort}
+            />
+          </AccordionDetails>
+        </Accordion>
+
+
+
+
+
+        <Grid container spacing={2} sx={{ mb: 2 }}>
+          <Grid item xs={12}>
+            <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
+              タスク一覧
+            </Typography>
+
+            {checks.map(check => {
+              return (
+                <Accordion key={check.id}>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                  >
+                    <Typography>{check.id} <ResultChip status={check.status} /></Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography>
+                      {check.message}
+                    </Typography>
+                  </AccordionDetails>
+                </Accordion>
+              )
+            })}
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+              >
+                <Typography>ゲームサーバーを起動 <ResultChip status={localStatus} /></Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <AutoScroll
+                  showOption={false}
+                  height={100}
+                >
+                  {localMessages.map(msg => {
+                    return (
+                      <div key={msg.key}>
+                        {msg.message}
+                      </div>
+                    );
+                  })}
+                </AutoScroll>
+              </AccordionDetails>
+            </Accordion>
+          </Grid>
+        </Grid>
+
+        <Grid
+          container
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Grid item xs={12}>
+            <OperationButton
+              status={localStatus}
+              launch={runChecksAndLaunchLocal}
+              interrupt={killChild}
+            />
+          </Grid>
+        </Grid>
+      </Box>
+
+      <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+        <Button
+          color="inherit"
+          disabled={localStatus === 'running'}
+          onClick={handleBack}
+        >
+          前へ
+        </Button>
+        <Box sx={{ flex: '1 1 auto' }} />
+
+        <Button
+          onClick={handleNext}
+          disabled={localStatus !== 'running'}
+        >
+          次へ
+        </Button>
+      </Box>
+    </React.Fragment>
+  )
+}
+
 export const FormCustom: React.VFC<FormProps> = ({ handleBack, handleNext }) => {
   const localMessages = useAppSelector(state => state.local.messages)
   const localPort = useAppSelector(state => state.local.port)
   const localStatus = useAppSelector(state => state.local.status)
   const checks = useAppSelector(state => state.local.checks)
   const command = useAppSelector(state => state.local.command)
+  const protocol = useAppSelector(state => state.local.protocol)
   const dispatch = useAppDispatch()
   return (
     <React.Fragment>
@@ -267,6 +422,18 @@ export const FormCustom: React.VFC<FormProps> = ({ handleBack, handleNext }) => 
           onChange={e => dispatch(updateLocalPort(parseInt(e.target.value)))}
           value={localPort}
         />
+
+        <InputLabel id="select-protocol-label">プロトコルを選択</InputLabel>
+        <Select
+          labelId="select-protocol-label"
+          id="select-protocol"
+          value={protocol}
+          label="Protocol"
+          onChange={(e: SelectChangeEvent<Protocol>) => dispatch(updateProtocol(e.target.value as Protocol))}
+        >
+          <MenuItem value={'tcp'}>TCP</MenuItem>
+          <MenuItem value={'udp'}>UDP</MenuItem>
+        </Select>
 
         <Grid container spacing={2} sx={{ mb: 2 }}>
           <Grid item xs={12}>

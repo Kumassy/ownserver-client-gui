@@ -3,7 +3,6 @@ import type { RootState } from '../app/store'
 import { dirname } from '@tauri-apps/api/path'
 import { Child, Command } from '@tauri-apps/api/shell';
 
-import { LaunchLocalResultError } from '../data'
 import { CheckError, CheckId, checkRegistry, CheckResult, StatusCodeError, getCheckList } from '../checks'
 import { GameId, toLocalPort, Protocol } from '../common'
 import { type } from '@tauri-apps/api/os';
@@ -26,15 +25,13 @@ export const checkJavaVersion: Check = {
 
 export type GameConfig = {
   kind: 'custom',
-  protocol: Protocol,
 } | {
   kind: 'minecraft',
   filepath: string | null,
   workdir: string | null,
 } | {
   kind: 'factorio',
-  filepath: string | null,
-  workdir: string | null,
+  savepath: string | null,
 }
 
 
@@ -45,6 +42,7 @@ interface LocalState {
   messages: Array<LocalStateMessage>,
   command: string | null,
   port: number,
+  protocol: Protocol,
   game: GameId,
   config: GameConfig,
   checks: Array<Check>,
@@ -57,6 +55,7 @@ const initialState: LocalState = {
   messages: [],
   command: null,
   port: toLocalPort('minecraft'),
+  protocol: 'tcp',
   game: 'minecraft',
   checks: getCheckList('minecraft').map((id: CheckId) => {
     return {
@@ -120,8 +119,8 @@ export const localSlice = createSlice({
           state.command = 'nc -kl 3010'
           state.config = {
             kind: 'custom',
-            protocol: 'tcp'
           }
+          state.protocol = 'tcp'
           break;
         case 'minecraft':
           state.command = null
@@ -130,8 +129,19 @@ export const localSlice = createSlice({
             filepath: null,
             workdir: null
           }
+          state.protocol = 'tcp'
           break;
+        case 'factorio':
+          state.command = null
+          state.config = {
+            kind: 'factorio',
+            savepath: null
+          }
+          state.protocol = 'udp'
       }
+    },
+    updateProtocol: (state, action: PayloadAction<Protocol>) => {
+      state.protocol = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -227,12 +237,10 @@ export const localSlice = createSlice({
             state.config.workdir = dir
             state.command = `java -Xmx1024M -Xms1024M -jar ${filepath} nogui`
             break;
-          // TODO
-          // case 'factorio':
-          //   state.config.filepath = filepath
-          //   state.config.workdir = dir
-          //   state.command = `false`
-          //   break;
+          case 'factorio':
+            state.config.savepath = filepath
+            state.command = `docker run --rm -i -p ${state.port}:34197/udp -v ${state.config.savepath}:/factorio --name ownserver-local-factorio factoriotools/factorio`
+            break;
         }
       })
       .addCase(updateFilepath.rejected, () => {
@@ -337,9 +345,21 @@ export const launchLocal = createAsyncThunk<void, undefined, { state: RootState,
   }
 })
 
-export const killChild = createAsyncThunk<void, undefined, { state: RootState, rejectValue: LaunchLocalResultError }>('killChild', async (_, { getState, rejectWithValue, dispatch }) => {
+export const killChild = createAsyncThunk<void, undefined, { state: RootState }>('killChild', async (_, { getState }) => {
+  const game = getState().local.game;
   const child = getState().local.child;
-  await child?.kill();
+
+  switch(game) {
+    case 'factorio':
+      const output = await new Command('run-docker', ['stop', `ownserver-local-${game}`]).execute()
+      if (output.code !==0 ) {
+        throw new Error(`failed to stop container ownserver-local-${game}: ${output}`)
+      }
+      break;
+    default:
+      await child?.kill();
+      break;
+  }
 })
 
 export const runCheck = createAsyncThunk<CheckResult, CheckId, { state: RootState, rejectValue: CheckError }>('checks/runCheck', async (id, { getState, rejectWithValue }) => {
@@ -380,6 +400,6 @@ export const updateFilepath = createAsyncThunk<string, string>('updateFilepath',
 })
 
 const { setChild } = localSlice.actions;
-export const { receiveMessage, updateCommand, updateLocalPort, updateGame } = localSlice.actions
+export const { receiveMessage, updateCommand, updateLocalPort, updateGame, updateProtocol } = localSlice.actions
 
 export default localSlice.reducer

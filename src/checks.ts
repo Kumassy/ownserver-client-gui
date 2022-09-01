@@ -17,6 +17,7 @@ export interface CheckRegistry {
 
 export const CHECK_JAVA_VERSION: CheckId = 'check-java-version'
 export const CHECK_SH_VERSION: CheckId = 'check-sh-version'
+export const CHECK_DOCKER_VERSION: CheckId = 'check-docker-version'
 
 export const checkRegistry: CheckRegistry = {
   [CHECK_JAVA_VERSION]: async () => {
@@ -35,6 +36,14 @@ export const checkRegistry: CheckRegistry = {
     }
     return output.stdout
   },
+  [CHECK_DOCKER_VERSION]: async () => {
+    const output = await new Command('run-docker', ['--version']).execute()
+    if (output.code !== 0) {
+      const message = `test exited with non-zero code: ${output.code}, stderr: ${output.stderr}`
+      throw new StatusCodeError(message)
+    }
+    return output.stdout
+  },
 }
 
 // export interface CheckRegistry {
@@ -44,12 +53,12 @@ export const checkRegistry: CheckRegistry = {
 export const getCheckList = (game: GameId): Array<CheckId> => {
   switch (game) {
     case 'custom':
-      return []
+      return [CHECK_SH_VERSION]
     case 'http':
       return []
     case 'minecraft':
       return [CHECK_JAVA_VERSION]
     case 'factorio':
-      return [CHECK_JAVA_VERSION, CHECK_SH_VERSION]
+      return [CHECK_DOCKER_VERSION]
   }
 }

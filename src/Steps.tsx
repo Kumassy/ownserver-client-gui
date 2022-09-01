@@ -2,7 +2,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Box, Button, FormControl
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React from "react";
 import { launchTunnel, interruptTunnel, updateTokenServer } from "./features/tunnelSlice";
-import { FormCustom, FormMinecraft, NotFoundCustom, OperationButton, ResultChip } from "./Forms";
+import { FormCustom, FormFactorio, FormMinecraft, NotFoundCustom, OperationButton, ResultChip } from "./Forms";
 import { useAppSelector, useAppDispatch } from './app/hooks'
 import AutoScroll from "@brianmcallister/react-auto-scroll";
 import { updateGame } from "./features/localSlice";
@@ -34,7 +34,7 @@ export const StepSelectGame: React.VFC<StepSelectGameProps> = ({ handleBack, han
           {/* <MenuItem value={'http'}>HTTP</MenuItem> */}
           <MenuItem value={'custom'}>カスタム設定</MenuItem>
           <MenuItem value={'minecraft'}>Minecraft</MenuItem>
-          {/* <MenuItem value={'factorio'}>Factorio</MenuItem> */}
+          <MenuItem value={'factorio'}>Factorio</MenuItem>
         </Select>
       </FormControl>
 
@@ -65,6 +65,10 @@ export const StepLauchLocalServer: React.VFC<StepLaunchLocalServerProps> = (prop
     case 'minecraft':
       return (
         <FormMinecraft {...props} />
+      )
+    case 'factorio':
+      return (
+        <FormFactorio {...props} />
       )
     case 'custom':
       return (

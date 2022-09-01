@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css'
 import { listen } from '@tauri-apps/api/event'
 import { useAppDispatch } from './app/hooks'
@@ -9,9 +9,11 @@ import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 import { StepContent } from './Steps'
+import { Drawer, InputLabel, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 
 function isClientInfo(arg: any): arg is ClientInfo {
   return 'client_id' in arg && 'remote_addr' in arg
@@ -24,9 +26,13 @@ const steps = [
   'steps.monitor'
 ];
 
+const drawerWidth = 240;
+
 function App() {
   const dispatch = useAppDispatch()
   const [activeStep, setActiveStep] = React.useState(0);
+  const [panel, setPanel] = useState<'startServer' | 'settings'>('startServer');
+  const [lang, setLang] = useState<'en-US' | 'ja-JP' | null>(null);
   const { t, i18n } = useTranslation();
 
   useEffect(() => {
@@ -57,27 +63,82 @@ function App() {
   };
 
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-        <Stepper activeStep={activeStep} sx={{ padding: 2 }}>
-          {steps.map(label => {
-            return (
-              <Step key={label}>
-                <StepLabel>{t(label)}</StepLabel>
-              </Step>
-            );
-          })}
-        </Stepper>
+    <Box sx={{ display: 'flex' }}>
+      <Drawer
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+          },
+        }}
+        variant="permanent"
+        anchor="left"
+      >
+        <List>
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => setPanel('startServer')}>
+              <ListItemIcon>
+                <PlayCircleIcon />
+              </ListItemIcon>
+              <ListItemText primary={t('menu.startServer')} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => setPanel('settings')}>
+              <ListItemIcon>
+                <SettingsIcon />
+              </ListItemIcon>
+              <ListItemText primary={t('menu.settings')} />
+            </ListItemButton>
+          </ListItem>
+        </List>
+      </Drawer>
+      {panel === 'startServer' &&
+        <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+          <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+            <Stepper activeStep={activeStep} sx={{ padding: 2 }}>
+              {steps.map(label => {
+                return (
+                  <Step key={label}>
+                    <StepLabel>{t(label)}</StepLabel>
+                  </Step>
+                );
+              })}
+            </Stepper>
 
-        <Box sx={{ flexGrow: 1, padding: 2, display: 'flex', justifyContent: 'space-between', flexDirection: 'column'}}>
-          <StepContent
-            step={activeStep}
-            handleBack={handleBack}
-            handleNext={handleNext}
-            handleReset={handleReset}
-          />
+            <Box sx={{ flexGrow: 1, padding: 2, display: 'flex', justifyContent: 'space-between', flexDirection: 'column'}}>
+              <StepContent
+                step={activeStep}
+                handleBack={handleBack}
+                handleNext={handleNext}
+                handleReset={handleReset}
+              />
+            </Box>
+          </Box>
         </Box>
-      </Box>
+      }
+      {panel === 'settings' &&
+        <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+          settings
+          <InputLabel id="select-lang-label">言語を選択</InputLabel>
+          <Select
+            labelId="select-lang-label"
+            id="select-lang"
+            value={lang ? lang : i18n.language as 'en-US' | 'ja-JP'}
+            label="Language"
+            onChange={(e: SelectChangeEvent<'en-US' | 'ja-JP'>) => {
+              const lang = e.target.value as 'en-US' | 'ja-JP'
+              setLang(lang)
+              i18n.changeLanguage(lang)
+            }}
+          >
+            <MenuItem value={'en-US'}>{t('lang.en')}</MenuItem>
+            <MenuItem value={'ja-JP'}>{t('lang.ja')}</MenuItem>
+          </Select>
+        </Box>
+      }
     </Box>
   )
 }

@@ -1,8 +1,16 @@
 {
+    "lang": {
+        "en": "英語",
+        "ja": "日本語"
+    },
+    "menu": {
+        "startServer": "サーバーを起動",
+        "settings": "設定"
+    },
     "steps": {
-      "selectGame": "ゲーム選択",
-      "launchLocalServer": "ゲームサーバーの起動",
-      "configureOwnServer": "OwnServerの設定",
-      "monitor": "サーバー管理"
+        "selectGame": "ゲーム選択",
+        "launchLocalServer": "ゲームサーバーの起動",
+        "configureOwnServer": "OwnServerの設定",
+        "monitor": "サーバー管理"
     }
   }

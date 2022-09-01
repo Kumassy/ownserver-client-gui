@@ -1,8 +1,16 @@
 {
+    "lang": {
+        "en": "English",
+        "ja": "Japanese"
+    },
+    "menu": {
+        "startServer": "Start a Server",
+        "settings": "Settings"
+    },
     "steps": {
-      "selectGame": "Select Game",
-      "launchLocalServer": "Launch Game Server",
-      "configureOwnServer": "Configure OwnServer",
-      "monitor": "Monitor"
+        "selectGame": "Select Game",
+        "launchLocalServer": "Launch Game Server",
+        "configureOwnServer": "Configure OwnServer",
+        "monitor": "Monitor"
     }
   }

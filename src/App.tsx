@@ -3,6 +3,7 @@ import './App.css'
 import { listen } from '@tauri-apps/api/event'
 import { useAppDispatch } from './app/hooks'
 import { ClientInfo, updateClientInfo } from './features/tunnelSlice'
+import { useTranslation } from 'react-i18next';
 
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
@@ -17,15 +18,16 @@ function isClientInfo(arg: any): arg is ClientInfo {
 }
 
 const steps = [
-  'ゲーム選択',
-  'ゲームサーバーの起動',
-  'OwnServerの設定',
-  'サーバー管理'
+  'steps.selectGame',
+  'steps.launchLocalServer',
+  'steps.configureOwnServer',
+  'steps.monitor'
 ];
 
 function App() {
   const dispatch = useAppDispatch()
   const [activeStep, setActiveStep] = React.useState(0);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const f = async () => {
@@ -61,7 +63,7 @@ function App() {
           {steps.map(label => {
             return (
               <Step key={label}>
-                <StepLabel>{label}</StepLabel>
+                <StepLabel>{t(label)}</StepLabel>
               </Step>
             );
           })}

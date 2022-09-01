@@ -1,0 +1,8 @@
+{
+    "steps": {
+      "selectGame": "ゲーム選択",
+      "launchLocalServer": "ゲームサーバーの起動",
+      "configureOwnServer": "OwnServerの設定",
+      "monitor": "サーバー管理"
+    }
+  }

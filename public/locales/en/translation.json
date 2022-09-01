@@ -1,0 +1,8 @@
+{
+    "steps": {
+      "selectGame": "Select Game",
+      "launchLocalServer": "Launch Game Server",
+      "configureOwnServer": "Configure OwnServer",
+      "monitor": "Monitor"
+    }
+  }

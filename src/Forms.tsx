@@ -18,6 +18,7 @@ import AutoScroll from '@brianmcallister/react-auto-scroll';
 import Stack from '@mui/material/Stack';
 import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { Protocol } from './common';
+import { useTranslation } from 'react-i18next';
 
 export type FormProps = {
   handleNext: () => void,
@@ -32,6 +33,7 @@ export type OperationButtonProps = {
 
 export const OperationButton: React.VFC<OperationButtonProps> = ({ status, launch, interrupt }) => {
   const dispatch = useAppDispatch()
+  const { t, i18n } = useTranslation();
 
   switch (status) {
     case 'idle':
@@ -42,7 +44,7 @@ export const OperationButton: React.VFC<OperationButtonProps> = ({ status, launc
           variant="contained"
           onClick={() => dispatch(launch())}
         >
-          Start
+          {t('common.control.start')}
         </Button>
       )
     case 'running':
@@ -51,7 +53,7 @@ export const OperationButton: React.VFC<OperationButtonProps> = ({ status, launc
           variant="contained"
           onClick={() => dispatch(interrupt())}
         >
-          Stop
+          {t('common.control.stop')}
         </Button>
       )
   }
@@ -62,6 +64,8 @@ type ResultChipProps = {
 }
 
 export const ResultChip: React.VFC<ResultChipProps> = ({ status }) => {
+  const { t, i18n } = useTranslation();
+
   switch (status) {
     case 'idle':
       return (
@@ -69,15 +73,15 @@ export const ResultChip: React.VFC<ResultChipProps> = ({ status }) => {
       )
     case 'running':
       return (
-        <Chip label="Running" color="info" />
+        <Chip label={t('common.result.running')} color="info" />
       )
     case 'succeeded':
       return (
-        <Chip label="Pass" color="success" />
+        <Chip label={t('common.result.succeeded')} color="success" />
       )
     case 'failed':
       return (
-        <Chip label="Failed" color="error" />
+        <Chip label={t('common.result.failed')} color="error" />
       )
   }
 }
@@ -88,7 +92,8 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
   const localPort = useAppSelector(state => state.local.port)
   const command = useAppSelector(state => state.local.command)
   const checks = useAppSelector(state => state.local.checks)
-  const filepath = useAppSelector(state => 'filepath' in state.local.config ? state.local.config.filepath : 'Error: filepath not exists')
+  const { t, i18n } = useTranslation();
+  const filepath = useAppSelector(state => 'filepath' in state.local.config ? state.local.config.filepath : t('panel.startServer.steps.launchLocalServer.minecraft.errors.filepath'))
   const dispatch = useAppDispatch()
 
   return (
@@ -100,7 +105,7 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
         }}
       >
         <Typography sx={{ mb: 2 }} variant="h6" component="div">
-          設定
+          {t('panel.startServer.steps.launchLocalServer.minecraft.settings.label')}
         </Typography>
 
         <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 2}}>
@@ -114,7 +119,7 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
               }
             }}
           >
-            ファイル選択
+            {t('panel.startServer.steps.launchLocalServer.minecraft.settings.file')}
           </Button>
           <Typography>{filepath}</Typography>
         </Stack>
@@ -123,13 +128,13 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
           >
-            <Typography>上級者向け設定</Typography>
+            <Typography>{t('panel.startServer.steps.launchLocalServer.minecraft.advancedSettings.label')}</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <TextField
               fullWidth
-              id="local-server-path"
-              label="Local Server Executable Path"
+              id="local-server-command"
+              label={t('panel.startServer.steps.launchLocalServer.minecraft.advancedSettings.command')}
               variant="outlined"
               onChange={e => dispatch(updateCommand(e.target.value))}
               value={command}
@@ -137,7 +142,7 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
             <TextField
               fullWidth
               id="local-port"
-              label="Local Port"
+              label={t('panel.startServer.steps.launchLocalServer.minecraft.advancedSettings.port')}
               type="number"
               variant="outlined"
               onChange={e => dispatch(updateLocalPort(parseInt(e.target.value)))}
@@ -153,7 +158,7 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
         <Grid container spacing={2} sx={{ mb: 2 }}>
           <Grid item xs={12}>
             <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
-              タスク一覧
+              {t('panel.startServer.steps.launchLocalServer.minecraft.tasks.label')}
             </Typography>
 
             {checks.map(check => {
@@ -176,7 +181,7 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
               >
-                <Typography>ゲームサーバーを起動 <ResultChip status={localStatus} /></Typography>
+                <Typography>{t('panel.startServer.steps.launchLocalServer.minecraft.tasks.start')} <ResultChip status={localStatus} /></Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <AutoScroll
@@ -218,7 +223,7 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
           disabled={localStatus === 'running'}
           onClick={handleBack}
         >
-          前へ
+          {t('common.control.back')}
         </Button>
         <Box sx={{ flex: '1 1 auto' }} />
 
@@ -226,7 +231,7 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
           onClick={handleNext}
           disabled={localStatus !== 'running'}
         >
-          次へ
+          {t('common.control.next')}
         </Button>
       </Box>
     </React.Fragment>
@@ -240,7 +245,8 @@ export const FormFactorio: React.VFC<FormProps> = ({ handleBack, handleNext }) =
   const localPort = useAppSelector(state => state.local.port)
   const command = useAppSelector(state => state.local.command)
   const checks = useAppSelector(state => state.local.checks)
-  const filepath = useAppSelector(state => 'savepath' in state.local.config ? state.local.config.savepath : 'Error: savepath not exists')
+  const { t, i18n } = useTranslation();
+  const filepath = useAppSelector(state => 'savepath' in state.local.config ? state.local.config.savepath : t('panel.startServer.steps.launchLocalServer.factorio.errors.savepath'))
   const dispatch = useAppDispatch()
 
   return (
@@ -252,7 +258,7 @@ export const FormFactorio: React.VFC<FormProps> = ({ handleBack, handleNext }) =
         }}
       >
         <Typography sx={{ mb: 2 }} variant="h6" component="div">
-          設定
+          {t('panel.startServer.steps.launchLocalServer.factorio.settings.label')}
         </Typography>
 
         <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 2}}>
@@ -266,7 +272,7 @@ export const FormFactorio: React.VFC<FormProps> = ({ handleBack, handleNext }) =
               }
             }}
           >
-            フォルダ選択
+            {t('panel.startServer.steps.launchLocalServer.factorio.settings.folder')}
           </Button>
           <Typography>{filepath}</Typography>
         </Stack>
@@ -275,13 +281,13 @@ export const FormFactorio: React.VFC<FormProps> = ({ handleBack, handleNext }) =
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
           >
-            <Typography>上級者向け設定</Typography>
+            <Typography>{t('panel.startServer.steps.launchLocalServer.factorio.advancedSettings.label')}</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <TextField
               fullWidth
-              id="local-server-path"
-              label="Local Server Executable Path"
+              id="local-server-command"
+              label={t('panel.startServer.steps.launchLocalServer.factorio.advancedSettings.command')}
               variant="outlined"
               onChange={e => dispatch(updateCommand(e.target.value))}
               value={command}
@@ -289,7 +295,7 @@ export const FormFactorio: React.VFC<FormProps> = ({ handleBack, handleNext }) =
             <TextField
               fullWidth
               id="local-port"
-              label="Local Port"
+              label={t('panel.startServer.steps.launchLocalServer.factorio.advancedSettings.port')}
               type="number"
               variant="outlined"
               onChange={e => dispatch(updateLocalPort(parseInt(e.target.value)))}
@@ -305,7 +311,7 @@ export const FormFactorio: React.VFC<FormProps> = ({ handleBack, handleNext }) =
         <Grid container spacing={2} sx={{ mb: 2 }}>
           <Grid item xs={12}>
             <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
-              タスク一覧
+              {t('panel.startServer.steps.launchLocalServer.factorio.tasks.label')}
             </Typography>
 
             {checks.map(check => {
@@ -328,7 +334,7 @@ export const FormFactorio: React.VFC<FormProps> = ({ handleBack, handleNext }) =
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
               >
-                <Typography>ゲームサーバーを起動 <ResultChip status={localStatus} /></Typography>
+                <Typography>{t('panel.startServer.steps.launchLocalServer.factorio.tasks.start')} <ResultChip status={localStatus} /></Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <AutoScroll
@@ -370,7 +376,7 @@ export const FormFactorio: React.VFC<FormProps> = ({ handleBack, handleNext }) =
           disabled={localStatus === 'running'}
           onClick={handleBack}
         >
-          前へ
+          {t('common.control.back')}
         </Button>
         <Box sx={{ flex: '1 1 auto' }} />
 
@@ -378,7 +384,7 @@ export const FormFactorio: React.VFC<FormProps> = ({ handleBack, handleNext }) =
           onClick={handleNext}
           disabled={localStatus !== 'running'}
         >
-          次へ
+          {t('common.control.next')}
         </Button>
       </Box>
     </React.Fragment>
@@ -392,6 +398,7 @@ export const FormCustom: React.VFC<FormProps> = ({ handleBack, handleNext }) => 
   const checks = useAppSelector(state => state.local.checks)
   const command = useAppSelector(state => state.local.command)
   const protocol = useAppSelector(state => state.local.protocol)
+  const { t, i18n } = useTranslation();
   const dispatch = useAppDispatch()
   return (
     <React.Fragment>
@@ -402,13 +409,13 @@ export const FormCustom: React.VFC<FormProps> = ({ handleBack, handleNext }) => 
         }}
       >
         <Typography sx={{ mb: 2 }} variant="h6" component="div">
-          設定
+          {t('panel.startServer.steps.launchLocalServer.custom.settings.label')}
         </Typography>
 
         <TextField
           fullWidth
-          id="local-server-path"
-          label="Local Server Executable Path"
+          id="local-server-command"
+          label={t('panel.startServer.steps.launchLocalServer.custom.settings.command')}
           variant="outlined"
           onChange={e => dispatch(updateCommand(e.target.value))}
           value={command ? command : ''}
@@ -416,29 +423,29 @@ export const FormCustom: React.VFC<FormProps> = ({ handleBack, handleNext }) => 
         <TextField
           fullWidth
           id="local-port"
-          label="Local Port"
+          label={t('panel.startServer.steps.launchLocalServer.custom.settings.port')}
           type="number"
           variant="outlined"
           onChange={e => dispatch(updateLocalPort(parseInt(e.target.value)))}
           value={localPort}
         />
 
-        <InputLabel id="select-protocol-label">プロトコルを選択</InputLabel>
+        <InputLabel id="select-protocol-label">{t('panel.startServer.steps.launchLocalServer.custom.settings.protocol.label')}</InputLabel>
         <Select
           labelId="select-protocol-label"
           id="select-protocol"
           value={protocol}
-          label="Protocol"
+          label={t('panel.startServer.steps.launchLocalServer.custom.settings.protocol.label')}
           onChange={(e: SelectChangeEvent<Protocol>) => dispatch(updateProtocol(e.target.value as Protocol))}
         >
-          <MenuItem value={'tcp'}>TCP</MenuItem>
-          <MenuItem value={'udp'}>UDP</MenuItem>
+          <MenuItem value={'tcp'}>{t('panel.startServer.steps.launchLocalServer.custom.settings.protocol.tcp')}</MenuItem>
+          <MenuItem value={'udp'}>{t('panel.startServer.steps.launchLocalServer.custom.settings.protocol.udp')}</MenuItem>
         </Select>
 
         <Grid container spacing={2} sx={{ mb: 2 }}>
           <Grid item xs={12}>
             <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
-              タスク一覧
+              {t('panel.startServer.steps.launchLocalServer.custom.tasks.label')}
             </Typography>
 
             {checks.map(check => {
@@ -462,7 +469,7 @@ export const FormCustom: React.VFC<FormProps> = ({ handleBack, handleNext }) => 
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
               >
-                <Typography>ゲームサーバーを起動 <ResultChip status={localStatus} /></Typography>
+                <Typography>{t('panel.startServer.steps.launchLocalServer.custom.tasks.start')} <ResultChip status={localStatus} /></Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <AutoScroll
@@ -503,7 +510,7 @@ export const FormCustom: React.VFC<FormProps> = ({ handleBack, handleNext }) => 
           disabled={localStatus === 'running'}
           onClick={handleBack}
         >
-          Back
+          {t('common.control.back')}
         </Button>
         <Box sx={{ flex: '1 1 auto' }} />
 
@@ -511,7 +518,7 @@ export const FormCustom: React.VFC<FormProps> = ({ handleBack, handleNext }) => 
           onClick={handleNext}
           disabled={localStatus !== 'running'}
         >
-          Next
+          {t('common.control.next')}
         </Button>
       </Box>
     </React.Fragment>

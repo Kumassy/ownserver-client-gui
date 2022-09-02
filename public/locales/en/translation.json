@@ -4,13 +4,116 @@
         "ja": "Japanese"
     },
     "menu": {
-        "startServer": "Start a Server",
+        "startServer": "Run Server",
         "settings": "Settings"
     },
-    "steps": {
-        "selectGame": "Select Game",
-        "launchLocalServer": "Launch Game Server",
-        "configureOwnServer": "Configure OwnServer",
-        "monitor": "Monitor"
+    "panel": {
+        "startServer": {
+            "stepper": {
+                "selectGame": "Select a Game",
+                "launchLocalServer": "Run Game Server",
+                "configureOwnServer": "Configure OwnServer",
+                "monitor": "Monitor Server"
+            },
+            "steps": {
+                "selectGame": {
+                    "forms": {
+                        "selectGame": "Select a game",
+                        "games": {
+                            "custom": "Custom",
+                            "minecraft": "Minecraft",
+                            "factorio": "factorio"
+                        }
+                    }
+                },
+                "launchLocalServer": {
+                    "minecraft": {
+                        "errors": {
+                            "filepath": "Error: filepath does not exist"
+                        },
+                        "settings": {
+                            "label": "Settings",
+                            "file": "Select server.jar file"
+                        },
+                        "advancedSettings": {
+                            "label": "Advanced Settings",
+                            "command": "Command to start server",
+                            "port": "Port"
+                        },
+                        "tasks": {
+                            "label": "Task List",
+                            "start": "Start game server"
+                        }
+                    },
+                    "factorio": {
+                        "errors": {
+                            "savepath": "Error: savepath does not exist"
+                        },
+                        "settings": {
+                            "label": "Settings",
+                            "folder": "Select a folder"
+                        },
+                        "advancedSettings": {
+                            "label": "Advanced Settings",
+                            "command": "Command to start server",
+                            "port": "Port"
+                        },
+                        "tasks": {
+                            "label": "Task List",
+                            "start": "Start game server"
+                        }
+                    },
+                    "custom": {
+                        "settings": {
+                            "label": "Settings",
+                            "command": "Command to start server",
+                            "port": "Port",
+                            "protocol": {
+                                "label": "Protocol",
+                                "tcp": "TCP",
+                                "udp": "UDP"
+                            }
+                        },
+                        "tasks": {
+                            "label": "Task List",
+                            "start": "Execute Command"
+                        }
+                    }
+                },
+                "configureOwnServer": {
+                    "settings": "Settings",
+                    "advancedSettings": {
+                        "label": "Advanced Settings",
+                        "authServerUrl": "Auth Server URL"
+                    },
+                    "tasks": {
+                        "label": "Task List",
+                        "launchOwnServer": "Start OwnServer",
+                        "clientID": "Your Client ID",
+                        "publicAddress": "Your Public Address"
+                    }
+                },
+                "monitor": {
+                    "publicAddress": "Your Public Address",
+                    "serverLogs": "Server Logs"
+                }
+            }
+        },
+        "settings": {
+            "selectLanguage": "Select Language"
+        }
+    },
+    "common": {
+        "control": {
+            "back": "Back",
+            "next": "Next",
+            "start": "Start",
+            "stop": "Stop"
+        },
+        "result": {
+            "running": "Running",
+            "succeeded": "Passed",
+            "failed": "Failed"
+        }
     }
   }

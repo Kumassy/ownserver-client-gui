@@ -13,17 +13,17 @@ import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import SettingsIcon from '@mui/icons-material/Settings';
 
 import { StepContent } from './Steps'
-import { Drawer, InputLabel, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Select, SelectChangeEvent } from '@mui/material'
+import { Drawer, Grid, InputLabel, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 
 function isClientInfo(arg: any): arg is ClientInfo {
   return 'client_id' in arg && 'remote_addr' in arg
 }
 
 const steps = [
-  'steps.selectGame',
-  'steps.launchLocalServer',
-  'steps.configureOwnServer',
-  'steps.monitor'
+  'panel.startServer.stepper.selectGame',
+  'panel.startServer.stepper.launchLocalServer',
+  'panel.startServer.stepper.configureOwnServer',
+  'panel.startServer.stepper.monitor'
 ];
 
 const drawerWidth = 240;
@@ -120,23 +120,26 @@ function App() {
         </Box>
       }
       {panel === 'settings' &&
-        <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-          settings
-          <InputLabel id="select-lang-label">言語を選択</InputLabel>
-          <Select
-            labelId="select-lang-label"
-            id="select-lang"
-            value={lang ? lang : i18n.language as 'en-US' | 'ja-JP'}
-            label="Language"
-            onChange={(e: SelectChangeEvent<'en-US' | 'ja-JP'>) => {
-              const lang = e.target.value as 'en-US' | 'ja-JP'
-              setLang(lang)
-              i18n.changeLanguage(lang)
-            }}
-          >
-            <MenuItem value={'en-US'}>{t('lang.en')}</MenuItem>
-            <MenuItem value={'ja-JP'}>{t('lang.ja')}</MenuItem>
-          </Select>
+        <Box sx={{ flexGrow: 1, padding: 2, display: 'flex', justifyContent: 'space-between', flexDirection: 'column'}}>
+          <Grid container spacing={2} sx={{ mb: 2 }}>
+            <Grid item xs={12}>
+              <InputLabel id="select-lang-label">{t('panel.settings.selectLanguage')}</InputLabel>
+              <Select
+                labelId="select-lang-label"
+                id="select-lang"
+                value={lang ? lang : i18n.language as 'en-US' | 'ja-JP'}
+                label="Language"
+                onChange={(e: SelectChangeEvent<'en-US' | 'ja-JP'>) => {
+                  const lang = e.target.value as 'en-US' | 'ja-JP'
+                  setLang(lang)
+                  i18n.changeLanguage(lang)
+                }}
+              >
+                <MenuItem value={'en-US'}>{t('lang.en')}</MenuItem>
+                <MenuItem value={'ja-JP'}>{t('lang.ja')}</MenuItem>
+              </Select>
+            </Grid>
+          </Grid>
         </Box>
       }
     </Box>

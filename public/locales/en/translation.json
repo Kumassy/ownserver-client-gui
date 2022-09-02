@@ -43,6 +43,10 @@
                         "tasks": {
                             "label": "Task List",
                             "start": "Start game server"
+                        },
+                        "control": {
+                            "backDesc": "Stop the game server",
+                            "nextDesc": "Start the game server"
                         }
                     },
                     "factorio": {
@@ -51,7 +55,8 @@
                         },
                         "settings": {
                             "label": "Settings",
-                            "folder": "Select a folder"
+                            "folder": "Select a folder",
+                            "folderDesc": "To Create a New World: Select an empty folder. If using an existing world: select the folder containing the saves folder and the player-data.json file."
                         },
                         "advancedSettings": {
                             "label": "Advanced Settings",
@@ -61,6 +66,10 @@
                         "tasks": {
                             "label": "Task List",
                             "start": "Start game server"
+                        },
+                        "control": {
+                            "backDesc": "Stop the game server",
+                            "nextDesc": "Start the game server"
                         }
                     },
                     "custom": {
@@ -77,6 +86,10 @@
                         "tasks": {
                             "label": "Task List",
                             "start": "Execute Command"
+                        },
+                        "control": {
+                            "backDesc": "Stop the game server",
+                            "nextDesc": "Start the game server"
                         }
                     }
                 },
@@ -91,6 +104,10 @@
                         "launchOwnServer": "Start OwnServer",
                         "clientID": "Your Client ID",
                         "publicAddress": "Your Public Address"
+                    },
+                    "control": {
+                        "backDesc": "Stop OwnServer",
+                        "nextDesc": "Start OwnServer"
                     }
                 },
                 "monitor": {

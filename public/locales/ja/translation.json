@@ -43,6 +43,10 @@
                         "tasks": {
                             "label": "タスク一覧",
                             "start": "ゲームサーバーを起動"
+                        },
+                        "control": {
+                            "backDesc": "ゲームサーバーを停止してください",
+                            "nextDesc": "ゲームサーバーを起動してください"
                         }
                     },
                     "factorio": {
@@ -51,7 +55,8 @@
                         },
                         "settings": {
                             "label": "設定",
-                            "folder": "フォルダ選択"
+                            "folder": "フォルダ選択",
+                            "folderDesc": "新しくワールドを作成する場合: 空のフォルダを選択してください。既存のワールドを利用する場合: saves フォルダや player-data.json ファイルがあるフォルダを選択してください"
                         },
                         "advancedSettings": {
                             "label": "上級者向け設定",
@@ -61,6 +66,10 @@
                         "tasks": {
                             "label": "タスク一覧",
                             "start": "ゲームサーバーを起動"
+                        },
+                        "control": {
+                            "backDesc": "ゲームサーバーを停止してください",
+                            "nextDesc": "ゲームサーバーを起動してください"
                         }
                     },
                     "custom": {
@@ -77,6 +86,10 @@
                         "tasks": {
                             "label": "タスク一覧",
                             "start": "コマンドを実行"
+                        },
+                        "control": {
+                            "backDesc": "ゲームサーバーを停止してください",
+                            "nextDesc": "ゲームサーバーを起動してください"
                         }
                     }
                 },
@@ -91,6 +104,10 @@
                         "launchOwnServer": "OwnServer を起動",
                         "clientID": "あなたの Client ID",
                         "publicAddress": "あなたの公開アドレス"
+                    },
+                    "control": {
+                        "backDesc": "OwnServer を停止してください",
+                        "nextDesc": "OwnServer を起動してください"
                     }
                 },
                 "monitor": {

@@ -16,7 +16,7 @@ import Chip from '@mui/material/Chip';
 
 import AutoScroll from '@brianmcallister/react-auto-scroll';
 import Stack from '@mui/material/Stack';
-import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { InputLabel, MenuItem, Select, SelectChangeEvent, Tooltip } from '@mui/material';
 import { Protocol } from './common';
 import { useTranslation } from 'react-i18next';
 
@@ -95,6 +95,9 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
   const { t, i18n } = useTranslation();
   const filepath = useAppSelector(state => 'filepath' in state.local.config ? state.local.config.filepath : t('panel.startServer.steps.launchLocalServer.minecraft.errors.filepath'))
   const dispatch = useAppDispatch()
+
+  const isBackDisabled = localStatus === 'running'
+  const isNextDisabled = localStatus !== 'running'
 
   return (
     <React.Fragment>
@@ -218,21 +221,29 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
       </Box>
 
       <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-        <Button
-          color="inherit"
-          disabled={localStatus === 'running'}
-          onClick={handleBack}
-        >
-          {t('common.control.back')}
-        </Button>
+        <Tooltip title={isBackDisabled ? t('panel.startServer.steps.launchLocalServer.minecraft.control.backDesc'): ""}>
+          <span>
+            <Button
+              color="inherit"
+              disabled={isBackDisabled}
+              onClick={handleBack}
+            >
+              {t('common.control.back')}
+            </Button>
+          </span>
+        </Tooltip>
         <Box sx={{ flex: '1 1 auto' }} />
 
-        <Button
-          onClick={handleNext}
-          disabled={localStatus !== 'running'}
-        >
-          {t('common.control.next')}
-        </Button>
+        <Tooltip title={isNextDisabled ? t('panel.startServer.steps.launchLocalServer.minecraft.control.nextDesc'): ""}>
+          <span>
+            <Button
+              onClick={handleNext}
+              disabled={isNextDisabled}
+            >
+              {t('common.control.next')}
+            </Button>
+          </span>
+        </Tooltip>
       </Box>
     </React.Fragment>
   )
@@ -249,6 +260,8 @@ export const FormFactorio: React.VFC<FormProps> = ({ handleBack, handleNext }) =
   const filepath = useAppSelector(state => 'savepath' in state.local.config ? state.local.config.savepath : t('panel.startServer.steps.launchLocalServer.factorio.errors.savepath'))
   const dispatch = useAppDispatch()
 
+  const isBackDisabled = localStatus === 'running'
+  const isNextDisabled = localStatus !== 'running'
   return (
     <React.Fragment>
       <Box
@@ -262,18 +275,20 @@ export const FormFactorio: React.VFC<FormProps> = ({ handleBack, handleNext }) =
         </Typography>
 
         <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 2}}>
-          <Button
-            variant="contained"
-            onClick={async () => {
-              const file = await open({ multiple: false, directory: true });
+          <Tooltip title={t('panel.startServer.steps.launchLocalServer.factorio.settings.folderDesc')}>
+            <Button
+              variant="contained"
+              onClick={async () => {
+                const file = await open({ multiple: false, directory: true });
 
-              if (typeof file === 'string') {
-                dispatch(updateFilepath(file))
-              }
-            }}
-          >
-            {t('panel.startServer.steps.launchLocalServer.factorio.settings.folder')}
-          </Button>
+                if (typeof file === 'string') {
+                  dispatch(updateFilepath(file))
+                }
+              }}
+            >
+              {t('panel.startServer.steps.launchLocalServer.factorio.settings.folder')}
+            </Button>
+          </Tooltip>
           <Typography>{filepath}</Typography>
         </Stack>
 
@@ -371,21 +386,29 @@ export const FormFactorio: React.VFC<FormProps> = ({ handleBack, handleNext }) =
       </Box>
 
       <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-        <Button
-          color="inherit"
-          disabled={localStatus === 'running'}
-          onClick={handleBack}
-        >
-          {t('common.control.back')}
-        </Button>
+        <Tooltip title={isBackDisabled ? t('panel.startServer.steps.launchLocalServer.factorio.control.backDesc'): ""}>
+          <span>
+            <Button
+              color="inherit"
+              disabled={isBackDisabled}
+              onClick={handleBack}
+            >
+              {t('common.control.back')}
+            </Button>
+          </span>
+        </Tooltip>
         <Box sx={{ flex: '1 1 auto' }} />
 
-        <Button
-          onClick={handleNext}
-          disabled={localStatus !== 'running'}
-        >
-          {t('common.control.next')}
-        </Button>
+        <Tooltip title={isNextDisabled ? t('panel.startServer.steps.launchLocalServer.factorio.control.nextDesc'): ""}>
+          <span>
+            <Button
+              onClick={handleNext}
+              disabled={isNextDisabled}
+            >
+              {t('common.control.next')}
+            </Button>
+          </span>
+        </Tooltip>
       </Box>
     </React.Fragment>
   )
@@ -400,6 +423,9 @@ export const FormCustom: React.VFC<FormProps> = ({ handleBack, handleNext }) => 
   const protocol = useAppSelector(state => state.local.protocol)
   const { t, i18n } = useTranslation();
   const dispatch = useAppDispatch()
+
+  const isBackDisabled = localStatus === 'running'
+  const isNextDisabled = localStatus !== 'running'
   return (
     <React.Fragment>
       <Box
@@ -505,21 +531,29 @@ export const FormCustom: React.VFC<FormProps> = ({ handleBack, handleNext }) => 
         </Grid>
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-        <Button
-          color="inherit"
-          disabled={localStatus === 'running'}
-          onClick={handleBack}
-        >
-          {t('common.control.back')}
-        </Button>
+        <Tooltip title={isBackDisabled ? t('panel.startServer.steps.launchLocalServer.custom.control.backDesc'): ""}>
+          <span>
+            <Button
+              color="inherit"
+              disabled={isBackDisabled}
+              onClick={handleBack}
+            >
+              {t('common.control.back')}
+            </Button>
+          </span>
+        </Tooltip>
         <Box sx={{ flex: '1 1 auto' }} />
 
-        <Button
-          onClick={handleNext}
-          disabled={localStatus !== 'running'}
-        >
-          {t('common.control.next')}
-        </Button>
+        <Tooltip title={isNextDisabled ? t('panel.startServer.steps.launchLocalServer.custom.control.nextDesc'): ""}>
+          <span>
+            <Button
+              onClick={handleNext}
+              disabled={isNextDisabled}
+            >
+              {t('common.control.next')}
+            </Button>
+          </span>
+        </Tooltip>
       </Box>
     </React.Fragment>
   )

@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Tooltip, Typography } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React from "react";
 import { launchTunnel, interruptTunnel, updateTokenServer } from "./features/tunnelSlice";
@@ -41,13 +41,6 @@ export const StepSelectGame: React.VFC<StepSelectGameProps> = ({ handleBack, han
       </FormControl>
 
       <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-        <Button
-          color="inherit"
-          disabled={true}
-          onClick={handleBack}
-        >
-          {t('common.control.back')}
-        </Button>
         <Box sx={{ flex: '1 1 auto' }} />
 
         <Button onClick={handleNext}>
@@ -93,6 +86,9 @@ export const StepLaunchTunnel: React.VFC<StepLaunchTunnelProps> = ({ handleBack,
   const clientInfo = useAppSelector(state => state.tunnel.clientInfo)
   const dispatch = useAppDispatch()
   const { t, i18n } = useTranslation();
+
+  const isBackDisabled = tunnelStatus === 'running'
+  const isNextDisabled = tunnelStatus !== 'running'
 
   return (
     <React.Fragment>
@@ -168,21 +164,29 @@ export const StepLaunchTunnel: React.VFC<StepLaunchTunnelProps> = ({ handleBack,
         </Grid>
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-        <Button
-          color="inherit"
-          disabled={tunnelStatus === 'running'}
-          onClick={handleBack}
-        >
-          {t('common.control.back')}
-        </Button>
+        <Tooltip title={isBackDisabled ? t('panel.startServer.steps.configureOwnServer.control.backDesc'): ""}>
+          <span>
+            <Button
+              color="inherit"
+              disabled={isBackDisabled}
+              onClick={handleBack}
+            >
+              {t('common.control.back')}
+            </Button>
+          </span>
+        </Tooltip>
         <Box sx={{ flex: '1 1 auto' }} />
 
-        <Button
-          onClick={handleNext}
-          disabled={tunnelStatus !== 'running'}
-        >
-          {t('common.control.next')}
-        </Button>
+        <Tooltip title={isNextDisabled ? t('panel.startServer.steps.configureOwnServer.control.nextDesc'): ""}>
+          <span>
+            <Button
+              onClick={handleNext}
+              disabled={isNextDisabled}
+            >
+              {t('common.control.next')}
+            </Button>
+          </span>
+        </Tooltip>
       </Box>
     </React.Fragment>
   )

@@ -97,6 +97,11 @@
                     "publicAddress": "Your Public Address",
                     "serverLogs": "Server Logs"
                 }
+            },
+            "checks": {
+                "shVersion": "check sh version",
+                "javaVersion": "check java version",
+                "dockerVersion": "check docker version"
             }
         },
         "settings": {

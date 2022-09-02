@@ -97,6 +97,11 @@
                     "publicAddress": "あなたの公開アドレス",
                     "serverLogs": "サーバーのログ"
                 }
+            },
+            "checks": {
+                "shVersion": "sh のバージョンを確認",
+                "javaVersion": "java のバージョンを確認",
+                "dockerVersion": "docker のバージョンを確認"
             }
         },
         "settings": {

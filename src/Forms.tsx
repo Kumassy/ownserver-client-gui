@@ -167,7 +167,7 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                   >
-                    <Typography>{check.id} <ResultChip status={check.status} /></Typography>
+                    <Typography>{t(`panel.startServer.checks.${check.label}`)} <ResultChip status={check.status} /></Typography>
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
@@ -320,7 +320,7 @@ export const FormFactorio: React.VFC<FormProps> = ({ handleBack, handleNext }) =
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                   >
-                    <Typography>{check.id} <ResultChip status={check.status} /></Typography>
+                    <Typography>{t(`panel.startServer.checks.${check.label}`)} <ResultChip status={check.status} /></Typography>
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
@@ -454,7 +454,7 @@ export const FormCustom: React.VFC<FormProps> = ({ handleBack, handleNext }) => 
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                   >
-                    <Typography>{check.id} <ResultChip status={check.status} /></Typography>
+                    <Typography>{t(`panel.startServer.checks.${check.label}`)} <ResultChip status={check.status} /></Typography>
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>

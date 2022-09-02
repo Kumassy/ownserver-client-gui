@@ -50,15 +50,19 @@ export const checkRegistry: CheckRegistry = {
 //   [game: string]: Array<CheckId>
 // }
 
-export const getCheckList = (game: GameId): Array<CheckId> => {
+export type CheckEntry = {
+  id: CheckId,
+  label: string
+}
+export const getCheckList = (game: GameId): Array<CheckEntry> => {
   switch (game) {
     case 'custom':
-      return [CHECK_SH_VERSION]
+      return [{ id: CHECK_SH_VERSION, label: "shVersion" } ]
     case 'http':
       return []
     case 'minecraft':
-      return [CHECK_JAVA_VERSION]
+      return [{ id: CHECK_JAVA_VERSION, label: "javaVersion"}]
     case 'factorio':
-      return [CHECK_DOCKER_VERSION]
+      return [{ id: CHECK_DOCKER_VERSION, label: "dockerVersion"}]
   }
 }

@@ -115,7 +115,13 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
           <Button
             variant="contained"
             onClick={async () => {
-              const file = await open({ multiple: false });
+              const file = await open({
+                multiple: false,
+                filters: [{
+                  name: 'jar',
+                  extensions: ['jar']
+                }]
+              });
 
               if (typeof file === 'string') {
                 dispatch(updateFilepath(file))

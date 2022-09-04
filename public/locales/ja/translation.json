@@ -46,7 +46,8 @@
                         },
                         "control": {
                             "backDesc": "ゲームサーバーを停止してください",
-                            "nextDesc": "ゲームサーバーを起動してください"
+                            "nextDesc": "ゲームサーバーを起動してください",
+                            "operationDesc": "server.jar を選択してください"
                         }
                     },
                     "factorio": {
@@ -69,7 +70,8 @@
                         },
                         "control": {
                             "backDesc": "ゲームサーバーを停止してください",
-                            "nextDesc": "ゲームサーバーを起動してください"
+                            "nextDesc": "ゲームサーバーを起動してください",
+                            "operationDesc": "フォルダを選択してください"
                         }
                     },
                     "custom": {

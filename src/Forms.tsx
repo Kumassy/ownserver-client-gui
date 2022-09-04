@@ -27,11 +27,12 @@ export type FormProps = {
 
 export type OperationButtonProps = {
   status: 'idle' | 'running' | 'succeeded' | 'failed',
+  disabled?: boolean
   launch: any
   interrupt: any
 }
 
-export const OperationButton: React.VFC<OperationButtonProps> = ({ status, launch, interrupt }) => {
+export const OperationButton: React.VFC<OperationButtonProps> = ({ status, disabled, launch, interrupt }) => {
   const dispatch = useAppDispatch()
   const { t, i18n } = useTranslation();
 
@@ -42,6 +43,7 @@ export const OperationButton: React.VFC<OperationButtonProps> = ({ status, launc
       return (
         <Button
           variant="contained"
+          disabled={disabled}
           onClick={() => dispatch(launch())}
         >
           {t('common.control.start')}
@@ -51,6 +53,7 @@ export const OperationButton: React.VFC<OperationButtonProps> = ({ status, launc
       return (
         <Button
           variant="contained"
+          disabled={disabled}
           onClick={() => dispatch(interrupt())}
         >
           {t('common.control.stop')}
@@ -98,6 +101,7 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
 
   const isBackDisabled = localStatus === 'running'
   const isNextDisabled = localStatus !== 'running'
+  const isOperationButtonDisabled = filepath == null
 
   return (
     <React.Fragment>
@@ -217,11 +221,16 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
           alignItems="center"
         >
           <Grid item xs={12}>
-            <OperationButton
-              status={localStatus}
-              launch={runChecksAndLaunchLocal}
-              interrupt={killChild}
-            />
+            <Tooltip title={isOperationButtonDisabled ? t('panel.startServer.steps.launchLocalServer.minecraft.control.operationDesc'): ""}>
+              <span>
+                <OperationButton
+                  status={localStatus}
+                  disabled={isOperationButtonDisabled}
+                  launch={runChecksAndLaunchLocal}
+                  interrupt={killChild}
+                />
+              </span>
+            </Tooltip>
           </Grid>
         </Grid>
       </Box>
@@ -268,6 +277,7 @@ export const FormFactorio: React.VFC<FormProps> = ({ handleBack, handleNext }) =
 
   const isBackDisabled = localStatus === 'running'
   const isNextDisabled = localStatus !== 'running'
+  const isOperationButtonDisabled = filepath == null
   return (
     <React.Fragment>
       <Box
@@ -382,11 +392,16 @@ export const FormFactorio: React.VFC<FormProps> = ({ handleBack, handleNext }) =
           alignItems="center"
         >
           <Grid item xs={12}>
-            <OperationButton
-              status={localStatus}
-              launch={runChecksAndLaunchLocal}
-              interrupt={killChild}
-            />
+            <Tooltip title={isOperationButtonDisabled ? t('panel.startServer.steps.launchLocalServer.factorio.control.operationDesc'): ""}>
+              <span>
+                <OperationButton
+                  status={localStatus}
+                  disabled={isOperationButtonDisabled}
+                  launch={runChecksAndLaunchLocal}
+                  interrupt={killChild}
+                />
+              </span>
+            </Tooltip>
           </Grid>
         </Grid>
       </Box>

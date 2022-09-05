@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { killChild, updateCommand, updateFilepath,  updateLocalPort, runChecksAndLaunchLocal, updateProtocol } from './features/localSlice'
 import { useAppSelector, useAppDispatch } from './app/hooks'
 
@@ -16,7 +16,7 @@ import Chip from '@mui/material/Chip';
 
 import AutoScroll from '@brianmcallister/react-auto-scroll';
 import Stack from '@mui/material/Stack';
-import { InputLabel, MenuItem, Select, SelectChangeEvent, Tooltip } from '@mui/material';
+import { Checkbox, FormControlLabel, FormGroup, FormHelperText, InputLabel, MenuItem, Select, SelectChangeEvent, Tooltip } from '@mui/material';
 import { Protocol } from './common';
 import { useTranslation } from 'react-i18next';
 
@@ -98,10 +98,11 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
   const { t, i18n } = useTranslation();
   const filepath = useAppSelector(state => 'filepath' in state.local.config ? state.local.config.filepath : t('panel.startServer.steps.launchLocalServer.minecraft.errors.filepath'))
   const dispatch = useAppDispatch()
+  const [ eulaChecked, setEulaChecked ] = useState(false)
 
   const isBackDisabled = localStatus === 'running'
   const isNextDisabled = localStatus !== 'running'
-  const isOperationButtonDisabled = filepath == null
+  const isOperationButtonDisabled = filepath == null || eulaChecked === false
 
   return (
     <React.Fragment>
@@ -136,6 +137,16 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
           </Button>
           <Typography>{filepath}</Typography>
         </Stack>
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Checkbox
+                value={eulaChecked}
+                onChange={(e) => setEulaChecked(e.target.checked)} />
+            }
+            label={t('panel.startServer.steps.launchLocalServer.minecraft.settings.eula')} />
+          <FormHelperText>{t('panel.startServer.steps.launchLocalServer.minecraft.settings.eulaDesc')}</FormHelperText>
+        </FormGroup>
 
         <Accordion>
           <AccordionSummary

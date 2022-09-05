@@ -33,7 +33,9 @@
                         },
                         "settings": {
                             "label": "設定",
-                            "file": "server.jar を選択"
+                            "file": "server.jar を選択",
+                            "eula": "EULA に同意する",
+                            "eulaDesc": "チェックする前に https://account.mojang.com/documents/minecraft_eula に同意してください"
                         },
                         "advancedSettings": {
                             "label": "上級者向け設定",
@@ -47,7 +49,7 @@
                         "control": {
                             "backDesc": "ゲームサーバーを停止してください",
                             "nextDesc": "ゲームサーバーを起動してください",
-                            "operationDesc": "server.jar を選択してください"
+                            "operationDesc": "server.jar を選択してください。また、 EULA に同意してください"
                         }
                     },
                     "factorio": {

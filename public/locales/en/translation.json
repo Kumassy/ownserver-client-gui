@@ -33,7 +33,9 @@
                         },
                         "settings": {
                             "label": "Settings",
-                            "file": "Select server.jar file"
+                            "file": "Select server.jar file",
+                            "eula": "Accept EULA",
+                            "eulaDesc": "Agree to https://account.mojang.com/documents/minecraft_eula before clicking checkbox"
                         },
                         "advancedSettings": {
                             "label": "Advanced Settings",
@@ -46,7 +48,8 @@
                         },
                         "control": {
                             "backDesc": "Stop the game server",
-                            "nextDesc": "Start the game server"
+                            "nextDesc": "Start the game server",
+                            "operationDesc": "Select server.jar and accept EULA"
                         }
                     },
                     "factorio": {

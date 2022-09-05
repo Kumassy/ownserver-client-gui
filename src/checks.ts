@@ -1,5 +1,8 @@
+import { invoke } from '@tauri-apps/api'
 import { Command } from '@tauri-apps/api/shell'
+import { RootState } from './app/store'
 import { GameId } from './common'
+import { isCreateEulaError } from './data'
 
 export type CheckId = string
 
@@ -8,7 +11,7 @@ export type CheckError = string
 
 // Check Pass: returns message with CheckResult
 // Check Fail: throw errors containing error message
-export type CheckFunc = () => Promise<CheckResult>
+export type CheckFunc = (state?: RootState) => Promise<CheckResult>
 export class StatusCodeError extends Error {}
 
 export interface CheckRegistry {
@@ -18,6 +21,7 @@ export interface CheckRegistry {
 export const CHECK_JAVA_VERSION: CheckId = 'check-java-version'
 export const CHECK_SH_VERSION: CheckId = 'check-sh-version'
 export const CHECK_DOCKER_VERSION: CheckId = 'check-docker-version'
+export const CHECK_OR_CREATE_EULA: CheckId = 'check-or-create-eula'
 
 export const checkRegistry: CheckRegistry = {
   [CHECK_JAVA_VERSION]: async () => {
@@ -44,11 +48,29 @@ export const checkRegistry: CheckRegistry = {
     }
     return output.stdout
   },
-}
+  [CHECK_OR_CREATE_EULA]: async (state?: RootState) => {
+    if (state == null || state.local.config.kind !== 'minecraft') {
+      throw new Error('config is not for minecraft')
+    }
 
-// export interface CheckRegistry {
-//   [game: string]: Array<CheckId>
-// }
+    const workdir = state.local.config.workdir;
+    if (workdir == null) {
+      throw new Error('workdir not set')
+    }
+
+    try {
+      await invoke('create_eula', { basedir: workdir })
+    } catch (e) {
+      if (isCreateEulaError(e)) {
+        throw new Error(JSON.stringify(e))
+      } else {
+        throw new Error('unknown error')
+      }
+    }
+
+    return ""
+  }
+}
 
 export type CheckEntry = {
   id: CheckId,
@@ -61,7 +83,7 @@ export const getCheckList = (game: GameId): Array<CheckEntry> => {
     case 'http':
       return []
     case 'minecraft':
-      return [{ id: CHECK_JAVA_VERSION, label: "javaVersion"}]
+      return [{ id: CHECK_JAVA_VERSION, label: "javaVersion"}, { id: CHECK_OR_CREATE_EULA, label: "createEula"}]
     case 'factorio':
       return [{ id: CHECK_DOCKER_VERSION, label: "dockerVersion"}]
   }

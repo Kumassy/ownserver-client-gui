@@ -361,12 +361,12 @@ export const killChild = createAsyncThunk<void, undefined, { state: RootState }>
 })
 
 export const runCheck = createAsyncThunk<CheckResult, CheckId, { state: RootState, rejectValue: CheckError }>('checks/runCheck', async (id, { getState, rejectWithValue }) => {
-  console.log(getState().local);
+  let state = getState();
   let check = getState().local.checks.find(check => check.id === id);
 
   if (check) {
     try {
-      const testResult: CheckResult = await checkRegistry[check.id]()
+      const testResult: CheckResult = await checkRegistry[check.id](state)
       return testResult
     } catch (e) {
       if (e instanceof StatusCodeError) {

@@ -28,3 +28,24 @@ export const isLaunchResultError = (e: unknown): e is LaunchResultError => {
   }
   return false
 }
+
+export type CreateEulaError =
+  | {
+    kind: 'IoError',
+    message: string
+  };
+
+export const isCreateEulaError = (e: unknown): e is CreateEulaError => {
+  const error = e as CreateEulaError;
+  if (typeof error !== 'object' || e === null) {
+    return false;
+  }
+  if ('kind' in error) {
+    if (
+      error.kind === 'IoError'
+    ) {
+      return true
+    }
+  }
+  return false
+}

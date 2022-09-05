@@ -72,7 +72,8 @@
                         },
                         "control": {
                             "backDesc": "Stop the game server",
-                            "nextDesc": "Start the game server"
+                            "nextDesc": "Start the game server",
+                            "operationDesc": "Select a folder"
                         }
                     },
                     "custom": {
@@ -121,7 +122,8 @@
             "checks": {
                 "shVersion": "check sh version",
                 "javaVersion": "check java version",
-                "dockerVersion": "check docker version"
+                "dockerVersion": "check docker version",
+                "createEula": "create eula.txt"
             }
         },
         "settings": {

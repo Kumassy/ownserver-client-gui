@@ -122,7 +122,8 @@
             "checks": {
                 "shVersion": "sh のバージョンを確認",
                 "javaVersion": "java のバージョンを確認",
-                "dockerVersion": "docker のバージョンを確認"
+                "dockerVersion": "docker のバージョンを確認",
+                "createEula": "eula.txt の作成"
             }
         },
         "settings": {

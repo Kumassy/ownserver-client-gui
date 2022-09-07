@@ -34,7 +34,7 @@ export type OperationButtonProps = {
 
 export const OperationButton: React.VFC<OperationButtonProps> = ({ status, disabled, launch, interrupt }) => {
   const dispatch = useAppDispatch()
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   switch (status) {
     case 'idle':
@@ -67,7 +67,7 @@ type ResultChipProps = {
 }
 
 export const ResultChip: React.VFC<ResultChipProps> = ({ status }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   switch (status) {
     case 'idle':
@@ -95,7 +95,7 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
   const localPort = useAppSelector(state => state.local.port)
   const command = useAppSelector(state => state.local.command)
   const checks = useAppSelector(state => state.local.checks)
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const filepath = useAppSelector(state => 'filepath' in state.local.config ? state.local.config.filepath : t('panel.startServer.steps.launchLocalServer.minecraft.errors.filepath'))
   const dispatch = useAppDispatch()
   const [ eulaChecked, setEulaChecked ] = useState(false)
@@ -282,7 +282,7 @@ export const FormFactorio: React.VFC<FormProps> = ({ handleBack, handleNext }) =
   const localPort = useAppSelector(state => state.local.port)
   const command = useAppSelector(state => state.local.command)
   const checks = useAppSelector(state => state.local.checks)
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const filepath = useAppSelector(state => 'savepath' in state.local.config ? state.local.config.savepath : t('panel.startServer.steps.launchLocalServer.factorio.errors.savepath'))
   const dispatch = useAppDispatch()
 
@@ -453,7 +453,7 @@ export const FormCustom: React.VFC<FormProps> = ({ handleBack, handleNext }) => 
   const checks = useAppSelector(state => state.local.checks)
   const command = useAppSelector(state => state.local.command)
   const protocol = useAppSelector(state => state.local.protocol)
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const dispatch = useAppDispatch()
 
   const isBackDisabled = localStatus === 'running'

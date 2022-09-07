@@ -20,7 +20,7 @@ export type StepSelectGameProps = {
 export const StepSelectGame: React.VFC<StepSelectGameProps> = ({ handleBack, handleNext }) => {
   const game = useAppSelector(state => state.local.game)
   const dispatch = useAppDispatch()
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <React.Fragment>
@@ -85,7 +85,7 @@ export const StepLaunchTunnel: React.VFC<StepLaunchTunnelProps> = ({ handleBack,
   const tunnelStatus = useAppSelector(state => state.tunnel.tunnelStatus)
   const clientInfo = useAppSelector(state => state.tunnel.clientInfo)
   const dispatch = useAppDispatch()
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const isBackDisabled = tunnelStatus === 'running'
   const isNextDisabled = tunnelStatus !== 'running'
@@ -198,7 +198,7 @@ export type StepMonitoringProps = {
 export const StepMonitoring: React.VFC<StepMonitoringProps> = ({ handleBack, handleNext }) => {
   const clientInfo = useAppSelector(state => state.tunnel.clientInfo)
   const localMessages = useAppSelector(state => state.local.messages)
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   return (
     <React.Fragment>
       <Box>

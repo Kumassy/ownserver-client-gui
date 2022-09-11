@@ -34,6 +34,7 @@
                         "settings": {
                             "label": "Settings",
                             "file": "Select server.jar file",
+                            "fileDesc": "Download server.jar from here: https://www.minecraft.net/en-us/download/server",
                             "eula": "Accept EULA",
                             "eulaDesc": "Agree to https://account.mojang.com/documents/minecraft_eula before clicking checkbox"
                         },

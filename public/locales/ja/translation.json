@@ -34,6 +34,7 @@
                         "settings": {
                             "label": "設定",
                             "file": "server.jar を選択",
+                            "fileDesc": "ここから server.jar をダウンロードしてください: https://www.minecraft.net/ja-jp/download/server",
                             "eula": "EULA に同意する",
                             "eulaDesc": "チェックする前に https://account.mojang.com/documents/minecraft_eula に同意してください"
                         },

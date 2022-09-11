@@ -135,7 +135,10 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
           >
             {t('panel.startServer.steps.launchLocalServer.minecraft.settings.file')}
           </Button>
-          <Typography>{filepath}</Typography>
+          {filepath == null?
+            <Typography>{t('panel.startServer.steps.launchLocalServer.minecraft.settings.fileDesc')}</Typography>
+          : <Typography>{filepath}</Typography>}
+
         </Stack>
         <FormGroup>
           <FormControlLabel

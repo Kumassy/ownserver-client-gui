@@ -1,33 +1,33 @@
 # OwnServer Client GUI
-<img src="docs/img/logo.svg" width="200">
-
-Expose your local game server to the Internet
-
-Project Status: Alpha release
+![screenshot](docs/img/screenshot.png)
 
 ## Overview
 ![](docs/img/overview.svg)
 
-This app creates a private tunnel between our server and your local game server. Our server forwards requests from your friends to your local server. No global IP address, firewall, DDNS, or port forwarding configuration is required!
+This software aims to minimize cost and effort to prepare local game server like Minecraft, Factorio, RUST and so on.
 
-A built-in server manager allows you to prepare game servers without struggling with terminals.
-Lots of new features like save data backup are under development.
+- Cost you'll save
+  - You can utilize any redundunt compute resource for game server as long as they can connect *to* the Internet.
+  - You can save cost for Cloud, VPS.
+- Effort you'll save
+  - No firewall, NAT settings is required.
+
+
+This repository provides [GUI application](https://github.com/Kumassy/ownserver-client-gui), which is the frontend of [ownserver](https://github.com/Kumassy/ownserver)
 
 ## Prerequisite
 | Game | Requirement |
 |:--|:--|
 | Minecraft | `java` installed |
+| Factorio | `docker` installed |
 
 
-## How to Use
-See: [https://ownserver.kumassy.com](https://ownserver.kumassy.com)
+## Installation 
+Pick the latest release from here: https://github.com/Kumassy/ownserver-client-gui/releases
 
-## Roadmap
-- [ ] Suppor more games
-- [ ] Secure tunnel
-- [ ] User authentication
-- [ ] Save data backup / restore
-- [ ] Share save data with your friends
+for Windows user, download `*.msi`.  
+for macOS user, download `*.dmg`.  
+for Linux user, download `*.AppImage`.
 
 ## Contributing
 This software uses [tauri](https://tauri.studio/) framework. Read about tauri [here](https://tauri.studio/docs/about/intro/).
@@ -38,3 +38,10 @@ yarn install
 yarn tauri dev # run app in debug mode
 yarn tauri build # build app for release
 ```
+
+### Issue, PR
+Feel free to open Issues and Pull Requests!
+
+
+## License
+MIT

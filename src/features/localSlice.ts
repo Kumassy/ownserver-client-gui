@@ -3,7 +3,7 @@ import type { RootState } from '../app/store'
 import { dirname } from '@tauri-apps/api/path'
 import { Child, Command } from '@tauri-apps/api/shell';
 
-import { CheckError, CheckId, checkRegistry, CheckResult, StatusCodeError, getCheckList } from '../checks'
+import { CheckError, CheckId, checkRegistry, CheckResult, StatusCodeError, getCheckList, CheckEntry } from '../checks'
 import { GameId, toLocalPort, Protocol } from '../common'
 import { type } from '@tauri-apps/api/os';
 
@@ -14,13 +14,9 @@ export type LocalStateMessage = {
 
 export interface Check {
   id: CheckId,
+  label: string,
   status: 'idle' | 'running' | 'succeeded' | 'failed',
   message: string,
-}
-export const checkJavaVersion: Check = {
-  id: 'check-java-version',
-  status: 'idle',
-  message: "",
 }
 
 export type GameConfig = {
@@ -57,11 +53,12 @@ const initialState: LocalState = {
   port: toLocalPort('minecraft'),
   protocol: 'tcp',
   game: 'minecraft',
-  checks: getCheckList('minecraft').map((id: CheckId) => {
+  checks: getCheckList('minecraft').map((entry: CheckEntry) => {
     return {
-      id,
+      id: entry.id,
+      label: entry.label,
       status: 'idle',
-      message: '',
+      message: "",
     }
   }),
   config: {
@@ -105,9 +102,10 @@ export const localSlice = createSlice({
     updateGame: (state, action: PayloadAction<GameId>) => {
       const game = action.payload;
       state.game = game;
-      state.checks = getCheckList(game).map((id: CheckId) => {
+      state.checks = getCheckList(game).map((entry: CheckEntry) => {
         return {
-          id,
+          id: entry.id,
+          label: entry.label,
           status: 'idle',
           message: "",
         }
@@ -363,12 +361,12 @@ export const killChild = createAsyncThunk<void, undefined, { state: RootState }>
 })
 
 export const runCheck = createAsyncThunk<CheckResult, CheckId, { state: RootState, rejectValue: CheckError }>('checks/runCheck', async (id, { getState, rejectWithValue }) => {
-  console.log(getState().local);
+  let state = getState();
   let check = getState().local.checks.find(check => check.id === id);
 
   if (check) {
     try {
-      const testResult: CheckResult = await checkRegistry[check.id]()
+      const testResult: CheckResult = await checkRegistry[check.id](state)
       return testResult
     } catch (e) {
       if (e instanceof StatusCodeError) {

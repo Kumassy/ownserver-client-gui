@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Tooltip, Typography } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React from "react";
 import { launchTunnel, interruptTunnel, updateTokenServer } from "./features/tunnelSlice";
@@ -7,6 +7,7 @@ import { useAppSelector, useAppDispatch } from './app/hooks'
 import AutoScroll from "@brianmcallister/react-auto-scroll";
 import { updateGame } from "./features/localSlice";
 import { GameId } from "./common";
+import { useTranslation } from "react-i18next";
 
 export type Navigation = {
   handleBack: () => void,
@@ -19,37 +20,31 @@ export type StepSelectGameProps = {
 export const StepSelectGame: React.VFC<StepSelectGameProps> = ({ handleBack, handleNext }) => {
   const game = useAppSelector(state => state.local.game)
   const dispatch = useAppDispatch()
+  const { t } = useTranslation();
 
   return (
     <React.Fragment>
       <FormControl fullWidth>
-        <InputLabel id="select-game-label">ゲームを選択</InputLabel>
+        <InputLabel id="select-game-label">{t('panel.startServer.steps.selectGame.forms.selectGame')}</InputLabel>
         <Select
           labelId="select-game-label"
           id="select-game"
           value={game}
-          label="Game"
+          label={t('panel.startServer.steps.selectGame.forms.selectGame')}
           onChange={(e: SelectChangeEvent<GameId>) => dispatch(updateGame(e.target.value as GameId))}
         >
           {/* <MenuItem value={'http'}>HTTP</MenuItem> */}
-          <MenuItem value={'custom'}>カスタム設定</MenuItem>
-          <MenuItem value={'minecraft'}>Minecraft</MenuItem>
-          <MenuItem value={'factorio'}>Factorio</MenuItem>
+          <MenuItem value={'custom'}>{t('panel.startServer.steps.selectGame.forms.games.custom')}</MenuItem>
+          <MenuItem value={'minecraft'}>{t('panel.startServer.steps.selectGame.forms.games.minecraft')}</MenuItem>
+          <MenuItem value={'factorio'}>{t('panel.startServer.steps.selectGame.forms.games.factorio')}</MenuItem>
         </Select>
       </FormControl>
 
       <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-        <Button
-          color="inherit"
-          disabled={true}
-          onClick={handleBack}
-        >
-          前へ
-        </Button>
         <Box sx={{ flex: '1 1 auto' }} />
 
         <Button onClick={handleNext}>
-          次へ
+          {t('common.control.next')}
         </Button>
       </Box>
     </React.Fragment>
@@ -90,6 +85,11 @@ export const StepLaunchTunnel: React.VFC<StepLaunchTunnelProps> = ({ handleBack,
   const tunnelStatus = useAppSelector(state => state.tunnel.tunnelStatus)
   const clientInfo = useAppSelector(state => state.tunnel.clientInfo)
   const dispatch = useAppDispatch()
+  const { t } = useTranslation();
+
+  const isBackDisabled = tunnelStatus === 'running'
+  const isNextDisabled = tunnelStatus !== 'running'
+
   return (
     <React.Fragment>
       <Box
@@ -101,19 +101,19 @@ export const StepLaunchTunnel: React.VFC<StepLaunchTunnelProps> = ({ handleBack,
         <Grid container spacing={2} sx={{ mb: 2 }}>
           <Grid item xs={12}>
             <Typography sx={{ mb: 2 }} variant="h6" component="div">
-              設定
+              {t('panel.startServer.steps.configureOwnServer.settings')}
             </Typography>
             <Accordion>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
               >
-                <Typography>上級者向け設定</Typography>
+                <Typography>{t('panel.startServer.steps.configureOwnServer.advancedSettings.label')}</Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <TextField
                   fullWidth
                   id="auth-server-url"
-                  label="Auth Server URL"
+                  label={t('panel.startServer.steps.configureOwnServer.advancedSettings.authServerUrl')}
                   variant="outlined"
                   onChange={e => dispatch(updateTokenServer(e.target.value))}
                   value={tokenServer}
@@ -123,21 +123,21 @@ export const StepLaunchTunnel: React.VFC<StepLaunchTunnelProps> = ({ handleBack,
           </Grid>
           <Grid item xs={12}>
             <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
-              タスク一覧
+              {t('panel.startServer.steps.configureOwnServer.tasks.label')}
             </Typography>
 
             <Accordion>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
               >
-                <Typography>OwnServer を起動 <ResultChip status={tunnelStatus}/></Typography>
+                <Typography>{t('panel.startServer.steps.configureOwnServer.tasks.launchOwnServer')} <ResultChip status={tunnelStatus}/></Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <Typography>
                   {clientInfo ?
                     <div>
-                      <p>Your Client ID: {clientInfo.client_id}</p>
-                      <p>Your Tunnel Public Address: {clientInfo.remote_addr}</p>
+                      <p>{t('panel.startServer.steps.configureOwnServer.tasks.clientID')}: {clientInfo.client_id}</p>
+                      <p>{t('panel.startServer.steps.configureOwnServer.tasks.publicAddress')}: {clientInfo.remote_addr}</p>
                     </div>
                     : <div></div>
                   }
@@ -164,21 +164,29 @@ export const StepLaunchTunnel: React.VFC<StepLaunchTunnelProps> = ({ handleBack,
         </Grid>
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-        <Button
-          color="inherit"
-          disabled={tunnelStatus === 'running'}
-          onClick={handleBack}
-        >
-          前へ
-        </Button>
+        <Tooltip title={isBackDisabled ? t('panel.startServer.steps.configureOwnServer.control.backDesc'): ""}>
+          <span>
+            <Button
+              color="inherit"
+              disabled={isBackDisabled}
+              onClick={handleBack}
+            >
+              {t('common.control.back')}
+            </Button>
+          </span>
+        </Tooltip>
         <Box sx={{ flex: '1 1 auto' }} />
 
-        <Button
-          onClick={handleNext}
-          disabled={tunnelStatus !== 'running'}
-        >
-          次へ
-        </Button>
+        <Tooltip title={isNextDisabled ? t('panel.startServer.steps.configureOwnServer.control.nextDesc'): ""}>
+          <span>
+            <Button
+              onClick={handleNext}
+              disabled={isNextDisabled}
+            >
+              {t('common.control.next')}
+            </Button>
+          </span>
+        </Tooltip>
       </Box>
     </React.Fragment>
   )
@@ -190,18 +198,19 @@ export type StepMonitoringProps = {
 export const StepMonitoring: React.VFC<StepMonitoringProps> = ({ handleBack, handleNext }) => {
   const clientInfo = useAppSelector(state => state.tunnel.clientInfo)
   const localMessages = useAppSelector(state => state.local.messages)
+  const { t } = useTranslation();
   return (
     <React.Fragment>
       <Box>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Typography>
-              あなたのサーバーのアドレス: {clientInfo ? clientInfo.remote_addr : "<error>"}
+              {t('panel.startServer.steps.monitor.publicAddress')}: {clientInfo ? clientInfo.remote_addr : "<error>"}
             </Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography>
-              サーバーのログ:
+              {t('panel.startServer.steps.monitor.serverLogs')}:
             </Typography>
 
             <Box
@@ -233,7 +242,7 @@ export const StepMonitoring: React.VFC<StepMonitoringProps> = ({ handleBack, han
           color="inherit"
           onClick={handleBack}
         >
-          前へ
+          {t('common.control.back')}
         </Button>
         <Box sx={{ flex: '1 1 auto' }} />
 
@@ -276,18 +285,6 @@ export const StepContent: React.VFC<StepContentProps> = ({ step, handleBack, han
           handleBack={handleBack}
           handleNext={handleNext}
         />
-      )
-    case 4:
-      return (
-        <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>
-            All steps completed - you&apos;re finished
-          </Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Box sx={{ flex: '1 1 auto' }} />
-            <Button onClick={handleReset}>Reset</Button>
-          </Box>
-        </React.Fragment>
       )
     default:
       return (

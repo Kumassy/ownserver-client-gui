@@ -15,3 +15,11 @@ pub enum LaunchResultError {
 }
 
 pub type LaunchResult = Result<(), LaunchResultError>;
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "kind")]
+pub enum CreateEulaError {
+    IoError {
+        message: String
+    },
+}

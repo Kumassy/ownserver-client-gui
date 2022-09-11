@@ -1,0 +1,147 @@
+{
+    "lang": {
+        "en": "英語",
+        "ja": "日本語"
+    },
+    "menu": {
+        "startServer": "サーバーを起動",
+        "settings": "設定"
+    },
+    "panel": {
+        "startServer": {
+            "stepper": {
+                "selectGame": "ゲーム選択",
+                "launchLocalServer": "ゲームサーバーの起動",
+                "configureOwnServer": "OwnServerの設定",
+                "monitor": "サーバー管理"
+            },
+            "steps": {
+                "selectGame": {
+                    "forms": {
+                        "selectGame": "ゲームを選択",
+                        "games": {
+                            "custom": "カスタム設定",
+                            "minecraft": "Minecraft",
+                            "factorio": "factorio"
+                        }
+                    }
+                },
+                "launchLocalServer": {
+                    "minecraft": {
+                        "errors": {
+                            "filepath": "エラー: filepath が存在しません"
+                        },
+                        "settings": {
+                            "label": "設定",
+                            "file": "server.jar を選択",
+                            "fileDesc": "ここから server.jar をダウンロードしてください: https://www.minecraft.net/ja-jp/download/server",
+                            "eula": "EULA に同意する",
+                            "eulaDesc": "チェックする前に https://account.mojang.com/documents/minecraft_eula に同意してください"
+                        },
+                        "advancedSettings": {
+                            "label": "上級者向け設定",
+                            "command": "サーバー起動コマンド",
+                            "port": "ポート"
+                        },
+                        "tasks": {
+                            "label": "タスク一覧",
+                            "start": "ゲームサーバーを起動"
+                        },
+                        "control": {
+                            "backDesc": "ゲームサーバーを停止してください",
+                            "nextDesc": "ゲームサーバーを起動してください",
+                            "operationDesc": "server.jar を選択してください。また、 EULA に同意してください"
+                        }
+                    },
+                    "factorio": {
+                        "errors": {
+                            "savepath": "エラー: savepath が存在しません"
+                        },
+                        "settings": {
+                            "label": "設定",
+                            "folder": "フォルダ選択",
+                            "folderDesc": "新しくワールドを作成する場合: 空のフォルダを選択してください。既存のワールドを利用する場合: saves フォルダや player-data.json ファイルがあるフォルダを選択してください"
+                        },
+                        "advancedSettings": {
+                            "label": "上級者向け設定",
+                            "command": "サーバー起動コマンド",
+                            "port": "ポート"
+                        },
+                        "tasks": {
+                            "label": "タスク一覧",
+                            "start": "ゲームサーバーを起動"
+                        },
+                        "control": {
+                            "backDesc": "ゲームサーバーを停止してください",
+                            "nextDesc": "ゲームサーバーを起動してください",
+                            "operationDesc": "フォルダを選択してください"
+                        }
+                    },
+                    "custom": {
+                        "settings": {
+                            "label": "設定",
+                            "command": "サーバー起動コマンド",
+                            "port": "ポート",
+                            "protocol": {
+                                "label": "プロトコル",
+                                "tcp": "TCP",
+                                "udp": "UDP"
+                            }
+                        },
+                        "tasks": {
+                            "label": "タスク一覧",
+                            "start": "コマンドを実行"
+                        },
+                        "control": {
+                            "backDesc": "ゲームサーバーを停止してください",
+                            "nextDesc": "ゲームサーバーを起動してください"
+                        }
+                    }
+                },
+                "configureOwnServer": {
+                    "settings": "設定",
+                    "advancedSettings": {
+                        "label": "上級者向け設定",
+                        "authServerUrl": "Auth Server URL"
+                    },
+                    "tasks": {
+                        "label": "タスク一覧",
+                        "launchOwnServer": "OwnServer を起動",
+                        "clientID": "あなたの Client ID",
+                        "publicAddress": "あなたの公開アドレス"
+                    },
+                    "control": {
+                        "backDesc": "OwnServer を停止してください",
+                        "nextDesc": "OwnServer を起動してください"
+                    }
+                },
+                "monitor": {
+                    "publicAddress": "あなたの公開アドレス",
+                    "serverLogs": "サーバーのログ"
+                }
+            },
+            "checks": {
+                "shVersion": "sh のバージョンを確認",
+                "javaVersion": "java のバージョンを確認",
+                "dockerVersion": "docker のバージョンを確認",
+                "createEula": "eula.txt の作成"
+            }
+        },
+        "settings": {
+            "selectLanguage": "言語を選択"
+        }
+    },
+    "common": {
+        "control": {
+            "back": "前へ",
+            "next": "次へ",
+            "start": "起動",
+            "stop": "停止"
+        },
+        "result": {
+            "running": "実行中",
+            "succeeded": "成功",
+            "failed": "失敗"
+        }
+    }
+  }

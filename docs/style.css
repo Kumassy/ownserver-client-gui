@@ -74,12 +74,13 @@ img {
 
 
 footer {
-  background: gray;
+  background: #134145;
   color: #eee;
   padding: 2rem 0;
 }
 footer a {
-  color: #eee
+  color: #eee;
+  text-decoration: none;
 }
 
 blockquote {

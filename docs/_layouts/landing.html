@@ -40,44 +40,52 @@
         </div>
 
     </section>
+    <section id="screenshots">
+        <div class="container py-5">
+            <h2 class="text-center mb-3">スクリーンショット</h2>
+            <div class="row">
+                <img src="/img/screenshot.png" width="100%">
+
+            </div>
+        </div>
+    </section>
     <section id="features">
         <div class="contaienr py-5">
             <h2 class="text-center mb-3">特徴</h2>
             <div class="row justify-content-md-center">
-                <div class="col-sm-5">
-                    <div class="card stretch-height">
-                        <div class="card-body">
-                            <h5 class="card-title">無料</h5>
-                            <p class="card-text">レンタルサーバーが高くて悩んでいませんか？ OwnServer では無料でゲーム用サーバーを用意できます！</p>
+                <div class="col-md-10">
+                    <div class="row row-cols-1 row-cols-lg-2 justify-content-md-center px-4 gy-4">
+                        <div class="col">
+                            <div class="card stretch-height">
+                                <div class="card-body">
+                                    <h5 class="card-title">無料</h5>
+                                    <p class="card-text">レンタルサーバーが高くて悩んでいませんか？ OwnServer では無料でゲーム用サーバーを用意できます！</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-sm-5">
-                    <div class="card stretch-height">
-                        <div class="card-body">
-                            <h5 class="card-title">無制限</h5>
-                            <p class="card-text">OwnServer ではあなたのサーバーを無制限に拡張できます。 MOD を導入できるうえ、人数無制限です</p>
+                        <div class="col">
+                            <div class="card stretch-height">
+                                <div class="card-body">
+                                    <h5 class="card-title">無制限</h5>
+                                    <p class="card-text">OwnServer ではあなたのサーバーを無制限に拡張できます。 MOD を導入できるうえ、人数無制限です</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row justify-content-md-center mt-4">
-
-                <div class="col-sm-5">
-                    <div class="card stretch-height">
-                        <div class="card-body">
-                            <h5 class="card-title">かんたん操作</h5>
-                            <p class="card-text">ファイアウォールやポートフォワーディングの設定、グローバル IP アドレスなどの知識や技術がなくても、簡単操作でサーバーを用意できます</p>
+                        <div class="col">
+                            <div class="card stretch-height">
+                                <div class="card-body">
+                                    <h5 class="card-title">かんたん操作</h5>
+                                    <p class="card-text">ファイアウォールやポートフォワーディングの設定、グローバル IP アドレスなどの知識や技術がなくても、簡単操作でサーバーを用意できます</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-
-                <div class="col-sm-5">
-                    <div class="card stretch-height">
-                        <div class="card-body">
-                            <h5 class="card-title">すぐに遊べる</h5>
-                            <p class="card-text">OwnServer のサーバーの立ち上げは一瞬です！ゲストユーザーは通常のサーバーと同じ手順であなたのサーバーに遊びにいけます</p>
+                        <div class="col">
+                            <div class="card stretch-height">
+                                <div class="card-body">
+                                    <h5 class="card-title">すぐに遊べる</h5>
+                                    <p class="card-text">OwnServer のサーバーの立ち上げは一瞬です！ゲストユーザーは通常のサーバーと同じ手順であなたのサーバーに遊びにいけます</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -120,7 +128,7 @@
         <div class="container py-5">
             <h2 class="text-center mb-3">対応しているゲーム</h2>
             <div class="row justify-content-md-center">
-                <div class="col-sm-3">
+                <div class="col-md-3">
                     <div class="card stretch-height">
                         <div class="card-body">
                             <h5 class="card-title">Minecraft</h5>
@@ -129,16 +137,16 @@
                     </div>
                 </div>
 
-                <div class="col-sm-3">
+                <div class="col-md-3">
                     <div class="card stretch-height">
                         <div class="card-body">
                             <h5 class="card-title">Factorio</h5>
-                            <button type="button" class="btn btn-primary disabled">近日対応</button>
+                            <a href="/games/factorio.html" class="btn btn-primary">詳しい使い方をみる</a>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-sm-3">
+                <div class="col-md-3">
                     <div class="card stretch-height">
                         <div class="card-body">
                             <h5 class="card-title">...その他のゲームも対応予定</h5>
@@ -152,29 +160,31 @@
     <section id="download">
         <div class="container py-5">
             <h2 class="text-center mb-3">ダウンロード</h2>
-            <div class="row justify-content-md-center mb-2">
-                <a
-                    href="https://github.com/Kumassy/ownserver-client-gui/releases/download/v0.3.0/ownserver-client-gui_0.3.0_x64_en-US.msi"
-                    class="btn btn-primary col-sm-3"
-                >
-                    Windows 版をダウンロード
-                </a>
-            </div>
-            <div class="row justify-content-md-center mb-2">
-                <a
-                    href="https://github.com/Kumassy/ownserver-client-gui/releases/download/v0.3.0/ownserver-client-gui_0.3.0_x64.dmg"
-                    class="btn btn-primary col-sm-3"
-                >
-                    macOS 版をダウンロード
-                </a>
-            </div>
-            <div class="row justify-content-md-center mb-2">
-                <a
-                    href="https://github.com/Kumassy/ownserver-client-gui/releases/download/v0.3.0/ownserver-client-gui_0.3.0_amd64.AppImage"
-                    class="btn btn-primary col-sm-3"
-                >
-                Linux 版をダウンロード
-                </a>
+            <div class="row justify-content-md-center gy-4">
+                <div class="col-md-3">
+                    <a
+                        href="https://github.com/Kumassy/ownserver-client-gui/releases/download/app-v0.5.0/ownserver-client-gui_0.5.0_x64_en-US.msi"
+                        class="btn btn-primary"
+                    >
+                        Windows 版をダウンロード
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <a
+                        href="https://github.com/Kumassy/ownserver-client-gui/releases/download/app-v0.5.0/ownserver-client-gui_0.5.0_x64.dmg"
+                        class="btn btn-primary"
+                    >
+                        macOS 版をダウンロード
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <a
+                        href="https://github.com/Kumassy/ownserver-client-gui/releases/download/app-v0.5.0/ownserver-client-gui_0.5.0_amd64.AppImage"
+                        class="btn btn-primary"
+                    >
+                        Linux 版をダウンロード
+                    </a>
+                </div>
             </div>
         </div>
     </section>
@@ -218,26 +228,6 @@
             </a>
         </div>
     </section>
-    <section>
-        <div class="container py-5">
-            <h2 class="text-center">免責事項</h2>
-            <ul>
-                <li>
-                    ソフトウェアのバグ、インターネットの接続状態によって、ゲームサーバーとの接続が切断されることがあります
-                </li>
-                <li>
-                    開発中のため、ゲームサーバーが予告なく切断されることがあります
-                </li>
-            </ul>
-            <pre>
-                <code>
-NOT OFFICIAL MINECRAFT PRODUCT.NOT APPROVED BY OR ASSOCIATED WITH MOJANG
-                </code>
-            </pre>
-        </div>
-
-    </section>
-
     {% include footer.html %}
 </body>
 

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OwnServer - 無料で使える無制限のゲーム用サーバー</title>
+    <title>{% t global.title %}</title>
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -31,7 +31,7 @@
         <div class="container py-5">
             <div class="row">
                 <div class="col-md-5 align-self-center">
-                    <h1 class="display-1">無料で使える無制限のゲーム用サーバー</h1>
+                    <h1 class="display-1">{% t landing.top.catch %}</h1>
                 </div>
                 <div class="col-md-7">
                     <img src="/img/eyecatch.png" width="100%">
@@ -42,7 +42,7 @@
     </section>
     <section id="screenshots">
         <div class="container py-5">
-            <h2 class="text-center mb-3">スクリーンショット</h2>
+            <h2 class="text-center mb-3">{% t landing.screenshots.title %}</h2>
             <div class="row">
                 <img src="/img/screenshot.png" width="100%">
 
@@ -51,42 +51,20 @@
     </section>
     <section id="features">
         <div class="contaienr py-5">
-            <h2 class="text-center mb-3">特徴</h2>
+            <h2 class="text-center mb-3">{% t landing.features.title %}</h2>
             <div class="row justify-content-md-center">
                 <div class="col-md-10">
                     <div class="row row-cols-1 row-cols-lg-2 justify-content-md-center px-4 gy-4">
+                        {% for item in site.translations[site.lang].landing.features.content %}
                         <div class="col">
                             <div class="card stretch-height">
                                 <div class="card-body">
-                                    <h5 class="card-title">無料</h5>
-                                    <p class="card-text">レンタルサーバーが高くて悩んでいませんか？ OwnServer では無料でゲーム用サーバーを用意できます！</p>
+                                    <h5 class="card-title">{{ item.title }}</h5>
+                                    <p class="card-text">{{ item.content }}</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="card stretch-height">
-                                <div class="card-body">
-                                    <h5 class="card-title">無制限</h5>
-                                    <p class="card-text">OwnServer ではあなたのサーバーを無制限に拡張できます。 MOD を導入できるうえ、人数無制限です</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card stretch-height">
-                                <div class="card-body">
-                                    <h5 class="card-title">かんたん操作</h5>
-                                    <p class="card-text">ファイアウォールやポートフォワーディングの設定、グローバル IP アドレスなどの知識や技術がなくても、簡単操作でサーバーを用意できます</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card stretch-height">
-                                <div class="card-body">
-                                    <h5 class="card-title">すぐに遊べる</h5>
-                                    <p class="card-text">OwnServer のサーバーの立ち上げは一瞬です！ゲストユーザーは通常のサーバーと同じ手順であなたのサーバーに遊びにいけます</p>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -95,44 +73,28 @@
     </section>
     <section id="how-to-use">
         <div class="container py-5">
-            <h2 class="text-center mb-3">使い方</h2>
+            <h2 class="text-center mb-3">{% t landing.how_to_use.title %}</h2>
             <ol class="c-stepper">
+                {% for item in site.translations[site.lang].landing.how_to_use.content %}
                 <li class="c-stepper-item">
                     <div class="c-stepper-content">
-                        <h3>OwnServer Client をダウンロード</h3>
+                        <h3>{{ item.title }}</h3>
                         <p class="c-stepper-desc"></p>
                     </div>
                 </li>
-                <li class="c-stepper-item">
-                    <div class="c-stepper-content">
-                        <h3>各ゲームのサーバープログラムをダウンロード</h3>
-                        <p class="c-stepper-desc"></p>
-                    </div>
-                </li>
-                <li class="c-stepper-item">
-                    <div class="c-stepper-content">
-                        <h3>OwnServer Client を起動</h3>
-                        <p class="c-stepper-desc"></p>
-                    </div>
-                </li>
-                <li class="c-stepper-item">
-                    <div class="c-stepper-content">
-                        <h3>友達と遊ぼう！</h3>
-                        <p class="c-stepper-desc"></p>
-                    </div>
-                </li>
+                {% endfor %}
             </ol>
         </div>
     </section>
     <section id="games">
         <div class="container py-5">
-            <h2 class="text-center mb-3">対応しているゲーム</h2>
+            <h2 class="text-center mb-3">{% t landing.games.title %}</h2>
             <div class="row justify-content-md-center">
                 <div class="col-md-3">
                     <div class="card stretch-height">
                         <div class="card-body">
                             <h5 class="card-title">Minecraft</h5>
-                            <a href="/games/minecraft.html" class="btn btn-primary">詳しい使い方をみる</a>
+                            <a href="{% tl games/minecraft %}" class="btn btn-primary">{% t landing.games.links.view %}</a>
                         </div>
                     </div>
                 </div>
@@ -141,7 +103,7 @@
                     <div class="card stretch-height">
                         <div class="card-body">
                             <h5 class="card-title">Factorio</h5>
-                            <a href="/games/factorio.html" class="btn btn-primary">詳しい使い方をみる</a>
+                            <a href="{% tl games/factorio %}" class="btn btn-primary">{% t landing.games.links.view %}</a>
                         </div>
                     </div>
                 </div>
@@ -149,8 +111,8 @@
                 <div class="col-md-3">
                     <div class="card stretch-height">
                         <div class="card-body">
-                            <h5 class="card-title">...その他のゲームも対応予定</h5>
-                            <a href="#contact" class="btn btn-secondary">リクエストを送る</a>
+                            <h5 class="card-title">{% t landing.games.others %}</h5>
+                            <a href="#contact" class="btn btn-secondary">{% t landing.games.links.request %}</a>
                         </div>
                     </div>
                 </div>
@@ -159,14 +121,14 @@
     </section>
     <section id="download">
         <div class="container py-5">
-            <h2 class="text-center mb-3">ダウンロード</h2>
+            <h2 class="text-center mb-3">{% t landing.download.title %}</h2>
             <div class="row justify-content-md-center gy-4">
                 <div class="col-md-3">
                     <a
                         href="https://github.com/Kumassy/ownserver-client-gui/releases/download/app-v0.5.0/ownserver-client-gui_0.5.0_x64_en-US.msi"
                         class="btn btn-primary"
                     >
-                        Windows 版をダウンロード
+                        {% t landing.download.windows %}
                     </a>
                 </div>
                 <div class="col-md-3">
@@ -174,7 +136,7 @@
                         href="https://github.com/Kumassy/ownserver-client-gui/releases/download/app-v0.5.0/ownserver-client-gui_0.5.0_x64.dmg"
                         class="btn btn-primary"
                     >
-                        macOS 版をダウンロード
+                        {% t landing.download.macos %}
                     </a>
                 </div>
                 <div class="col-md-3">
@@ -182,7 +144,7 @@
                         href="https://github.com/Kumassy/ownserver-client-gui/releases/download/app-v0.5.0/ownserver-client-gui_0.5.0_amd64.AppImage"
                         class="btn btn-primary"
                     >
-                        Linux 版をダウンロード
+                        {% t landing.download.linux %}
                     </a>
                 </div>
             </div>
@@ -190,7 +152,7 @@
     </section>
     <section id="how-it-works">
         <div class="container py-5">
-            <h2 class="text-center mb-3">しくみ</h2>
+            <h2 class="text-center mb-3">{% t landing.how_it_works.title %}</h2>
 
             <div class="row">
                 <div class="col text-center">
@@ -198,33 +160,29 @@
                 </div>
             </div>
             <p class="py-3">
-                ゲームサーバーの実態はあなたのパソコンにあります。
-                OwnServer Client を起動すると、 OwnServer とあなたのパソコンの間に専用のセキュアなトンネルが作成され、
-                あなたのサーバー専用のパブリックなアドレスが発行されます。
-                友達がゲームを遊ぶときには、 OwnServer によってパブリックなアドレスとあなたのパソコンの間で通信が転送されます。
-                ゲームを遊ぶのにグローバル IP アドレスやファイアウォール、 DDNS、ポートフォワーディングなどの設定は必要ありません！
+                {% t landing.how_it_works.content %}
             </p>
         </div>
     </section>
     <section id="contact">
         <div class="container py-5">
-            <h2 class="text-center mb-3">お問い合わせ</h2>
+            <h2 class="text-center mb-3">{% t landing.contact.title %}</h2>
             <p>
-                使ってみた感想やバグ報告、機能の要望等ありましたら以下のリンクよりメッセージを送ってください。フィードバックお待ちしています！
+                {% t landing.contact.content %}
             </p>
             <a href="https://marshmallow-qa.com/kumassy_?utm_medium=url_text&utm_source=promotion" target="_blank" class="btn btn-primary">
-                メッセージを送る
+                {% t landing.contact.link %}
             </a>
         </div>
     </section>
-    <section id="contact">
+    <section id="contributing">
         <div class="container py-5">
-            <h2 class="text-center mb-3">開発に参加する</h2>
+            <h2 class="text-center mb-3">{% t landing.contributing.title %}</h2>
             <p>
-                OwnServer の一部のソースコードは GitHub にて公開しています。 Issue や Pull Request 大歓迎です！
+                {% t landing.contributing.content %}
             </p>
             <a href="https://github.com/Kumassy/ownserver-client-gui" target="_blank" class="btn btn-primary">
-                GitHub を開く
+                {% t landing.contributing.link %}
             </a>
         </div>
     </section>

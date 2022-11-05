@@ -5,6 +5,11 @@
 # layout: default
 layout: pages
 title: OwnServer を使って無料で Minecraft のサーバーを用意する
+
+namespace: games/minecraft
+permalink: /games/minecraft
+permalink_ja: /games/minecraft
+permalink_en: /games/minecraft
 ---
 
 # マインクラフトのサーバーを用意する

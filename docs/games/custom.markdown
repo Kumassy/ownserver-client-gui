@@ -5,6 +5,11 @@
 # layout: default
 layout: pages
 title: OwnServer を使って無料で任意のサービスをインターネットに公開する
+
+namespace: games/custom
+permalink: /games/custom
+permalink_ja: /games/custom
+permalink_en: /games/custom
 ---
 
 # 任意のサービスをインターネットに公開する

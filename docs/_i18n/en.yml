@@ -13,8 +13,8 @@ global:
         github: GitHub
     instructions:
       title: Guide
-      minecraft: Creating a Minecraft Server
-      factorio: Creating a Factorio Server
+      minecraft: Get a Minecraft Server
+      factorio: Get a Factorio Server
       custom: "[Advanded] Publish Any Services"
 
 landing:
@@ -68,3 +68,11 @@ landing:
     title: Getting Involved in Development
     content: Some source code of OwnServer is available on GitHub. Feel free to open Issues and Pull Requests.
     link: Visit GitHub
+
+pages:
+  minecraft:
+    title: Get a free Minecraft server with OwnServer
+  factorio:
+    title: Get a free Factorio server with OwnServer
+  custom:
+    title: Publish any service to the Internet for free with OwnServer

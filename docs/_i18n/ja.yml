@@ -73,7 +73,7 @@ landing:
 pages:
   minecraft:
     title: OwnServer を使って無料で Minecraft のサーバーを用意する
-  custom:
-    title: OwnServer を使って無料で任意のサービスをインターネットに公開する
   factorio:
     title: OwnServer を使って無料で factorio のサーバーを用意する
+  custom:
+    title: OwnServer を使って無料で任意のサービスをインターネットに公開する

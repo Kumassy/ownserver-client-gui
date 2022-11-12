@@ -1,8 +1,70 @@
 global:
-  title: OwnServer - Free & Unlimited Game Servers
+  title: OwnServer - Free & Unlimited Gaming Servers
+  header:
+    how_to_use: Usage
+    download: Downlaod
+  footer:
+    title: OwnServer - Free & Unlimited Gaming Servers
+    links:
+      title: Links
+      content:
+        home: Home
+        download: Download
+        github: GitHub
+    instructions:
+      title: Guide
+      minecraft: Creating a Minecraft Server
+      factorio: Creating a Factorio Server
+      custom: "[Advanded] Publish Any Services"
 
 landing:
   top:
-    catch: Free & Unlimited Game Servers
+    catch: Free & Unlimited Gaming Servers
   screenshots:
     title: Screenshots
+  features:
+    title: Features
+    content:
+    - title: Free
+      content: Are you concerned about the high cost for renting a server?  OwnServer offers free gaming servers!
+    - title: Unlimited
+      content: OwnServer allows you to scale your server to any size you want. You can install any mod and serve unlimited number of users!
+    - title: Easy
+      content: You can get gaming servers with simple operations, without the need for knowledge or skills in configuring firewalls, port forwarding, global IP addresses, etc.
+    - title: Ready to Go
+      content: You can get gaming servers in a minute! Guest users can play on your server in the same way they would on a public cloud.
+  how_to_use:
+    title: Usage
+    content:
+    - title: Download the OwnServer Client
+    - title: Download server programs for each game
+    - title: Start the OwnServer Client
+    - title: Invite your friends to your own server!
+  games:
+    title: Supported Games
+    links:
+      view: View Details
+      request: Send a request
+    others: More games will be supported!
+  download:
+    title: Download
+    windows: Download the Windows Edition
+    macos: Download the macOS Edition
+    linux: Download the Linux Edition
+  how_it_works:
+    title: How it works
+    content: |
+      The actual game server is located on your computer.
+      When you start the OwnServer Client, a dedicated secure tunnel is created between the OwnServer and your computer.
+      A public address is issued exclusively for your server.
+      When your friends join the game, OwnServer will forward the traffic between the public address and your computer.
+      You do not need a global IP address, firewall, DDNS, port forwarding, or any other configuration to play games!
+  contact:
+    title: Contact
+    content: If you have any feedback, bug reports, feature requests, etc., please send us a message using the link below. We're waiting for your feedback!
+    link: Leave a anonymous message
+    twitter: Send a message on Twitter
+  contributing:
+    title: Getting Involved in Development
+    content: Some source code of OwnServer is available on GitHub. Feel free to open Issues and Pull Requests.
+    link: Visit GitHub

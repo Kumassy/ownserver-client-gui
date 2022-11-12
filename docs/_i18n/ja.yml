@@ -64,6 +64,7 @@ landing:
     title: お問い合わせ
     content: 使ってみた感想やバグ報告、機能の要望等ありましたら以下のリンクよりメッセージを送ってください。フィードバックお待ちしています！
     link: メッセージを送る
+    twitter: Twitter でメッセージを送る
   contributing:
     title: 開発に参加する
     content: OwnServer の一部のソースコードは GitHub にて公開しています。 Issue や Pull Request 大歓迎です！

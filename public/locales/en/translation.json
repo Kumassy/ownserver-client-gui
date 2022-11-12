@@ -80,7 +80,7 @@
                     "custom": {
                         "settings": {
                             "label": "Settings",
-                            "command": "Command to start server",
+                            "command": "Server Startup Command",
                             "port": "Port",
                             "protocol": {
                                 "label": "Protocol",

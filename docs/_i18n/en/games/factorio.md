@@ -1,37 +1,36 @@
-# factorio サーバーを用意する
-## 事前準備
-こちらのページから `docker` をダウンロードしてインストールしてください
+# Get a Factorio Server
+## Prerequisite
+Please refer to this article to install `docker` on your computer.
 
 > Docker Desktop - Docker  
 > [https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/)
 {: .blockquote }
 
-セーブデータを保存するために、デスクトップなどに新しいフォルダを作成します。  
+Create a new folder on the desktop or elsewhere to store save data.  
 
-
-## factorio サーバーをインターネットに公開する
-OwnServer Client を起動して、 `factorio` を選択して *次へ* をクリックします
+## Publish your Factorio server to the Internet
+Start OwnServer Client, select `factorio` and click *Next*.
 ![](/img/{{ site.lang }}/factorio/step_selectgame.png)
 
-*フォルダ選択* をクリックして、先程作成したフォルダを探して開いてください。
-次に、 *起動* をクリックして factorio サーバーを起動します。
+Click *Select Folder* and open the folder you just created.
+Next, click *Start* to start the Factorio server.
 ![](/img/{{ site.lang }}/factorio/step_confgame_start.png)
 
-しばらく待ち、 *ゲームサーバーを起動* の状態が `実行中` であることを確認して *次へ* をクリックします。
+Wait a moment, make sure that the status of *Start Game Server* is `Running` and click *Next*.
 ![](/img/{{ site.lang }}/factorio/step_confgame_next.png)
 
-*起動* をクリックすることで、あなたのパソコンで動いている factorio サーバーがインターネットに公開されます！
+Clicking *Start* will expose the Factorio server running on your computer to the Internet!
 ![](/img/{{ site.lang }}/factorio/step_tunnel_start.png)
 
-*OwnServer を起動* のステータスが *実行中* であることを確認して、 *次へ* を選択します。
+Verify that the status of *Start OwnServer* is *Running* and select *Next*.
 ![](/img/{{ site.lang }}/factorio/step_tunnel_next.png)
 
-あなたの factorio サーバーに接続するためのアドレスが確認できます。これを友達に共有しましょう！
+You can see the public address of your Minecraft server. Share this with your friends!
 ![](/img/{{ site.lang }}/factorio/step_monitor.png)
 
-## factorio サーバーに参加する
-factorio を起動して、 *マルチプレイ* -> *アドレスに接続* を選択します。
+## Join the Factorio server
+Start Factorio and select *Multiplayer* -> *Connect to address*.  
 
-サーバーのアドレスを貼り付けてください。
+Paste the server address.  
 ![](/img/{{ site.lang }}/factorio/step_ingame.png)
-なお、サーバーのアドレスは OwnServer client を起動するたびに変更されることに注意してください。
+Note that the server address changes each time the OwnServer client is started.

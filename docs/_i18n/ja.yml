@@ -68,3 +68,11 @@ landing:
     title: 開発に参加する
     content: OwnServer の一部のソースコードは GitHub にて公開しています。 Issue や Pull Request 大歓迎です！
     link: GitHub を開く
+
+pages:
+  minecraft:
+    title: OwnServer を使って無料で Minecraft のサーバーを用意する
+  custom:
+    title: OwnServer を使って無料で任意のサービスをインターネットに公開する
+  factorio:
+    title: OwnServer を使って無料で factorio のサーバーを用意する

@@ -1,18 +1,4 @@
----
-# Feel free to add content and custom Front Matter to this file.
-# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
-
-# layout: default
-layout: pages
-title: OwnServer を使って無料で Minecraft のサーバーを用意する
-
-namespace: games/minecraft
-permalink: /games/minecraft
-permalink_ja: /games/minecraft
-permalink_en: /games/minecraft
----
-
-# マインクラフトのサーバーを用意する
+# マインクラフトのサーバーを用意する in English
 ## 事前準備
 こちらの記事を参考にして、 `java` をパソコンにインストールしてください
 

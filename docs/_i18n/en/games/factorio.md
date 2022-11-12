@@ -1,17 +1,3 @@
----
-# Feel free to add content and custom Front Matter to this file.
-# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
-
-# layout: default
-layout: pages
-title: OwnServer を使って無料で factorio のサーバーを用意する
-
-namespace: games/factorio
-permalink: /games/factorio
-permalink_ja: /games/factorio
-permalink_en: /games/factorio
----
-
 # factorio サーバーを用意する
 ## 事前準備
 こちらのページから `docker` をダウンロードしてインストールしてください

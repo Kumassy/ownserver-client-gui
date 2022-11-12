@@ -1,17 +1,3 @@
----
-# Feel free to add content and custom Front Matter to this file.
-# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
-
-# layout: default
-layout: pages
-title: OwnServer を使って無料で任意のサービスをインターネットに公開する
-
-namespace: games/custom
-permalink: /games/custom
-permalink_ja: /games/custom
-permalink_en: /games/custom
----
-
 # 任意のサービスをインターネットに公開する
 OwnServer を使うと、 TCP/UDP を使う任意のサービスをインターネットに公開できます。ここでは例として、 Netcat のサーバーをインターネットに公開する方法を説明します。
 

@@ -1,0 +1,79 @@
+
+global:
+  title: OwnServer - 無料で使える無制限のゲーム用サーバー
+  header:
+    how_to_use: 使い方
+    download: ダウンロード
+  footer:
+    title: OwnServer - 無料で使える無制限のゲーム用サーバー
+    links:
+      title: リンク
+      content:
+        home: トップページ
+        download: ダウンロード
+        github: GitHub
+    instructions:
+      title: 使い方
+      minecraft: Minecraft のサーバーを用意する
+      factorio: factorio のサーバーを用意する
+      custom: （上級者向け）任意のサービスを公開する
+
+landing:
+  top:
+    catch: 無料で使える無制限のゲーム用サーバー
+  screenshots:
+    title: スクリーンショット
+  features:
+    title: 特徴
+    content:
+    - title: 無料
+      content: レンタルサーバーが高くて悩んでいませんか？ OwnServer では無料でゲーム用サーバーを用意できます！
+    - title: 無制限
+      content: OwnServer ではあなたのサーバーを無制限に拡張できます。 MOD を導入できるうえ、人数無制限です
+    - title: かんたん操作
+      content: ファイアウォールやポートフォワーディングの設定、グローバル IP アドレスなどの知識や技術がなくても、簡単操作でサーバーを用意できます
+    - title: すぐに遊べる
+      content: OwnServer のサーバーの立ち上げは一瞬です！ゲストユーザーは通常のサーバーと同じ手順であなたのサーバーに遊びにいけます
+  how_to_use:
+    title: 使い方
+    content:
+    - title: OwnServer Client をダウンロード
+    - title: 各ゲームのサーバープログラムをダウンロード
+    - title: OwnServer Client を起動
+    - title: 友達と遊ぼう！
+  games:
+    title: 対応しているゲーム
+    links:
+      view: 詳しい使い方をみる
+      request: リクエストを送る
+    others: ...その他のゲームも対応予定
+  download:
+    title: ダウンロード
+    windows: Windows 版をダウンロード
+    macos: macOS 版をダウンロード
+    linux: Linux 版をダウンロード
+  how_it_works:
+    title: しくみ
+    content: |
+      ゲームサーバーの実態はあなたのパソコンにあります。
+      OwnServer Client を起動すると、 OwnServer とあなたのパソコンの間に専用のセキュアなトンネルが作成され、
+      あなたのサーバー専用のパブリックなアドレスが発行されます。
+      友達がゲームを遊ぶときには、 OwnServer によってパブリックなアドレスとあなたのパソコンの間で通信が転送されます。
+      ゲームを遊ぶのにグローバル IP アドレスやファイアウォール、 DDNS、ポートフォワーディングなどの設定は必要ありません！
+  contact:
+    title: お問い合わせ
+    content: 使ってみた感想やバグ報告、機能の要望等ありましたら以下のリンクよりメッセージを送ってください。フィードバックお待ちしています！
+    link: メッセージを送る
+    twitter: Twitter でメッセージを送る
+  contributing:
+    title: 開発に参加する
+    content: OwnServer の一部のソースコードは GitHub にて公開しています。 Issue や Pull Request 大歓迎です！
+    link: GitHub を開く
+
+pages:
+  minecraft:
+    title: OwnServer を使って無料で Minecraft のサーバーを用意する
+  factorio:
+    title: OwnServer を使って無料で factorio のサーバーを用意する
+  custom:
+    title: OwnServer を使って無料で任意のサービスをインターネットに公開する

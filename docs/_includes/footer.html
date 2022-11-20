@@ -1,46 +1,45 @@
 <footer>
     <div class="container">
         <p class="py-3">
-            OwnServer - 無料で使える無制限のゲーム用サーバー
+            {% t global.footer.title %}
         </p>
 
         <div class="row">
             <div class="col-sm-6">
                 <h5>
-                    リンク
+                    {% t global.footer.links.title %}
                 </h5>
                 <ul class="list-unstyled">
                     <li>
-                        <a href="/">トップページ</a>
+                        <a href="{{ site.baseurl }}">{% t global.footer.links.content.home %}</a>
                     </li>
                     <li>
-                        <a href="/#download">ダウンロード</a>
+                        <a href="{{ site.baseurl }}/#download">{% t global.footer.links.content.download %}</a>
                     </li>
                     <li>
-                        <a href="https://github.com/Kumassy/ownserver-client-gui" target="_blank">GitHub</a>
+                        <a href="https://github.com/Kumassy/ownserver-client-gui" target="_blank">{% t global.footer.links.content.github %}</a>
                     </li>
                 </ul>
 
             </div>
             <div class="col-sm-6">
                 <h5>
-                    使い方
+                    {% t global.footer.instructions.title %}
                 </h5>
                 <ul class="list-unstyled">
                     <li>
-                        <a href="/games/minecraft.html">
-                            Minecraft のサーバーを用意する
-
+                        <a href="{% tl games/minecraft %}">
+                            {% t global.footer.instructions.minecraft %}
                         </a>
                     </li>
                     <li>
-                        <a href="/games/factorio.html">
-                            factorio のサーバーを用意する
+                        <a href="{% tl games/factorio %}">
+                            {% t global.footer.instructions.factorio %}
                         </a>
                     </li>
                     <li>
-                        <a href="/games/custom.html">
-                            （上級者向け）任意のサービスを公開する
+                        <a href="{% tl games/custom %}">
+                            {% t global.footer.instructions.custom %}
                         </a>
                     </li>
                 </ul>

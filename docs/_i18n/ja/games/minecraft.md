@@ -1,12 +1,3 @@
----
-# Feel free to add content and custom Front Matter to this file.
-# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
-
-# layout: default
-layout: pages
-title: OwnServer を使って無料で Minecraft のサーバーを用意する
----
-
 # マインクラフトのサーバーを用意する
 ## 事前準備
 こちらの記事を参考にして、 `java` をパソコンにインストールしてください
@@ -27,30 +18,30 @@ OwnServer Client がインストールされていることを確認します。
 
 ## Minecraft サーバーをインターネットに公開する
 OwnServer Client を起動して、 `Minecraft` を選択して *次へ* をクリックします
-![](/img/minecraft/step_selectgame.png)
+![](/img/{{ site.lang }}/minecraft/step_selectgame.png)
 
 *server.jar を選択* をクリックして、先程ダウンロードした `server.jar` を探して開いてください。さらに *EULA に同意する* にチェックをいれます。
 次に、 *起動* をクリックして Minecraft サーバーを起動します。
 セーブデータは `server.jar` があるフォルダに作成されます。
-![](/img/minecraft/step_confgame_start.png)
+![](/img/{{ site.lang }}/minecraft/step_confgame_start.png)
 
 しばらく待ち、 *ゲームサーバーを起動* の状態が `実行中` であることを確認して *次へ* をクリックします。
-![](/img/minecraft/step_confgame_next.png)
+![](/img/{{ site.lang }}/minecraft/step_confgame_next.png)
 
 *起動* をクリックすることで、あなたのパソコンで動いている Minecraft サーバーがインターネットに公開されます！
-![](/img/minecraft/step_tunnel_start.png)
+![](/img/{{ site.lang }}/minecraft/step_tunnel_start.png)
 
 *OwnServer を起動* のステータスが *実行中* であることを確認して、 *次へ* を選択します。
-![](/img/minecraft/step_tunnel_next.png)
+![](/img/{{ site.lang }}/minecraft/step_tunnel_next.png)
 
 あなたの Minecraft サーバーに接続するためのアドレスが確認できます。これを友達に共有しましょう！
-![](/img/minecraft/step_monitor.png)
+![](/img/{{ site.lang }}/minecraft/step_monitor.png)
 
 ## Minecraft サーバーに参加する
 Minecraft を起動して、 *Multiplayer* -> *Add Server* を選択します。
 
 サーバーのアドレスを貼り付けてください。
-![](/img/minecraft/step_ingame.png)
+![](/img/{{ site.lang }}/minecraft/step_ingame.png)
 なお、サーバーのアドレスは OwnServer client を起動するたびに変更されることに注意してください。
 
 ## 免責事項

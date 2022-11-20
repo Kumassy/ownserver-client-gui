@@ -33,7 +33,7 @@ OwnServer Client を起動して、 `カスタム設定` を選択して *次へ
 
 ## Netcat サーバーに接続する
 Netcat クライアントを使ってインターネット経由で Netcat サーバーに接続してみましょう
-
+![](/img/{{ site.lang }}/custom/step_ingame.png)
 
 ## おわりに
 今回は Netcat サーバーを公開しましたが、 Web サーバーなど他のサービスも公開できます。ぜひ試してみてください！

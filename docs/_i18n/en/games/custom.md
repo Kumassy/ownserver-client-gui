@@ -37,6 +37,7 @@ You can see the public address of your Minecraft server. Share this with your fr
 ## Connect to the Netcat server
 Connect to your Netcat server via the Internet with a Netcat client
 
+![](/img/{{ site.lang }}/custom/step_ingame.png)
 
 ## Conclusion
 You can publish any service like a web server as well.

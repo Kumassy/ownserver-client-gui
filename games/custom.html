@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OwnServer を使って無料で任意のサービスをインターネットに公開する</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#00aba9">
+    <meta name="theme-color" content="#eeeeee">
+    <link rel="stylesheet" href="/style.css">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2XD96G20QY"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-2XD96G20QY');
+</script>
+
+</head>
+
+<body>
+    <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><img src="/img/logo_t.png" width="42px">OwnServer</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#how-to-use">使い方</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#download">ダウンロード</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://github.com/Kumassy/ownserver-client-gui" target="_blank">GitHub</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+</header>
+
+    <section>
+        <div class="container py-5">
+            <h1 id="任意のサービスをインターネットに公開する">任意のサービスをインターネットに公開する</h1>
+<p>OwnServer を使うと、 TCP/UDP を使う任意のサービスをインターネットに公開できます。ここでは例として、 Netcat のサーバーをインターネットに公開する方法を説明します。</p>
+
+<h2 id="事前準備">事前準備</h2>
+<p>お使いのシステムに Netcat, <code class="language-plaintext highlighter-rouge">nc</code> コマンドがインストールされていない場合はインストールしておいてください。
+また、 OwnServer Client がインストールされていることを確認してください。</p>
+
+<h2 id="netcat-のサーバーをインターネットに公開する">Netcat のサーバーをインターネットに公開する</h2>
+<p>OwnServer Client を起動して、 <code class="language-plaintext highlighter-rouge">カスタム設定</code> を選択して <em>次へ</em> をクリックします
+<img src="/img/ja/custom/step_selectgame.png" alt="" /></p>
+
+<p><em>サーバー起動コマンド</em> には任意のコマンドを実行します。例えば <code class="language-plaintext highlighter-rouge">echo hello</code> というコマンドを実行した場合、 OwnServer Client の内部では、 Linux/macOS の場合は <code class="language-plaintext highlighter-rouge">sh -c 'echo hello'</code> というコマンドが、 Windows の場合は <code class="language-plaintext highlighter-rouge">cmd /c 'echo hello'</code> というコマンドが実行されます。通常は Web サーバーの起動スクリプトなど、ローカルネットワークの何らかのポートを Listen するコマンドや実行ファイルを入力します。</p>
+
+<p><em>ポート</em> には <em>サーバー起動コマンド</em> に記述したコマンドや実行ファイルが Listen するポート番号を入力します。 OwnServer はインターネットからあなたの公開アドレスにリクエストがあると、 <em>ポート</em> に記述したポート番号宛にリクエストを転送します。</p>
+
+<p><em>プロトコル</em> は <em>サーバー起動コマンド</em> が利用するプロトコルを入力します。 TCP もしくは UDP のどちらかが選択できます。</p>
+
+<p>ここでは <code class="language-plaintext highlighter-rouge">nc -kl 3010</code> というコマンドを実行して <code class="language-plaintext highlighter-rouge">localhost</code> の <code class="language-plaintext highlighter-rouge">3010/tcp</code> で Netcat の接続を待ち受けるように設定します。 <em>ポート</em> には <code class="language-plaintext highlighter-rouge">3010</code> を指定します。
+<em>起動</em> をクリックすると、 <em>サーバー起動コマンド</em> に書いたコマンドや実行ファイルが実行されます。
+<img src="/img/ja/custom/step_confgame_start.png" alt="" /></p>
+
+<p>しばらく待ち、 <em>コマンドを実行</em> の状態が <code class="language-plaintext highlighter-rouge">実行中</code> であることを確認して、 <em>次へ</em> をクリックします。
+<img src="/img/ja/custom/step_confgame_next.png" alt="" /></p>
+
+<p><em>起動</em> をクリックすることで、 OwnServer Client と OwnServer のサーバーの間でトンネルが構成されます。
+<img src="/img/ja/custom/step_tunnel_start.png" alt="" /></p>
+
+<p><em>OwnServer を起動</em> のステータスが <em>実行中</em> であることを確認して、 <em>次へ</em> を選択します。
+<img src="/img/ja/custom/step_tunnel_next.png" alt="" /></p>
+
+<p>あなたのサーバーに接続するためのアドレスが確認できます。これを友達に共有しましょう！
+<img src="/img/ja/custom/step_monitor.png" alt="" /></p>
+
+<h2 id="netcat-サーバーに接続する">Netcat サーバーに接続する</h2>
+<p>Netcat クライアントを使ってインターネット経由で Netcat サーバーに接続してみましょう
+<img src="/img/ja/custom/step_ingame.png" alt="" /></p>
+
+<h2 id="おわりに">おわりに</h2>
+<p>今回は Netcat サーバーを公開しましたが、 Web サーバーなど他のサービスも公開できます。ぜひ試してみてください！</p>
+
+
+
+        </div>
+    </section>
+
+    <footer>
+    <div class="container">
+        <p class="py-3">
+            OwnServer - 無料で使える無制限のゲーム用サーバー
+        </p>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <h5>
+                    リンク
+                </h5>
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="">トップページ</a>
+                    </li>
+                    <li>
+                        <a href="/#download">ダウンロード</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/Kumassy/ownserver-client-gui" target="_blank">GitHub</a>
+                    </li>
+                </ul>
+
+            </div>
+            <div class="col-sm-6">
+                <h5>
+                    使い方
+                </h5>
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="/games/minecraft">
+                            Minecraft のサーバーを用意する
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/games/factorio">
+                            factorio のサーバーを用意する
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/games/custom">
+                            （上級者向け）任意のサービスを公開する
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+
+</html>

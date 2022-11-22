@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OwnServer を使って無料で Minecraft のサーバーを用意する</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#00aba9">
+    <meta name="theme-color" content="#eeeeee">
+    <link rel="stylesheet" href="/style.css">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2XD96G20QY"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-2XD96G20QY');
+</script>
+
+</head>
+
+<body>
+    <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><img src="/img/logo_t.png" width="42px">OwnServer</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#how-to-use">使い方</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#download">ダウンロード</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://github.com/Kumassy/ownserver-client-gui" target="_blank">GitHub</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+</header>
+
+    <section>
+        <div class="container py-5">
+            <h1 id="マインクラフトのサーバーを用意する">マインクラフトのサーバーを用意する</h1>
+<h2 id="事前準備">事前準備</h2>
+<p>こちらの記事を参考にして、 <code class="language-plaintext highlighter-rouge">java</code> をパソコンにインストールしてください</p>
+
+<blockquote class="blockquote">
+  <p>チュートリアル/サーバーのセットアップ<br />
+<a href="https://minecraft.fandom.com/ja/wiki/%E3%83%81%E3%83%A5%E3%83%BC%E3%83%88%E3%83%AA%E3%82%A2%E3%83%AB/%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC%E3%81%AE%E3%82%BB%E3%83%83%E3%83%88%E3%82%A2%E3%83%83%E3%83%97">https://minecraft.fandom.com/ja/wiki/チュートリアル/サーバーのセットアップ</a></p>
+</blockquote>
+
+<p>デスクトップなどに、新しいフォルダを作成します。<br />
+こちらの Web ページから <code class="language-plaintext highlighter-rouge">server.jar</code> をダウンロードして、先程作成したフォルダの中に配置します</p>
+
+<blockquote class="blockquote">
+  <p>MINECRAFT: JAVA EDITIONのサーバーをダウンロードします<br />
+<a href="https://www.minecraft.net/ja-jp/download/server">https://www.minecraft.net/ja-jp/download/server</a></p>
+</blockquote>
+
+<p>OwnServer Client がインストールされていることを確認します。</p>
+
+<h2 id="minecraft-サーバーをインターネットに公開する">Minecraft サーバーをインターネットに公開する</h2>
+<p>OwnServer Client を起動して、 <code class="language-plaintext highlighter-rouge">Minecraft</code> を選択して <em>次へ</em> をクリックします
+<img src="/img/ja/minecraft/step_selectgame.png" alt="" /></p>
+
+<p><em>server.jar を選択</em> をクリックして、先程ダウンロードした <code class="language-plaintext highlighter-rouge">server.jar</code> を探して開いてください。さらに <em>EULA に同意する</em> にチェックをいれます。
+次に、 <em>起動</em> をクリックして Minecraft サーバーを起動します。
+セーブデータは <code class="language-plaintext highlighter-rouge">server.jar</code> があるフォルダに作成されます。
+<img src="/img/ja/minecraft/step_confgame_start.png" alt="" /></p>
+
+<p>しばらく待ち、 <em>ゲームサーバーを起動</em> の状態が <code class="language-plaintext highlighter-rouge">実行中</code> であることを確認して <em>次へ</em> をクリックします。
+<img src="/img/ja/minecraft/step_confgame_next.png" alt="" /></p>
+
+<p><em>起動</em> をクリックすることで、あなたのパソコンで動いている Minecraft サーバーがインターネットに公開されます！
+<img src="/img/ja/minecraft/step_tunnel_start.png" alt="" /></p>
+
+<p><em>OwnServer を起動</em> のステータスが <em>実行中</em> であることを確認して、 <em>次へ</em> を選択します。
+<img src="/img/ja/minecraft/step_tunnel_next.png" alt="" /></p>
+
+<p>あなたの Minecraft サーバーに接続するためのアドレスが確認できます。これを友達に共有しましょう！
+<img src="/img/ja/minecraft/step_monitor.png" alt="" /></p>
+
+<h2 id="minecraft-サーバーに参加する">Minecraft サーバーに参加する</h2>
+<p>Minecraft を起動して、 <em>Multiplayer</em> -&gt; <em>Add Server</em> を選択します。</p>
+
+<p>サーバーのアドレスを貼り付けてください。
+<img src="/img/ja/minecraft/step_ingame.png" alt="" />
+なお、サーバーのアドレスは OwnServer client を起動するたびに変更されることに注意してください。</p>
+
+<h2 id="免責事項">免責事項</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NOT OFFICIAL MINECRAFT PRODUCT.NOT APPROVED BY OR ASSOCIATED WITH MOJANG
+</code></pre></div></div>
+
+
+
+        </div>
+    </section>
+
+    <footer>
+    <div class="container">
+        <p class="py-3">
+            OwnServer - 無料で使える無制限のゲーム用サーバー
+        </p>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <h5>
+                    リンク
+                </h5>
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="">トップページ</a>
+                    </li>
+                    <li>
+                        <a href="/#download">ダウンロード</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/Kumassy/ownserver-client-gui" target="_blank">GitHub</a>
+                    </li>
+                </ul>
+
+            </div>
+            <div class="col-sm-6">
+                <h5>
+                    使い方
+                </h5>
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="/games/minecraft">
+                            Minecraft のサーバーを用意する
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/games/factorio">
+                            factorio のサーバーを用意する
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/games/custom">
+                            （上級者向け）任意のサービスを公開する
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+
+</html>

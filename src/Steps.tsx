@@ -255,7 +255,6 @@ export const StepMonitoring: React.VFC<StepMonitoringProps> = ({ handleBack, han
               <InputLabel htmlFor="local-server-send-command">{t('panel.startServer.steps.monitor.inputCommand')}</InputLabel>
               <OutlinedInput
                 id="local-server-send-command"
-                startAdornment={<InputAdornment position="start">$</InputAdornment>}
                 endAdornment={
                   <InputAdornment position="end">
                     <Button

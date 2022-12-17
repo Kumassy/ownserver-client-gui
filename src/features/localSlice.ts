@@ -434,14 +434,16 @@ type SendInGameCommandError =
   }
 
 export const sendInGameCommand = createAsyncThunk<void, string, { state: RootState, rejectValue: SendInGameCommandError }>('sendInGameCommand', async (command, { getState, rejectWithValue, dispatch }) => {
+  const cleanedCommand = command.endsWith('\n') ? command : command + '\n'
+
   const child = getState().local.child
   if (child == null) {
     return rejectWithValue({
       kind: "ChildNotSet",
     })
   }
-  console.log(`send command to local server: ${command}`)
-  return await child.write(command)
+  console.log(`send command to local server: ${cleanedCommand}`)
+  return await child.write(cleanedCommand)
 })
 
 const { setChild } = localSlice.actions;

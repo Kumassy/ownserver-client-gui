@@ -258,7 +258,7 @@ export const StepMonitoring: React.VFC<StepMonitoringProps> = ({ handleBack, han
                 endAdornment={
                   <InputAdornment position="end">
                     <Button
-                      variant="outlined"
+                      variant="contained"
                       onClick={handleSubmit}
                     >
                       {t('panel.startServer.steps.monitor.sendCommand')}

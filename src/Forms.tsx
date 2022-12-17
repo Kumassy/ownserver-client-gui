@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { killChild, updateCommand, updateFilepath,  updateLocalPort, runChecksAndLaunchLocal, updateProtocol, updateAcceptEula } from './features/localSlice'
 import { useAppSelector, useAppDispatch } from './app/hooks'
 

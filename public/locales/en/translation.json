@@ -117,7 +117,9 @@
                 },
                 "monitor": {
                     "publicAddress": "Your Public Address",
-                    "serverLogs": "Server Logs"
+                    "serverLogs": "Server Logs",
+                    "inputCommand": "Input Command",
+                    "sendCommand": "Submit"
                 }
             },
             "checks": {

@@ -117,7 +117,9 @@
                 },
                 "monitor": {
                     "publicAddress": "あなたの公開アドレス",
-                    "serverLogs": "サーバーのログ"
+                    "serverLogs": "サーバーのログ",
+                    "inputCommand": "コマンドを入力",
+                    "sendCommand": "送信"
                 }
             },
             "checks": {

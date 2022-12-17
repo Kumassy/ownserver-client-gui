@@ -36,13 +36,14 @@ interface LocalState {
   status: 'idle' | 'running' | 'succeeded' | 'failed',
   error: null | string,
   messages: Array<LocalStateMessage>,
-  command: string | null,
+  command: string | null, // command to launch local server
   port: number,
   protocol: Protocol,
   game: GameId,
   config: GameConfig,
   checks: Array<Check>,
   child: Child | null,
+  inGameCommand: string, // command sent to local server
 }
 // Define the initial state using that type
 const initialState: LocalState = {
@@ -66,7 +67,8 @@ const initialState: LocalState = {
     filepath: null,
     workdir: null
   },
-  child: null
+  child: null,
+  inGameCommand: ''
 }
 
 type MessagesEntry = {
@@ -140,6 +142,9 @@ export const localSlice = createSlice({
     },
     updateProtocol: (state, action: PayloadAction<Protocol>) => {
       state.protocol = action.payload
+    },
+    updateInGameCommand: (state, action: PayloadAction<string>) => {
+      state.inGameCommand = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -398,6 +403,6 @@ export const updateFilepath = createAsyncThunk<string, string>('updateFilepath',
 })
 
 const { setChild } = localSlice.actions;
-export const { receiveMessage, updateCommand, updateLocalPort, updateGame, updateProtocol } = localSlice.actions
+export const { receiveMessage, updateCommand, updateLocalPort, updateGame, updateProtocol, updateInGameCommand } = localSlice.actions
 
 export default localSlice.reducer

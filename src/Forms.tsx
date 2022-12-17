@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { killChild, updateCommand, updateFilepath,  updateLocalPort, runChecksAndLaunchLocal, updateProtocol } from './features/localSlice'
+import { killChild, updateCommand, updateFilepath,  updateLocalPort, runChecksAndLaunchLocal, updateProtocol, updateAcceptEula } from './features/localSlice'
 import { useAppSelector, useAppDispatch } from './app/hooks'
 
 import { open } from '@tauri-apps/api/dialog'
@@ -95,10 +95,10 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
   const localPort = useAppSelector(state => state.local.port)
   const command = useAppSelector(state => state.local.command)
   const checks = useAppSelector(state => state.local.checks)
-  const { t } = useTranslation();
   const filepath = useAppSelector(state => 'filepath' in state.local.config ? state.local.config.filepath : t('panel.startServer.steps.launchLocalServer.minecraft.errors.filepath'))
+  const eulaChecked = useAppSelector(state => 'acceptEula' in state.local.config ? state.local.config.acceptEula : false)
+  const { t } = useTranslation();
   const dispatch = useAppDispatch()
-  const [ eulaChecked, setEulaChecked ] = useState(false)
 
   const isBackDisabled = localStatus === 'running'
   const isNextDisabled = localStatus !== 'running'
@@ -144,8 +144,8 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
           <FormControlLabel
             control={
               <Checkbox
-                value={eulaChecked}
-                onChange={(e) => setEulaChecked(e.target.checked)} />
+                checked={eulaChecked}
+                onChange={(e) => dispatch(updateAcceptEula(e.target.checked))} />
             }
             label={t('panel.startServer.steps.launchLocalServer.minecraft.settings.eula')} />
           <FormHelperText>{t('panel.startServer.steps.launchLocalServer.minecraft.settings.eulaDesc')}</FormHelperText>

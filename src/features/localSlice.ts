@@ -25,6 +25,7 @@ export type GameConfig = {
   kind: 'minecraft',
   filepath: string | null,
   workdir: string | null,
+  acceptEula: boolean,
 } | {
   kind: 'factorio',
   savepath: string | null,
@@ -65,7 +66,8 @@ const initialState: LocalState = {
   config: {
     kind: 'minecraft',
     filepath: null,
-    workdir: null
+    workdir: null,
+    acceptEula: false,
   },
   child: null,
   inGameCommand: ''
@@ -127,7 +129,8 @@ export const localSlice = createSlice({
           state.config = {
             kind: 'minecraft',
             filepath: null,
-            workdir: null
+            workdir: null,
+            acceptEula: false,
           }
           state.protocol = 'tcp'
           break;
@@ -139,6 +142,10 @@ export const localSlice = createSlice({
           }
           state.protocol = 'udp'
       }
+    },
+    updateAcceptEula: (state, action: PayloadAction<boolean>) => {
+      if (state.config.kind !== 'minecraft') return
+      state.config.acceptEula = action.payload
     },
     updateProtocol: (state, action: PayloadAction<Protocol>) => {
       state.protocol = action.payload
@@ -438,6 +445,6 @@ export const sendInGameCommand = createAsyncThunk<void, string, { state: RootSta
 })
 
 const { setChild } = localSlice.actions;
-export const { receiveMessage, updateCommand, updateLocalPort, updateGame, updateProtocol, updateInGameCommand } = localSlice.actions
+export const { receiveMessage, updateCommand, updateLocalPort, updateGame, updateProtocol, updateInGameCommand, updateAcceptEula } = localSlice.actions
 
 export default localSlice.reducer

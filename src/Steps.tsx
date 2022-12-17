@@ -1,11 +1,11 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Tooltip, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, FormControl, Grid, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField, Tooltip, Typography } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React from "react";
 import { launchTunnel, interruptTunnel, updateTokenServer } from "./features/tunnelSlice";
 import { FormCustom, FormFactorio, FormMinecraft, NotFoundCustom, OperationButton, ResultChip } from "./Forms";
 import { useAppSelector, useAppDispatch } from './app/hooks'
 import AutoScroll from "@brianmcallister/react-auto-scroll";
-import { updateGame } from "./features/localSlice";
+import { sendInGameCommand, updateGame, updateInGameCommand } from "./features/localSlice";
 import { GameId } from "./common";
 import { useTranslation } from "react-i18next";
 
@@ -198,7 +198,22 @@ export type StepMonitoringProps = {
 export const StepMonitoring: React.VFC<StepMonitoringProps> = ({ handleBack, handleNext }) => {
   const clientInfo = useAppSelector(state => state.tunnel.clientInfo)
   const localMessages = useAppSelector(state => state.local.messages)
+  const inGameCommand = useAppSelector(state => state.local.inGameCommand)
+  const dispatch = useAppDispatch()
   const { t } = useTranslation();
+
+  function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.nativeEvent.isComposing || event.key !== 'Enter') return
+    handleSubmit()
+  }
+  function handleSubmit() {
+    console.log(`submit: ${inGameCommand}`)
+    dispatch(sendInGameCommand(inGameCommand))
+  }
+  function sendCommand(event: React.ChangeEvent<HTMLInputElement>) {
+    const command = event.target.value
+    dispatch(updateInGameCommand(command))
+  }
   return (
     <React.Fragment>
       <Box>
@@ -234,6 +249,28 @@ export const StepMonitoring: React.VFC<StepMonitoringProps> = ({ handleBack, han
                 })}
               </AutoScroll>
             </Box>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth variant="outlined">
+              <InputLabel htmlFor="local-server-send-command">{t('panel.startServer.steps.monitor.inputCommand')}</InputLabel>
+              <OutlinedInput
+                id="local-server-send-command"
+                endAdornment={
+                  <InputAdornment position="end">
+                    <Button
+                      variant="contained"
+                      onClick={handleSubmit}
+                    >
+                      {t('panel.startServer.steps.monitor.sendCommand')}
+                    </Button>
+                  </InputAdornment>
+                }
+                label={t('panel.startServer.steps.monitor.inputCommand')}
+                value={inGameCommand}
+                onChange={sendCommand}
+                onKeyDown={handleKeyDown}
+              />
+            </FormControl>
           </Grid>
         </Grid>
       </Box>

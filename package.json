@@ -1,6 +1,6 @@
 {
   "name": "ownserver-client-gui",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "private": true,
   "dependencies": {
     "@brianmcallister/react-auto-scroll": "^1.1.0",
@@ -9,7 +9,7 @@
     "@mui/icons-material": "^5.0.5",
     "@mui/material": "^5.0.6",
     "@reduxjs/toolkit": "^1.8.0",
-    "@tauri-apps/api": "^1.0.2",
+    "@tauri-apps/api": "^1.2.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",

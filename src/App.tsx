@@ -96,7 +96,7 @@ function App() {
         </List>
       </Drawer>
       {panel === 'startServer' &&
-        <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ minHeight: '100vh', width: `calc(100vw - ${drawerWidth}px)`, display: 'flex', flexDirection: 'column' }}>
           <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
             <Stepper activeStep={activeStep} sx={{ padding: 2 }}>
               {steps.map(label => {

@@ -25,6 +25,7 @@ export type GameConfig = {
   kind: 'minecraft',
   filepath: string | null,
   workdir: string | null,
+  acceptEula: boolean,
 } | {
   kind: 'factorio',
   savepath: string | null,
@@ -36,13 +37,14 @@ interface LocalState {
   status: 'idle' | 'running' | 'succeeded' | 'failed',
   error: null | string,
   messages: Array<LocalStateMessage>,
-  command: string | null,
+  command: string | null, // command to launch local server
   port: number,
   protocol: Protocol,
   game: GameId,
   config: GameConfig,
   checks: Array<Check>,
   child: Child | null,
+  inGameCommand: string, // command sent to local server
 }
 // Define the initial state using that type
 const initialState: LocalState = {
@@ -64,9 +66,11 @@ const initialState: LocalState = {
   config: {
     kind: 'minecraft',
     filepath: null,
-    workdir: null
+    workdir: null,
+    acceptEula: false,
   },
-  child: null
+  child: null,
+  inGameCommand: ''
 }
 
 type MessagesEntry = {
@@ -125,7 +129,8 @@ export const localSlice = createSlice({
           state.config = {
             kind: 'minecraft',
             filepath: null,
-            workdir: null
+            workdir: null,
+            acceptEula: false,
           }
           state.protocol = 'tcp'
           break;
@@ -138,8 +143,15 @@ export const localSlice = createSlice({
           state.protocol = 'udp'
       }
     },
+    updateAcceptEula: (state, action: PayloadAction<boolean>) => {
+      if (state.config.kind !== 'minecraft') return
+      state.config.acceptEula = action.payload
+    },
     updateProtocol: (state, action: PayloadAction<Protocol>) => {
       state.protocol = action.payload
+    },
+    updateInGameCommand: (state, action: PayloadAction<string>) => {
+      state.inGameCommand = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -243,6 +255,24 @@ export const localSlice = createSlice({
       })
       .addCase(updateFilepath.rejected, () => {
         console.error(`rejected updateFilepath`)
+      })
+      .addCase(sendInGameCommand.pending, (state, action) => {
+        console.log(`start sendInGameCommand`)
+      })
+      .addCase(sendInGameCommand.fulfilled, (state, action) => {
+        console.log(`fullfilled sendInGameCommand`)
+        state.inGameCommand = ''
+      })
+      .addCase(sendInGameCommand.rejected, (state, action) => {
+        const err = action.payload
+        if (err) {
+          if (err.kind === "ChildNotSet") {
+            state.error = `ChildNotSet`
+          }
+        } else {
+          state.error = `Unkwown error: ${action.error.message}`
+        }
+        console.error(`rejected sendInGameCommand`)
       })
   },
 })
@@ -397,7 +427,26 @@ export const updateFilepath = createAsyncThunk<string, string>('updateFilepath',
   return await dirname(filepath)
 })
 
+type SendInGameCommandError =
+  | {
+    kind: "ChildNotSet";
+    [k: string]: unknown;
+  }
+
+export const sendInGameCommand = createAsyncThunk<void, string, { state: RootState, rejectValue: SendInGameCommandError }>('sendInGameCommand', async (command, { getState, rejectWithValue, dispatch }) => {
+  const cleanedCommand = command.endsWith('\n') ? command : command + '\n'
+
+  const child = getState().local.child
+  if (child == null) {
+    return rejectWithValue({
+      kind: "ChildNotSet",
+    })
+  }
+  console.log(`send command to local server: ${cleanedCommand}`)
+  return await child.write(cleanedCommand)
+})
+
 const { setChild } = localSlice.actions;
-export const { receiveMessage, updateCommand, updateLocalPort, updateGame, updateProtocol } = localSlice.actions
+export const { receiveMessage, updateCommand, updateLocalPort, updateGame, updateProtocol, updateInGameCommand, updateAcceptEula } = localSlice.actions
 
 export default localSlice.reducer

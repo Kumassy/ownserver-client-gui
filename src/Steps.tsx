@@ -5,7 +5,7 @@ import { launchTunnel, interruptTunnel, updateTokenServer } from "./features/tun
 import { FormCustom, FormFactorio, FormMinecraft, NotFoundCustom, OperationButton, ResultChip } from "./Forms";
 import { useAppSelector, useAppDispatch } from './app/hooks'
 import AutoScroll from "@brianmcallister/react-auto-scroll";
-import { updateGame, updateInGameCommand } from "./features/localSlice";
+import { sendInGameCommand, updateGame, updateInGameCommand } from "./features/localSlice";
 import { GameId } from "./common";
 import { useTranslation } from "react-i18next";
 
@@ -206,10 +206,9 @@ export const StepMonitoring: React.VFC<StepMonitoringProps> = ({ handleBack, han
     if (event.nativeEvent.isComposing || event.key !== 'Enter') return
     handleSubmit()
   }
-  function handleSubmit(
-    // event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLInputElement>
-  ) {
+  function handleSubmit() {
     console.log(`submit: ${inGameCommand}`)
+    dispatch(sendInGameCommand(inGameCommand))
   }
   function sendCommand(event: React.ChangeEvent<HTMLInputElement>) {
     const command = event.target.value

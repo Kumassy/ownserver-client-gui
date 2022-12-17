@@ -249,6 +249,24 @@ export const localSlice = createSlice({
       .addCase(updateFilepath.rejected, () => {
         console.error(`rejected updateFilepath`)
       })
+      .addCase(sendInGameCommand.pending, (state, action) => {
+        console.log(`start sendInGameCommand`)
+      })
+      .addCase(sendInGameCommand.fulfilled, (state, action) => {
+        console.log(`fullfilled sendInGameCommand`)
+        state.inGameCommand = ''
+      })
+      .addCase(sendInGameCommand.rejected, (state, action) => {
+        const err = action.payload
+        if (err) {
+          if (err.kind === "ChildNotSet") {
+            state.error = `ChildNotSet`
+          }
+        } else {
+          state.error = `Unkwown error: ${action.error.message}`
+        }
+        console.error(`rejected sendInGameCommand`)
+      })
   },
 })
 
@@ -400,6 +418,23 @@ export const runChecksAndLaunchLocal = createAsyncThunk<void, undefined, { state
 
 export const updateFilepath = createAsyncThunk<string, string>('updateFilepath', async (filepath) => {
   return await dirname(filepath)
+})
+
+type SendInGameCommandError =
+  | {
+    kind: "ChildNotSet";
+    [k: string]: unknown;
+  }
+
+export const sendInGameCommand = createAsyncThunk<void, string, { state: RootState, rejectValue: SendInGameCommandError }>('sendInGameCommand', async (command, { getState, rejectWithValue, dispatch }) => {
+  const child = getState().local.child
+  if (child == null) {
+    return rejectWithValue({
+      kind: "ChildNotSet",
+    })
+  }
+  console.log(`send command to local server: ${command}`)
+  return await child.write(command)
 })
 
 const { setChild } = localSlice.actions;

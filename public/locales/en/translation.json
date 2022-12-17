@@ -118,7 +118,7 @@
                 "monitor": {
                     "publicAddress": "Your Public Address",
                     "serverLogs": "Server Logs",
-                    "inputCommand": "Input Command",
+                    "inputCommand": "Console Command",
                     "sendCommand": "Submit"
                 }
             },

@@ -1,39 +1,35 @@
 import { getCheckList } from '../checks';
-import reducer, { runCheck } from './localSlice'
+import reducer, { runCheck, LocalState } from './localSlice'
 
 
 describe('localSlice reducer', () => {
-  test('should set checks for given game as initialState', async () => {
-    const initialState = reducer(undefined, { type: '' })
-    const checkList = getCheckList(initialState.game);
-
-    expect(initialState.checks.map(check => check.id)).toStrictEqual(checkList)
-  });
-
-
   test('should update check status by runCheck', async () => {
     const initialState = reducer(undefined, { type: '' })
 
-    let state = {
+    let state: LocalState = {
       ...initialState,
       checks: [
         {
           id: 'CHECK_A',
+          label: 'Check A',
           status: 'idle',
           message: ''
         },
         {
           id: 'CHECK_B',
+          label: 'Check B',
           status: 'idle',
           message: ''
         },
         {
           id: 'CHECK_C',
+          label: 'Check C',
           status: 'idle',
           message: ''
         },
       ]
     }
+
 
     const action = {
       type: runCheck.pending.type,

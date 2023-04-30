@@ -33,7 +33,7 @@ export type GameConfig = {
 
 
 // Define a type for the slice state
-interface LocalState {
+export interface LocalState {
   status: 'idle' | 'running' | 'succeeded' | 'failed',
   error: null | string,
   messages: Array<LocalStateMessage>,

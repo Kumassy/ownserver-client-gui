@@ -1,0 +1,47 @@
+arch: aarch64
+
+images:
+# Try to use release-yyyyMMdd image if available. Note that release-yyyyMMdd will be removed after several months.
+- location: "https://cloud-images.ubuntu.com/releases/22.04/release-20230302/ubuntu-22.04-server-cloudimg-amd64.img"
+  arch: "x86_64"
+  digest: "sha256:345fbbb6ec827ca02ec1a1ced90f7d40d3fd345811ba97c5772ac40e951458e1"
+- location: "https://cloud-images.ubuntu.com/releases/22.04/release-20230302/ubuntu-22.04-server-cloudimg-arm64.img"
+  arch: "aarch64"
+  digest: "sha256:f6b5b3a980f28f25fe5203ae74b79cc664ae5505cf255a62f3b01be46ab9967a"
+# Fallback to the latest release image.
+# Hint: run `limactl prune` to invalidate the cache
+- location: "https://cloud-images.ubuntu.com/releases/22.04/release/ubuntu-22.04-server-cloudimg-amd64.img"
+  arch: "x86_64"
+- location: "https://cloud-images.ubuntu.com/releases/22.04/release/ubuntu-22.04-server-cloudimg-arm64.img"
+  arch: "aarch64"
+
+mounts:
+- location: "~"
+- location: "/tmp/lima"
+  writable: true
+
+
+ssh:
+  # A localhost port of the host. Forwarded to port 22 of the guest.
+  # 🟢 Builtin default: 0 (automatically assigned to a free port)
+  # NOTE: when the instance name is "default", the builtin default value is set to
+  # 60022 for backward compatibility.
+  localPort: 0
+  # Load ~/.ssh/*.pub in addition to $LIMA_HOME/_config/user.pub .
+  # This option is useful when you want to use other SSH-based
+  # applications such as rsync with the Lima instance.
+  # If you have an insecure key under ~/.ssh, do not use this option.
+  # 🟢 Builtin default: true
+  loadDotSSHPubKeys: true
+  # Forward ssh agent into the instance.
+  # The ssh agent socket can be mounted in a container at the path `/run/host-services/ssh-auth.sock`.
+  # Set the environment variable `SSH_AUTH_SOCK` value to the path above.
+  # The socket is accessible by the non-root user inside the Lima instance.
+  # 🟢 Builtin default: false
+  forwardAgent: true
+  # Forward X11 into the instance
+  # 🟢 Builtin default: false
+  forwardX11: true
+  # Trust forwarded X11 clients
+  # 🟢 Builtin default: false
+  forwardX11Trusted: true

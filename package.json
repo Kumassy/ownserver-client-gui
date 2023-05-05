@@ -26,14 +26,16 @@
     "react-redux": "^8.0.5",
     "react-scripts": "5.0.1",
     "typescript": "^5.0.4",
-    "web-vitals": "^3.3.1"
+    "web-vitals": "^3.3.1",
+    "@wdio/cli": "^7.9.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "e2etest": "wdio run wdio.conf.js"
   },
   "eslintConfig": {
     "extends": [
@@ -54,7 +56,10 @@
     ]
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^1.2.3"
+    "@tauri-apps/cli": "^1.2.3",
+    "@wdio/local-runner": "^7.9.1",
+    "@wdio/mocha-framework": "^7.9.1",
+    "@wdio/spec-reporter": "^7.9.0"
   },
   "jest": {
     "transformIgnorePatterns": [

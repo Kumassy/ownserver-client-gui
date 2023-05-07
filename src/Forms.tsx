@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { killChild, updateCommand, updateFilepath,  updateLocalPort, runChecksAndLaunchLocal, updateProtocol, updateAcceptEula } from './features/localSlice'
 import { useAppSelector, useAppDispatch } from './app/hooks'
 
@@ -19,6 +19,7 @@ import Stack from '@mui/material/Stack';
 import { Checkbox, FormControlLabel, FormGroup, FormHelperText, InputLabel, MenuItem, Select, SelectChangeEvent, Tooltip } from '@mui/material';
 import { Protocol } from './common';
 import { useTranslation } from 'react-i18next';
+import { listen } from '@tauri-apps/api/event';
 
 export type FormProps = {
   handleNext: () => void,
@@ -103,6 +104,28 @@ export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) 
   const isBackDisabled = localStatus === 'running'
   const isNextDisabled = localStatus !== 'running'
   const isOperationButtonDisabled = filepath == null || eulaChecked === false
+
+
+  const unlistenRef = useRef<() => void>();
+  useEffect(() => {
+    const setupListener = async () => {
+      const unlisten = await listen<Array<string>>('tauri://file-drop', event => {
+        if (event.payload.length === 1) {
+          let file = event.payload[0];
+          dispatch(updateFilepath(file))
+        }
+      })
+      unlistenRef.current = unlisten;
+    }
+
+    setupListener()
+
+    return () => {
+      if (unlistenRef.current) {
+        unlistenRef.current()
+      }
+    }
+  }, [dispatch]);
 
   return (
     <React.Fragment>

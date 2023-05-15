@@ -44,6 +44,12 @@ echo \
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
+# Install aws-cli
+sudo apt install -y unzip
+DIR=$(mktemp -d )
+curl "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -i).zip" -o "$DIR/awscliv2.zip"
+(cd $DIR && unzip awscliv2.zip)
+(cd $DIR && sudo ./aws/install)
 
 # Game Specific Dependencies
 sudo apt-get install -y \

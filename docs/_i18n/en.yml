@@ -51,6 +51,11 @@ landing:
     windows: Download the Windows Edition
     macos: Download the macOS Edition
     linux: Download the Linux Edition
+  release_notes:
+    title: Release Notes
+    content:
+    - entry: |
+        2023/04/30: Released v0.6.0. From v0.6.0 the app is automatically updated.
   how_it_works:
     title: How it works
     content: |

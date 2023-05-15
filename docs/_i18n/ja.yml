@@ -52,6 +52,11 @@ landing:
     windows: Windows 版をダウンロード
     macos: macOS 版をダウンロード
     linux: Linux 版をダウンロード
+  release_notes:
+    title: 更新履歴
+    content:
+    - entry: |
+        2023/04/30: v0.6.0 を公開しました。v0.6.0 からは自動更新が有効になりました。
   how_it_works:
     title: しくみ
     content: |

@@ -31,6 +31,10 @@ jobs:
         platform: [ubuntu-20.04, windows-latest]
     runs-on: ${{ matrix.platform }}
 
+    # These permissions are needed to interact with GitHub's OIDC Token endpoint.
+    permissions:
+      id-token: write
+      contents: read
     steps:
     - uses: actions/checkout@v2
 

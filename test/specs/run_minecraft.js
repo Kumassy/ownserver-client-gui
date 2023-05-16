@@ -1,3 +1,5 @@
+const path = require('path');
+
 describe('Run Minecraft Game', () => {
   it('can publish local server', async () => {
     ////
@@ -15,6 +17,14 @@ describe('Run Minecraft Game', () => {
     // Fill out Minecraft form
     // fill out server.jar file by simulating file drop
     {
+      // https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables
+      const server_jar_path = path.join(
+        process.env.GITHUB_WORKSPACE,
+        process.env.RUNNER_OS,
+        'test-resources',
+        'minecraft-java-vanilla',
+        'server.jar'
+      )
       await browser.execute(() => {
         window.__TAURI_INVOKE__('tauri', {
           __tauriModule: 'Event',
@@ -22,7 +32,7 @@ describe('Run Minecraft Game', () => {
             cmd: 'emit',
             event: "tauri://file-drop",
             windowLabel: "main",
-            payload: ["/home/kumassy.linux/mc/server.jar"]
+            payload: [server_jar_path]
           }
         })
       })

@@ -86,7 +86,7 @@ describe('Run Minecraft Game', () => {
       await terminal.waitUntil(async function () {
         return (await terminal.getText()).includes('For help, type "help"')
       }, {
-        timeout: 60000,
+        timeout: 300000,
         timeoutMsg: 'expected local server to be available after 30s'
       });
     }

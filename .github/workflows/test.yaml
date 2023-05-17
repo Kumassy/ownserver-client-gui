@@ -55,6 +55,11 @@ jobs:
         xvfb
         libssl-dev
 
+    - uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: '17'
+
     - name: install Rust stable
       uses: actions-rs/toolchain@v1
       with:

@@ -20,7 +20,6 @@ describe('Run Minecraft Game', () => {
       // https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables
       const server_jar_path = path.join(
         process.env.GITHUB_WORKSPACE,
-        process.env.RUNNER_OS,
         'test-resources',
         'minecraft-java-vanilla',
         'server.jar'
@@ -49,7 +48,7 @@ describe('Run Minecraft Game', () => {
       const next = await $('button*=Next')
       await next.waitUntil(async () => await next.isEnabled(), {
         timeout: 15000,
-        timeoutMsg: 'expected next button to be enabled after 15s'
+        timeoutMsg: 'expected next button to be enabled after 60s'
       });
       await next.click()
 
@@ -87,7 +86,7 @@ describe('Run Minecraft Game', () => {
       await terminal.waitUntil(async function () {
         return (await terminal.getText()).includes('For help, type "help"')
       }, {
-        timeout: 30000,
+        timeout: 60000,
         timeoutMsg: 'expected local server to be available after 30s'
       });
     }

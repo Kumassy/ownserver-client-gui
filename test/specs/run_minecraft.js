@@ -25,7 +25,7 @@ describe('Run Minecraft Game', () => {
         'minecraft-java-vanilla',
         'server.jar'
       )
-      await browser.execute(() => {
+      await browser.execute((server_jar_path) => {
         window.__TAURI_INVOKE__('tauri', {
           __tauriModule: 'Event',
           message: {
@@ -35,7 +35,7 @@ describe('Run Minecraft Game', () => {
             payload: [server_jar_path]
           }
         })
-      })
+      }, server_jar_path)
 
       $('aria/Accept EULA').click()
 

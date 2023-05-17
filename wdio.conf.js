@@ -5,14 +5,17 @@ const { spawn, spawnSync } = require('child_process')
 // keep track of the `tauri-driver` child process
 let tauriDriver
 
+const binary = process.platform == 'win32' ? 'ownserver-client-gui.exe' : 'ownserver-client-gui'
+
 exports.config = {
+  port: 4444,
   specs: ['./test/specs/**/*.js'],
   maxInstances: 1,
   capabilities: [
     {
       maxInstances: 1,
       'tauri:options': {
-        application: './src-tauri/target/release/ownserver-client-gui',
+        application: './src-tauri/target/release/' + binary,
       },
     },
   ],

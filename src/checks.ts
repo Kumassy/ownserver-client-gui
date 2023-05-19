@@ -79,7 +79,7 @@ export type CheckEntry = {
 export const getCheckList = (game: GameId): Array<CheckEntry> => {
   switch (game) {
     case 'custom':
-      return [{ id: CHECK_SH_VERSION, label: "shVersion" } ]
+      return []
     case 'http':
       return []
     case 'minecraft':

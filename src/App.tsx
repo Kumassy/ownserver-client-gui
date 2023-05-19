@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './App.css'
 import { listen } from '@tauri-apps/api/event'
 import { useAppDispatch } from './app/hooks'
@@ -35,8 +35,10 @@ function App() {
   const [lang, setLang] = useState<'en-US' | 'ja-JP' | null>(null);
   const { t, i18n } = useTranslation();
 
+
+  const unlistenRef = useRef<() => void>();
   useEffect(() => {
-    const f = async () => {
+    const setupListener = async () => {
       const unlisten = await listen('update_client_info', event => {
         console.log(event.payload);
         if (isClientInfo(event.payload)) {
@@ -45,9 +47,16 @@ function App() {
           dispatch(updateClientInfo(clientInfo));
         }
       })
-      return unlisten
+      unlistenRef.current = unlisten;
     }
-    f()
+
+    setupListener()
+
+    return () => {
+      if (unlistenRef.current) {
+        unlistenRef.current()
+      }
+    }
   }, [dispatch]);
 
   const handleNext = () => {

@@ -1,9 +1,9 @@
 name: Test
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  buildtest:
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
     - name: setup node
@@ -23,3 +23,90 @@ jobs:
       env:
         TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
         TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+
+  e2etest:
+    strategy:
+      fail-fast: false
+      matrix:
+        # temporary disable windows-latest on CI
+        # platform: [ubuntu-20.04, windows-latest]
+        platform: [ubuntu-20.04]
+    runs-on: ${{ matrix.platform }}
+
+    # These permissions are needed to interact with GitHub's OIDC Token endpoint.
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: install dependencies (ubuntu only)
+      if: matrix.platform == 'ubuntu-20.04'
+      run: >-
+        sudo apt-get update &&
+        sudo apt-get install -y
+        libgtk-3-dev
+        webkit2gtk-4.0
+        libappindicator3-dev
+        librsvg2-dev
+        patchelf
+        libdbus-1-dev
+        pkg-config
+        libgtksourceview-3.0-dev
+        webkit2gtk-driver
+        xvfb
+        libssl-dev
+
+    - uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: '17'
+
+    - name: install Rust stable
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+
+    - name: Cargo test
+      uses: actions-rs/cargo@v1
+      with:
+        command: test
+        args: --manifest-path src-tauri/Cargo.toml
+
+    - name: Cargo build
+      uses: actions-rs/cargo@v1
+      with:
+        command: build
+        args: --release --manifest-path src-tauri/Cargo.toml
+
+    - name: setup node
+      uses: actions/setup-node@v1
+      with:
+        node-version: 16
+
+    - name: Yarn install
+      run: yarn install
+
+    - name: Install tauri-driver
+      uses: actions-rs/cargo@v1
+      with:
+        command: install
+        args: tauri-driver
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: arn:aws:iam::191793824713:role/oidc-ownserver-client-gui
+        aws-region: ap-northeast-1
+
+    - name: Download test resources
+      run: |
+        aws s3 cp --recursive s3://ownserver-test-resources/${RUNNER_OS} test-resources
+
+    - name: WebdriverIO (Ubuntu)
+      if: matrix.platform == 'ubuntu-20.04'
+      run: xvfb-run yarn e2etest
+
+    - name: WebdriverIO (Windows)
+      if: matrix.platform == 'windows-latest'
+      run: yarn e2etest

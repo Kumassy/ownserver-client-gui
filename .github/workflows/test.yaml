@@ -28,7 +28,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [ubuntu-20.04, windows-latest]
+        # temporary disable windows-latest on CI
+        # platform: [ubuntu-20.04, windows-latest]
+        platform: [ubuntu-20.04]
     runs-on: ${{ matrix.platform }}
 
     # These permissions are needed to interact with GitHub's OIDC Token endpoint.

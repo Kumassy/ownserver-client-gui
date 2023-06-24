@@ -2,7 +2,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Box, Button, FormControl
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React from "react";
 import { launchTunnel, interruptTunnel, updateTokenServer } from "./features/tunnelSlice";
-import { FormCustom, FormFactorio, FormMinecraft, NotFoundCustom, OperationButton, ResultChip } from "./Forms";
+import { FormCustom, FormFactorio, FormMinecraft, NotFoundCustom, OperationButton, ResultChip } from "./forms/Forms";
 import { useAppSelector, useAppDispatch } from './app/hooks'
 import AutoScroll from "@brianmcallister/react-auto-scroll";
 import { sendInGameCommand, updateGame, updateInGameCommand } from "./features/localSlice";

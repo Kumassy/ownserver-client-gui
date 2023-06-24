@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
-import { killChild, updateCommand, updateFilepath,  updateLocalPort, runChecksAndLaunchLocal, updateProtocol, updateAcceptEula } from './features/localSlice'
-import { useAppSelector, useAppDispatch } from './app/hooks'
+import { killChild, updateCommand, updateFilepath,  updateLocalPort, runChecksAndLaunchLocal, updateProtocol, updateAcceptEula } from '../features/localSlice'
+import { useAppSelector, useAppDispatch } from '../app/hooks'
 
 import { open } from '@tauri-apps/api/dialog'
 import Box from '@mui/material/Box';
@@ -17,7 +17,7 @@ import Chip from '@mui/material/Chip';
 import AutoScroll from '@brianmcallister/react-auto-scroll';
 import Stack from '@mui/material/Stack';
 import { Checkbox, FormControlLabel, FormGroup, FormHelperText, InputLabel, MenuItem, Select, SelectChangeEvent, Tooltip } from '@mui/material';
-import { Protocol } from './common';
+import { Protocol } from '../common';
 import { useTranslation } from 'react-i18next';
 import { listen } from '@tauri-apps/api/event';
 

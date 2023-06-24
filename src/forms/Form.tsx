@@ -12,7 +12,6 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Chip from '@mui/material/Chip';
 
 import AutoScroll from '@brianmcallister/react-auto-scroll';
 import Stack from '@mui/material/Stack';
@@ -20,75 +19,8 @@ import { Checkbox, FormControlLabel, FormGroup, FormHelperText, InputLabel, Menu
 import { Protocol } from '../common';
 import { useTranslation } from 'react-i18next';
 import { listen } from '@tauri-apps/api/event';
-
-export type FormProps = {
-  handleNext: () => void,
-  handleBack: () => void,
-}
-
-export type OperationButtonProps = {
-  status: 'idle' | 'running' | 'succeeded' | 'failed',
-  disabled?: boolean
-  launch: any
-  interrupt: any
-}
-
-export const OperationButton: React.VFC<OperationButtonProps> = ({ status, disabled, launch, interrupt }) => {
-  const dispatch = useAppDispatch()
-  const { t } = useTranslation();
-
-  switch (status) {
-    case 'idle':
-    case 'succeeded':
-    case 'failed':
-      return (
-        <Button
-          variant="contained"
-          disabled={disabled}
-          onClick={() => dispatch(launch())}
-        >
-          {t('common.control.start')}
-        </Button>
-      )
-    case 'running':
-      return (
-        <Button
-          variant="contained"
-          disabled={disabled}
-          onClick={() => dispatch(interrupt())}
-        >
-          {t('common.control.stop')}
-        </Button>
-      )
-  }
-}
-
-type ResultChipProps = {
-  status: 'idle' | 'running' | 'succeeded' | 'failed',
-}
-
-export const ResultChip: React.VFC<ResultChipProps> = ({ status }) => {
-  const { t } = useTranslation();
-
-  switch (status) {
-    case 'idle':
-      return (
-        <React.Fragment></React.Fragment>
-      )
-    case 'running':
-      return (
-        <Chip label={t('common.result.running')} color="info" />
-      )
-    case 'succeeded':
-      return (
-        <Chip label={t('common.result.succeeded')} color="success" />
-      )
-    case 'failed':
-      return (
-        <Chip label={t('common.result.failed')} color="error" />
-      )
-  }
-}
+import { FormProps } from '../types';
+import { OperationButton, ResultChip } from '../utils';
 
 export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) => {
   const localMessages = useAppSelector(state => state.local.messages)

@@ -12,7 +12,7 @@ import StepLabel from '@mui/material/StepLabel';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import SettingsIcon from '@mui/icons-material/Settings';
 
-import { StepContent } from './Steps'
+import { StepContent } from './steps'
 import { Drawer, Grid, InputLabel, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 
 function isClientInfo(arg: any): arg is ClientInfo {

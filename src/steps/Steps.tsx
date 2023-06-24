@@ -1,14 +1,14 @@
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, FormControl, Grid, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField, Tooltip, Typography } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React from "react";
-import { launchTunnel, interruptTunnel, updateTokenServer } from "./features/tunnelSlice";
-import { FormCustom, FormFactorio, FormMinecraft, FormNotFound } from "./forms";
-import { useAppSelector, useAppDispatch } from './app/hooks'
+import { launchTunnel, interruptTunnel, updateTokenServer } from "../features/tunnelSlice";
+import { FormCustom, FormFactorio, FormMinecraft, FormNotFound } from "../forms";
+import { useAppSelector, useAppDispatch } from '../app/hooks'
 import AutoScroll from "@brianmcallister/react-auto-scroll";
-import { sendInGameCommand, updateGame, updateInGameCommand } from "./features/localSlice";
-import { GameId } from "./common";
+import { sendInGameCommand, updateGame, updateInGameCommand } from "../features/localSlice";
+import { GameId } from "../common";
 import { useTranslation } from "react-i18next";
-import { OperationButton, ResultChip } from "./utils";
+import { OperationButton, ResultChip } from "../utils";
 
 export type Navigation = {
   handleBack: () => void,

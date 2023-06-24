@@ -21,7 +21,8 @@
                         "selectGame": "Select a game",
                         "games": {
                             "custom": "Custom",
-                            "minecraft": "Minecraft",
+                            "minecraft": "Minecraft Java Edition",
+                            "minecraft_be": "Minecraft Bedrock Edition",
                             "factorio": "factorio"
                         }
                     }
@@ -51,6 +52,30 @@
                             "backDesc": "Stop the game server",
                             "nextDesc": "Start the game server",
                             "operationDesc": "Select server.jar and accept EULA"
+                        }
+                    },
+                    "minecraft_be": {
+                        "errors": {
+                            "filepath": "Error: filepath does not exist"
+                        },
+                        "settings": {
+                            "label": "Settings",
+                            "file": "Select bedrock_server.exe",
+                            "fileDesc": "Download bedrock_server.exe from here: https://www.minecraft.net/en-us/download/server/bedrock"
+                        },
+                        "advancedSettings": {
+                            "label": "Advanced Settings",
+                            "command": "Command to start server",
+                            "port": "Port"
+                        },
+                        "tasks": {
+                            "label": "Task List",
+                            "start": "Start game server"
+                        },
+                        "control": {
+                            "backDesc": "Stop the game server",
+                            "nextDesc": "Start the game server",
+                            "operationDesc": "Select bedrock_server.exe"
                         }
                     },
                     "factorio": {

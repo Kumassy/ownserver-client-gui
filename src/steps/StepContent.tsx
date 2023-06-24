@@ -7,7 +7,7 @@ import { StepMonitoring } from "./StepMonitoring";
 
 
 
-export const StepContent: React.VFC<StepContentProps> = ({ step, handleBack, handleNext, handleReset }) => {
+export const StepContent: React.FC<StepContentProps> = ({ step, handleBack, handleNext, handleReset }) => {
   switch (step) {
     case 0:
       return (

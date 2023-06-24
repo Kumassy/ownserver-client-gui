@@ -19,7 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { FormProps } from '../types';
 import { OperationButton, ResultChip } from '../utils';
 
-export const FormCustom: React.VFC<FormProps> = ({ handleBack, handleNext }) => {
+export const FormCustom: React.FC<FormProps> = ({ handleBack, handleNext }) => {
   const localMessages = useAppSelector(state => state.local.messages)
   const localPort = useAppSelector(state => state.local.port)
   const localStatus = useAppSelector(state => state.local.status)

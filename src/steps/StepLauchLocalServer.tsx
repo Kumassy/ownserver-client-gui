@@ -3,7 +3,7 @@ import { FormCustom, FormFactorio, FormMinecraft, FormNotFound } from "../forms"
 import { useAppSelector } from '../app/hooks';
 import { StepLaunchLocalServerProps } from "./types";
 
-export const StepLauchLocalServer: React.VFC<StepLaunchLocalServerProps> = (props) => {
+export const StepLauchLocalServer: React.FC<StepLaunchLocalServerProps> = (props) => {
   const game = useAppSelector(state => state.local.game)
   switch (game) {
     case 'minecraft':

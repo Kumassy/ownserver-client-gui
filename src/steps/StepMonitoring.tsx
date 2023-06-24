@@ -6,7 +6,7 @@ import { sendInGameCommand, updateInGameCommand } from "../features/localSlice";
 import { useTranslation } from "react-i18next";
 import { StepMonitoringProps } from "./types";
 
-export const StepMonitoring: React.VFC<StepMonitoringProps> = ({ handleBack, handleNext }) => {
+export const StepMonitoring: React.FC<StepMonitoringProps> = ({ handleBack, handleNext }) => {
   const clientInfo = useAppSelector(state => state.tunnel.clientInfo)
   const localMessages = useAppSelector(state => state.local.messages)
   const inGameCommand = useAppSelector(state => state.local.inGameCommand)

@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import React from "react";
 import Chip from "@mui/material/Chip";
 
-export const OperationButton: React.VFC<OperationButtonProps> = ({ status, disabled, launch, interrupt }) => {
+export const OperationButton: React.FC<OperationButtonProps> = ({ status, disabled, launch, interrupt }) => {
   const dispatch = useAppDispatch()
   const { t } = useTranslation();
 
@@ -36,7 +36,7 @@ export const OperationButton: React.VFC<OperationButtonProps> = ({ status, disab
 }
 
 
-export const ResultChip: React.VFC<ResultChipProps> = ({ status }) => {
+export const ResultChip: React.FC<ResultChipProps> = ({ status }) => {
   const { t } = useTranslation();
 
   switch (status) {

@@ -21,7 +21,7 @@ import { listen } from '@tauri-apps/api/event';
 import { FormProps } from '../types';
 import { OperationButton, ResultChip } from '../utils';
 
-export const FormMinecraft: React.VFC<FormProps> = ({ handleBack, handleNext }) => {
+export const FormMinecraft: React.FC<FormProps> = ({ handleBack, handleNext }) => {
   const localMessages = useAppSelector(state => state.local.messages)
   const localStatus = useAppSelector(state => state.local.status)
   const localPort = useAppSelector(state => state.local.port)

@@ -8,7 +8,7 @@ import { OperationButton, ResultChip } from "../utils";
 import { StepLaunchTunnelProps } from "./types";
 
 
-export const StepLaunchTunnel: React.VFC<StepLaunchTunnelProps> = ({ handleBack, handleNext }) => {
+export const StepLaunchTunnel: React.FC<StepLaunchTunnelProps> = ({ handleBack, handleNext }) => {
   const tokenServer = useAppSelector(state => state.tunnel.tokenServer)
   const tunnelError = useAppSelector(state => state.tunnel.error)
   const tunnelStatus = useAppSelector(state => state.tunnel.tunnelStatus)

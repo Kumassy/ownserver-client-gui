@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { StepSelectGameProps } from "./types";
 
 
-export const StepSelectGame: React.VFC<StepSelectGameProps> = ({ handleBack, handleNext }) => {
+export const StepSelectGame: React.FC<StepSelectGameProps> = ({ handleBack, handleNext }) => {
   const game = useAppSelector(state => state.local.game)
   const dispatch = useAppDispatch()
   const { t } = useTranslation();

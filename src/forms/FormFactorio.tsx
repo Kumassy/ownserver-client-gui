@@ -21,7 +21,7 @@ import { FormProps } from '../types';
 import { OperationButton, ResultChip } from '../utils';
 
 
-export const FormFactorio: React.VFC<FormProps> = ({ handleBack, handleNext }) => {
+export const FormFactorio: React.FC<FormProps> = ({ handleBack, handleNext }) => {
   const localMessages = useAppSelector(state => state.local.messages)
   const localStatus = useAppSelector(state => state.local.status)
   const localPort = useAppSelector(state => state.local.port)

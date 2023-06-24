@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 
 import { FormProps } from '../types';
 
-export const FormNotFound: React.VFC<FormProps> = ({ handleBack, handleNext }) => {
+export const FormNotFound: React.FC<FormProps> = ({ handleBack, handleNext }) => {
   return (
     <React.Fragment>
       <Box

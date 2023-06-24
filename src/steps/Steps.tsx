@@ -9,11 +9,7 @@ import { sendInGameCommand, updateGame, updateInGameCommand } from "../features/
 import { GameId } from "../common";
 import { useTranslation } from "react-i18next";
 import { OperationButton, ResultChip } from "../utils";
-
-export type Navigation = {
-  handleBack: () => void,
-  handleNext: () => void,
-}
+import { Navigation } from "../types";
 
 export type StepSelectGameProps = {
 } & Navigation;

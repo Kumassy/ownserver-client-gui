@@ -1,8 +1,6 @@
 
 export type FormProps = {
-  handleNext: () => void,
-  handleBack: () => void,
-}
+} & Navigation
 
 export type OperationButtonProps = {
   status: 'idle' | 'running' | 'succeeded' | 'failed',
@@ -13,4 +11,10 @@ export type OperationButtonProps = {
 
 export type ResultChipProps = {
   status: 'idle' | 'running' | 'succeeded' | 'failed',
+}
+
+
+export type Navigation = {
+  handleBack: () => void,
+  handleNext: () => void,
 }

@@ -77,7 +77,9 @@ landing:
 
 pages:
   minecraft:
-    title: OwnServer を使って無料で Minecraft のサーバーを用意する
+    title: OwnServer を使って無料で Minecraft Java 版 のサーバーを用意する
+  minecraft_be:
+    title: OwnServer を使って無料で Minecraft 統合版 のサーバーを用意する
   factorio:
     title: OwnServer を使って無料で factorio のサーバーを用意する
   custom:

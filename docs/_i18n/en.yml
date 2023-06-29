@@ -76,7 +76,9 @@ landing:
 
 pages:
   minecraft:
-    title: Get a free Minecraft server with OwnServer
+    title: Get a free Java version of Minecraft server with OwnServer
+  minecraft_be:
+    title: Get a free Bedrock version of Minecraft Server with OwnServer
   factorio:
     title: Get a free Factorio server with OwnServer
   custom:

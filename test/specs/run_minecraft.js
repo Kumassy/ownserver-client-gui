@@ -6,7 +6,7 @@ describe('Run Minecraft Game', () => {
     // Select Minecraft
     // verify minecraft is selected
     {
-      const minecraft = await $('aria/Minecraft')
+      const minecraft = await $('aria/Minecraft Java Edition')
       await expect(minecraft).toBePresent()
 
       await $('button*=Next').click()

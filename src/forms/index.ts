@@ -1,4 +1,5 @@
 export * from './FormCustom'
 export * from './FormFactorio'
 export * from './FormMinecraft'
+export * from './FormMinecraftBe'
 export * from './FormNotFound'

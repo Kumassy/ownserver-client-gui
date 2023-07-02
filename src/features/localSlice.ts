@@ -27,6 +27,10 @@ export type GameConfig = {
   workdir: string | null,
   acceptEula: boolean,
 } | {
+  kind: 'minecraft_be',
+  filepath: string | null,
+  workdir: string | null
+} | {
   kind: 'factorio',
   savepath: string | null,
 }
@@ -133,6 +137,15 @@ export const localSlice = createSlice({
             acceptEula: false,
           }
           state.protocol = 'tcp'
+          break;
+        case 'minecraft_be':
+          state.command = null
+          state.config = {
+            kind: 'minecraft_be',
+            filepath: null,
+            workdir: null,
+          }
+          state.protocol = 'udp'
           break;
         case 'factorio':
           state.command = null
@@ -246,6 +259,11 @@ export const localSlice = createSlice({
             state.config.filepath = filepath
             state.config.workdir = dir
             state.command = `java -Xmx1024M -Xms1024M -jar ${filepath} nogui`
+            break;
+          case 'minecraft_be':
+            state.config.filepath = filepath
+            state.config.workdir = dir
+            state.command = `${filepath}`
             break;
           case 'factorio':
             state.config.savepath = filepath

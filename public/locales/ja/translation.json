@@ -21,7 +21,8 @@
                         "selectGame": "ゲームを選択",
                         "games": {
                             "custom": "カスタム設定",
-                            "minecraft": "Minecraft",
+                            "minecraft": "Minecraft Java Edition",
+                            "minecraft_be": "Minecraft Bedrock Edition",
                             "factorio": "factorio"
                         }
                     }
@@ -51,6 +52,30 @@
                             "backDesc": "ゲームサーバーを停止してください",
                             "nextDesc": "ゲームサーバーを起動してください",
                             "operationDesc": "server.jar を選択してください。また、 EULA に同意してください"
+                        }
+                    },
+                    "minecraft_be": {
+                        "errors": {
+                            "filepath": "エラー: filepath が存在しません"
+                        },
+                        "settings": {
+                            "label": "設定",
+                            "file": "bedrock_server.exe を選択",
+                            "fileDesc": "ここから bedrock_server.exe をダウンロードしてください: https://www.minecraft.net/en-us/download/server/bedrock"
+                        },
+                        "advancedSettings": {
+                            "label": "上級者向け設定",
+                            "command": "サーバー起動コマンド",
+                            "port": "ポート"
+                        },
+                        "tasks": {
+                            "label": "タスク一覧",
+                            "start": "ゲームサーバーを起動"
+                        },
+                        "control": {
+                            "backDesc": "ゲームサーバーを停止してください",
+                            "nextDesc": "ゲームサーバーを起動してください",
+                            "operationDesc": "bedrock_server.exe を選択してください"
                         }
                     },
                     "factorio": {

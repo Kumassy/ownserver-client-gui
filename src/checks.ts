@@ -84,6 +84,8 @@ export const getCheckList = (game: GameId): Array<CheckEntry> => {
       return []
     case 'minecraft':
       return [{ id: CHECK_JAVA_VERSION, label: "javaVersion"}, { id: CHECK_OR_CREATE_EULA, label: "createEula"}]
+    case 'minecraft_be':
+      return []
     case 'factorio':
       return [{ id: CHECK_DOCKER_VERSION, label: "dockerVersion"}]
   }

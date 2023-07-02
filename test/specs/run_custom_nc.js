@@ -5,7 +5,7 @@ describe('Run iperf3', () => {
     ////
     // Select Custom
     {
-      const minecraft = await $('aria/Minecraft')
+      const minecraft = await $('aria/Minecraft Java Edition')
       await minecraft.click()
 
       const custom = await $('aria/Custom')

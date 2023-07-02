@@ -26,6 +26,7 @@ export const StepSelectGame: React.FC<StepSelectGameProps> = ({ handleBack, hand
           {/* <MenuItem value={'http'}>HTTP</MenuItem> */}
           <MenuItem value={'custom'}>{t('panel.startServer.steps.selectGame.forms.games.custom')}</MenuItem>
           <MenuItem value={'minecraft'}>{t('panel.startServer.steps.selectGame.forms.games.minecraft')}</MenuItem>
+          <MenuItem value={'minecraft_be'}>{t('panel.startServer.steps.selectGame.forms.games.minecraft_be')}</MenuItem>
           <MenuItem value={'factorio'}>{t('panel.startServer.steps.selectGame.forms.games.factorio')}</MenuItem>
         </Select>
       </FormControl>

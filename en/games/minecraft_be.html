@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Get a free Java version of Minecraft server with OwnServer</title>
+    <title>Get a free Bedrock version of Minecraft Server with OwnServer</title>
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -63,10 +63,10 @@
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 
                             
-                            <li><a class="dropdown-item" href="/games/minecraft">🇯🇵 日本語</a></li>
+                            <li><a class="dropdown-item" href="/games/minecraft_be">🇯🇵 日本語</a></li>
 
                             
-                            <li><a class="dropdown-item" href="/en/games/minecraft">🇺🇸 English</a></li>
+                            <li><a class="dropdown-item" href="/en/games/minecraft_be">🇺🇸 English</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -78,55 +78,65 @@
 
     <section>
         <div class="container py-5">
-            <h1 id="get-a-minecraft-server">Get a Minecraft Server</h1>
+            <h1 id="get-a-bedrock-version-of-minecraft-server">Get a Bedrock version of Minecraft Server</h1>
+<p>The following pages explain how to run the server on Windows.</p>
+
 <h2 id="prerequisite">Prerequisite</h2>
-<p>Please refer to this article to install <code class="language-plaintext highlighter-rouge">java</code> on your computer.</p>
+<p>Download and extract the zip file containing bedrock_server.exe from the following page:</p>
 
 <blockquote class="blockquote">
-  <p>Tutorials/Setting up a server
-<a href="https://minecraft.fandom.com/wiki/Tutorials/Setting_up_a_server#Installing_Java_3">https://minecraft.fandom.com/wiki/Tutorials/Setting_up_a_server#Installing_Java_3</a></p>
+  <p>Minecraft Bedrock Server Download | Minecraft<br />
+<a href="https://www.minecraft.net/en-us/download/server/bedrock">https://www.minecraft.net/en-us/download/server/bedrock</a></p>
 </blockquote>
 
-<p>Create a new folder on your desktop or somewhere else.<br />
-Download <code class="language-plaintext highlighter-rouge">server.jar</code> from this web page and place it in the folder you just created.</p>
+<p>Ensure that OwnServer Client is installed.</p>
 
-<blockquote class="blockquote">
-  <p>DOWNLOAD THE MINECRAFT: JAVA EDITION SERVER
-<a href="https://www.minecraft.net/en-us/download/server">https://www.minecraft.net/en-us/download/server</a></p>
+<p>Open a command prompt with administrator privileges and execute the following command</p>
+
+<blockquote>
+
+  <p>CheckNetIsolation.exe LoopbackExempt –a –p=S-1-15-2-1958404141-86561845-1752920682-3514627264-368642714-62675701-733520436</p>
 </blockquote>
 
-<p>Verify that OwnServer Client is installed.</p>
+<p><img src="/img/en/minecraft_be/configure_loopback.png" alt="" /></p>
 
 <h2 id="publish-your-minecraft-server-to-the-internet">Publish your Minecraft server to the Internet</h2>
-<p>Start OwnServer Client, select <code class="language-plaintext highlighter-rouge">Minecraft</code> and click <em>Next</em>.
-<img src="/img/en/minecraft/step_selectgame.png" alt="" /></p>
+<p>Start OwnServer Client, select <code class="language-plaintext highlighter-rouge">Minecraft Bedrock Edition</code> and click <em>Next</em>.</p>
 
-<p>Click <em>SELECT SERVER.jar</em> and open the <code class="language-plaintext highlighter-rouge">server.jar</code> you just downloaded. In addition, check <em>Accept EULA</em>.
+<p><img src="/img/en/minecraft_be/step_selectgame.png" alt="" /></p>
+
+<p>Click <em>SELECT bedrock_server.exe</em> and open the <code class="language-plaintext highlighter-rouge">bedrock_server.exe</code> you just downloaded.
 Next, click <em>Start</em> to launch the Minecraft server.
-Saved data will be created in the folder containing <code class="language-plaintext highlighter-rouge">server.jar</code>.</p>
+Saved data will be created in the folder containing <code class="language-plaintext highlighter-rouge">bedrock_server.exe</code>.</p>
 
-<p><img src="/img/en/minecraft/step_confgame_start.png" alt="" /></p>
+<p><img src="/img/en/minecraft_be/step_confgame_start.png" alt="" /></p>
 
-<p>Wait a moment, make sure that the status of <em>Start Game Server</em> is <code class="language-plaintext highlighter-rouge">Running</code> and click <em>Next</em>.
-<img src="/img/en/minecraft/step_confgame_next.png" alt="" /></p>
+<p>Wait a moment, make sure that the status of <em>Start Game Server</em> is <code class="language-plaintext highlighter-rouge">Running</code> and click <em>Next</em>.</p>
 
-<p>Clicking <em>Start</em> will expose the Minecraft server running on your computer to the Internet!
-<img src="/img/en/minecraft/step_tunnel_start.png" alt="" /></p>
+<p><img src="/img/en/minecraft_be/step_confgame_next.png" alt="" /></p>
 
-<p>Verify that the status of <em>Start OwnServer</em> is <em>Running</em> and select <em>Next</em>.
-<img src="/img/en/minecraft/step_tunnel_next.png" alt="" /></p>
+<p>Clicking <em>Start</em> will expose the Minecraft server running on your computer to the Internet!</p>
 
-<p>You can see the public address of your Minecraft server. Share this with your friends!
-<img src="/img/en/minecraft/step_monitor.png" alt="" /></p>
+<p><img src="/img/en/minecraft_be/step_tunnel_start.png" alt="" /></p>
+
+<p>Verify that the status of <em>Start OwnServer</em> is <em>Running</em> and select <em>Next</em>.</p>
+
+<p><img src="/img/en/minecraft_be/step_tunnel_next.png" alt="" /></p>
+
+<p>You can see the public address of your Minecraft server. Share this with your friends!</p>
+
+<p><img src="/img/en/minecraft_be/step_monitor.png" alt="" /></p>
 
 <h2 id="join-the-minecraft-server">Join the Minecraft server</h2>
 <p>Start Minecraft and select <em>Multiplayer</em> -&gt; <em>Add Server</em>.</p>
 
-<p>Paste the server address.
-<img src="/img/en/minecraft/step_ingame.png" alt="" />
-Note that the server address changes each time the OwnServer client is started.</p>
+<p>Paste the server address.</p>
 
-<h2 id="disclaimer">Disclaimer</h2>
+<p><img src="/img/en/minecraft_be/step_ingame.png" alt="" /></p>
+
+<p>Note that the server address changes each time the OwnServer client is started.</p>
+
+<h2 id="免責事項">免責事項</h2>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NOT OFFICIAL MINECRAFT PRODUCT.NOT APPROVED BY OR ASSOCIATED WITH MOJANG
 </code></pre></div></div>
 

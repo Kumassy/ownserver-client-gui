@@ -23,6 +23,10 @@ describe('Run iperf3', () => {
     ////
     // Fill out Custom form
     {
+
+      const useLocalFeature = await $('span*=Enter the command')
+      await useLocalFeature.click()
+
       const start = await $('button*=Start')
       await start.waitUntil(async () => await start.isEnabled(), {
         timeout: 5000,

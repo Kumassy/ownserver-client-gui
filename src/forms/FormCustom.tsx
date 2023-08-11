@@ -45,6 +45,30 @@ export const FormCustom: React.FC<FormProps> = ({ handleBack, handleNext }) => {
           {t('panel.startServer.steps.launchLocalServer.custom.settings.label')}
         </Typography>
 
+        <TextField
+          fullWidth
+          id="local-port"
+          label={t('panel.startServer.steps.launchLocalServer.custom.settings.port')}
+          type="number"
+          variant="outlined"
+          onChange={e => dispatch(updateLocalPort(parseInt(e.target.value)))}
+          value={localPort}
+        />
+
+        <Box>
+          <InputLabel id="select-protocol-label">{t('panel.startServer.steps.launchLocalServer.custom.settings.protocol.label')}</InputLabel>
+          <Select
+            labelId="select-protocol-label"
+            id="select-protocol"
+            value={protocol}
+            label={t('panel.startServer.steps.launchLocalServer.custom.settings.protocol.label')}
+            onChange={(e: SelectChangeEvent<Protocol>) => dispatch(updateProtocol(e.target.value as Protocol))}
+          >
+            <MenuItem value={'tcp'}>{t('panel.startServer.steps.launchLocalServer.custom.settings.protocol.tcp')}</MenuItem>
+            <MenuItem value={'udp'}>{t('panel.startServer.steps.launchLocalServer.custom.settings.protocol.udp')}</MenuItem>
+          </Select>
+        </Box>
+
         <FormControlLabel
           control={
             <Checkbox
@@ -65,27 +89,6 @@ export const FormCustom: React.FC<FormProps> = ({ handleBack, handleNext }) => {
             onChange={e => dispatch(updateCommand(e.target.value))}
             value={command ? command : ''}
           />
-          <TextField
-            fullWidth
-            id="local-port"
-            label={t('panel.startServer.steps.launchLocalServer.custom.settings.port')}
-            type="number"
-            variant="outlined"
-            onChange={e => dispatch(updateLocalPort(parseInt(e.target.value)))}
-            value={localPort}
-          />
-
-          <InputLabel id="select-protocol-label">{t('panel.startServer.steps.launchLocalServer.custom.settings.protocol.label')}</InputLabel>
-          <Select
-            labelId="select-protocol-label"
-            id="select-protocol"
-            value={protocol}
-            label={t('panel.startServer.steps.launchLocalServer.custom.settings.protocol.label')}
-            onChange={(e: SelectChangeEvent<Protocol>) => dispatch(updateProtocol(e.target.value as Protocol))}
-          >
-            <MenuItem value={'tcp'}>{t('panel.startServer.steps.launchLocalServer.custom.settings.protocol.tcp')}</MenuItem>
-            <MenuItem value={'udp'}>{t('panel.startServer.steps.launchLocalServer.custom.settings.protocol.udp')}</MenuItem>
-          </Select>
 
           <Grid container spacing={2} sx={{ mb: 2 }}>
             <Grid item xs={12}>

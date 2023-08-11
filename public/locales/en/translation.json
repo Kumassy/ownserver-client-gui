@@ -105,6 +105,7 @@
                     "custom": {
                         "settings": {
                             "label": "Settings",
+                            "useLocalFeature": "Enter the command to start the game server",
                             "command": "Server Startup Command",
                             "port": "Port",
                             "protocol": {

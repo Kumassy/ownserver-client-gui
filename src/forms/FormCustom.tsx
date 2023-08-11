@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { killChild, updateCommand, updateLocalPort, runChecksAndLaunchLocal, updateProtocol } from '../features/localSlice';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 
@@ -13,7 +13,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import AutoScroll from '@brianmcallister/react-auto-scroll';
-import { InputLabel, MenuItem, Select, SelectChangeEvent, Tooltip } from '@mui/material';
+import { Checkbox, Collapse, FormControlLabel, InputLabel, MenuItem, Select, SelectChangeEvent, Tooltip } from '@mui/material';
 import { Protocol } from '../common';
 import { useTranslation } from 'react-i18next';
 import { FormProps } from '../types';
@@ -29,8 +29,10 @@ export const FormCustom: React.FC<FormProps> = ({ handleBack, handleNext }) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch()
 
+  const [useLocalFeature, setUseLocalFeature] = useState(false);
+
   const isBackDisabled = localStatus === 'running'
-  const isNextDisabled = localStatus !== 'running'
+  const isNextDisabled = (useLocalFeature && localStatus !== 'running')
   return (
     <React.Fragment>
       <Box
@@ -43,97 +45,111 @@ export const FormCustom: React.FC<FormProps> = ({ handleBack, handleNext }) => {
           {t('panel.startServer.steps.launchLocalServer.custom.settings.label')}
         </Typography>
 
-        <TextField
-          fullWidth
-          id="local-server-command"
-          label={t('panel.startServer.steps.launchLocalServer.custom.settings.command')}
-          variant="outlined"
-          onChange={e => dispatch(updateCommand(e.target.value))}
-          value={command ? command : ''}
-        />
-        <TextField
-          fullWidth
-          id="local-port"
-          label={t('panel.startServer.steps.launchLocalServer.custom.settings.port')}
-          type="number"
-          variant="outlined"
-          onChange={e => dispatch(updateLocalPort(parseInt(e.target.value)))}
-          value={localPort}
-        />
-
-        <InputLabel id="select-protocol-label">{t('panel.startServer.steps.launchLocalServer.custom.settings.protocol.label')}</InputLabel>
-        <Select
-          labelId="select-protocol-label"
-          id="select-protocol"
-          value={protocol}
-          label={t('panel.startServer.steps.launchLocalServer.custom.settings.protocol.label')}
-          onChange={(e: SelectChangeEvent<Protocol>) => dispatch(updateProtocol(e.target.value as Protocol))}
-        >
-          <MenuItem value={'tcp'}>{t('panel.startServer.steps.launchLocalServer.custom.settings.protocol.tcp')}</MenuItem>
-          <MenuItem value={'udp'}>{t('panel.startServer.steps.launchLocalServer.custom.settings.protocol.udp')}</MenuItem>
-        </Select>
-
-        <Grid container spacing={2} sx={{ mb: 2 }}>
-          <Grid item xs={12}>
-            <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
-              {t('panel.startServer.steps.launchLocalServer.custom.tasks.label')}
-            </Typography>
-
-            {checks.map(check => {
-              return (
-                <Accordion key={check.id}>
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                  >
-                    <Typography>{t(`panel.startServer.checks.${check.label}`)} <ResultChip status={check.status} /></Typography>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <Typography>
-                      {check.message}
-                    </Typography>
-                  </AccordionDetails>
-                </Accordion>
-              )
-            })}
-
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-              >
-                <Typography>{t('panel.startServer.steps.launchLocalServer.custom.tasks.start')} <ResultChip status={localStatus} /></Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <AutoScroll
-                  showOption={false}
-                  height={100}
-                >
-                  {localMessages.map(msg => {
-                    return (
-                      <div key={msg.key}>
-                        {msg.message}
-                      </div>
-                    );
-                  })}
-                </AutoScroll>
-              </AccordionDetails>
-            </Accordion>
-          </Grid>
-        </Grid>
-
-        <Grid
-          container
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Grid item xs={12}>
-            <OperationButton
-              status={localStatus}
-              launch={runChecksAndLaunchLocal}
-              interrupt={killChild}
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={useLocalFeature}
+              onChange={() => setUseLocalFeature(!useLocalFeature)}
+              name="useLocalFeature"
             />
+          }
+          label={t('panel.startServer.steps.launchLocalServer.custom.settings.useLocalFeature')}
+        />
+
+        <Collapse in={useLocalFeature}>
+          <TextField
+            fullWidth
+            id="local-server-command"
+            label={t('panel.startServer.steps.launchLocalServer.custom.settings.command')}
+            variant="outlined"
+            onChange={e => dispatch(updateCommand(e.target.value))}
+            value={command ? command : ''}
+          />
+          <TextField
+            fullWidth
+            id="local-port"
+            label={t('panel.startServer.steps.launchLocalServer.custom.settings.port')}
+            type="number"
+            variant="outlined"
+            onChange={e => dispatch(updateLocalPort(parseInt(e.target.value)))}
+            value={localPort}
+          />
+
+          <InputLabel id="select-protocol-label">{t('panel.startServer.steps.launchLocalServer.custom.settings.protocol.label')}</InputLabel>
+          <Select
+            labelId="select-protocol-label"
+            id="select-protocol"
+            value={protocol}
+            label={t('panel.startServer.steps.launchLocalServer.custom.settings.protocol.label')}
+            onChange={(e: SelectChangeEvent<Protocol>) => dispatch(updateProtocol(e.target.value as Protocol))}
+          >
+            <MenuItem value={'tcp'}>{t('panel.startServer.steps.launchLocalServer.custom.settings.protocol.tcp')}</MenuItem>
+            <MenuItem value={'udp'}>{t('panel.startServer.steps.launchLocalServer.custom.settings.protocol.udp')}</MenuItem>
+          </Select>
+
+          <Grid container spacing={2} sx={{ mb: 2 }}>
+            <Grid item xs={12}>
+              <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
+                {t('panel.startServer.steps.launchLocalServer.custom.tasks.label')}
+              </Typography>
+
+              {checks.map(check => {
+                return (
+                  <Accordion key={check.id}>
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                    >
+                      <Typography>{t(`panel.startServer.checks.${check.label}`)} <ResultChip status={check.status} /></Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Typography>
+                        {check.message}
+                      </Typography>
+                    </AccordionDetails>
+                  </Accordion>
+                )
+              })}
+
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                >
+                  <Typography>{t('panel.startServer.steps.launchLocalServer.custom.tasks.start')} <ResultChip status={localStatus} /></Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <AutoScroll
+                    showOption={false}
+                    height={100}
+                  >
+                    {localMessages.map(msg => {
+                      return (
+                        <div key={msg.key}>
+                          {msg.message}
+                        </div>
+                      );
+                    })}
+                  </AutoScroll>
+                </AccordionDetails>
+              </Accordion>
+            </Grid>
           </Grid>
-        </Grid>
+
+          <Grid
+            container
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Grid item xs={12}>
+              <OperationButton
+                status={localStatus}
+                launch={runChecksAndLaunchLocal}
+                interrupt={killChild}
+              />
+            </Grid>
+          </Grid>
+        </Collapse>
+
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
         <Tooltip title={isBackDisabled ? t('panel.startServer.steps.launchLocalServer.custom.control.backDesc'): ""}>

@@ -105,6 +105,7 @@
                     "custom": {
                         "settings": {
                             "label": "設定",
+                            "useLocalFeature": "ゲームサーバーを起動するコマンドを入力する",
                             "command": "サーバー起動コマンド",
                             "port": "ポート",
                             "protocol": {

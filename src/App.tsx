@@ -16,7 +16,6 @@ import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 import { StepContent } from './steps'
 import { Drawer, Grid, InputLabel, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import Inquiry from './Inquiry';
-import { setMinecraftFilePathChild } from './features/configSlice'
 
 function isClientInfo(arg: any): arg is ClientInfo {
   return 'client_id' in arg && 'remote_addr' in arg
@@ -137,7 +136,6 @@ function App() {
               />
             </Box>
           </Box>
-          <button onClick={() => {console.log('clocked'); dispatch(setMinecraftFilePathChild('/path/to/mc'))}}>debug button</button>
         </Box>
       }
       {panel === 'settings' &&

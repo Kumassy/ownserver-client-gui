@@ -62,11 +62,16 @@ export const checkRegistry: CheckRegistry = {
     if (state == null) {
       throw new Error('config is not for minecraft')
     }
-    if (state.local.config.kind !== 'minecraft' && state.local.config.kind !== 'minecraft_forge') {
+    if (state?.local.game !== 'minecraft' && state?.local.game !== 'minecraft_forge') {
       throw new Error('config is not for minecraft')
     }
 
-    const workdir = state.local.config.workdir;
+    let workdir
+    if (state?.local.game === 'minecraft') {
+      workdir = state.local.config.minecraft.workdir;
+    } else if (state?.local.game === 'minecraft_forge') {
+      workdir = state.local.config.minecraft_forge.workdir;
+    }
     if (workdir == null) {
       throw new Error('workdir not set')
     }
@@ -92,8 +97,6 @@ export type CheckEntry = {
 export const getCheckList = (game: GameId): Array<CheckEntry> => {
   switch (game) {
     case 'custom':
-      return []
-    case 'http':
       return []
     case 'minecraft':
       return [{ id: CHECK_JAVA_VERSION, label: "javaVersion"}, { id: CHECK_OR_CREATE_EULA, label: "createEula"}]

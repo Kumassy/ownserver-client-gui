@@ -10,10 +10,16 @@ export function formatProtocol(protocol: Protocol): string {
   }
 }
 export type EndpointClaim = {
+  key?: string,
   protocol: Protocol,
   port: number
 }
-export type EndpointClaims = Array<EndpointClaim>
+
+export type EndpointClaimRs = {
+  protocol: Protocol,
+  local_port: number,
+  remote_port: number,
+}
 
 export function toLocalPort(game: GameId): number {
   switch(game) {

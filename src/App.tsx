@@ -16,6 +16,7 @@ import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 import { StepContent } from './steps'
 import { Drawer, Grid, InputLabel, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import Inquiry from './Inquiry';
+import { initializeTauriState } from './features/tauriSlice'
 
 function isClientInfo(arg: any): arg is ClientInfo {
   return 'client_id' in arg && 'remote_addr' in arg
@@ -60,6 +61,10 @@ function App() {
       }
     }
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(initializeTauriState())
+  }, [dispatch])
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);

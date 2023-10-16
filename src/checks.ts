@@ -25,8 +25,8 @@ export const CHECK_OR_CREATE_EULA: CheckId = 'check-or-create-eula'
 
 export const checkRegistry: CheckRegistry = {
   [CHECK_JAVA_VERSION]: async () => {
-    const output_new = await new Command('run-java', ['--version']).execute()
-    const output_old = await new Command('run-java', ['-version']).execute()
+    const output_new = await new Command('java', ['--version']).execute()
+    const output_old = await new Command('java', ['-version']).execute()
     if (output_new.code !== 0 && output_old.code !== 0) {
       const message = `
        'java --version' exited with non-zero code: ${output_new.code}, stderr: ${output_new.stderr}
@@ -43,7 +43,7 @@ export const checkRegistry: CheckRegistry = {
     }
   },
   [CHECK_SH_VERSION]: async () => {
-    const output = await new Command('run-sh', ['--version']).execute()
+    const output = await new Command('sh', ['--version']).execute()
     if (output.code !== 0) {
       const message = `test exited with non-zero code: ${output.code}, stderr: ${output.stderr}`
       throw new StatusCodeError(message)
@@ -51,7 +51,7 @@ export const checkRegistry: CheckRegistry = {
     return output.stdout
   },
   [CHECK_DOCKER_VERSION]: async () => {
-    const output = await new Command('run-docker', ['--version']).execute()
+    const output = await new Command('docker', ['--version']).execute()
     if (output.code !== 0) {
       const message = `test exited with non-zero code: ${output.code}, stderr: ${output.stderr}`
       throw new StatusCodeError(message)

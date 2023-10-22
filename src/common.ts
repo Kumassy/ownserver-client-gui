@@ -10,7 +10,7 @@ export function formatProtocol(protocol: Protocol): string {
   }
 }
 export type EndpointClaim = {
-  key?: string,
+  key: string,
   protocol: Protocol,
   port: number
 }

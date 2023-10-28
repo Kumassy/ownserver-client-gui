@@ -35,3 +35,34 @@ export function toLocalPort(game: GameId): number {
       return 34197
   }
 }
+
+export interface Endpoint {
+  id: string,
+  protocol: Protocol,
+  local_port: number,
+  remote_port: number
+}
+
+export function isEndpoint(obj: any): obj is Endpoint {
+  return (
+    typeof obj.id === 'string' &&
+    (obj.protocol === 'TCP' || obj.protocol === 'UDP') &&
+    typeof obj.local_port === 'number' &&
+    typeof obj.remote_port === 'number'
+  );
+}
+
+export interface ClientInfo {
+  client_id: string,
+  host: string,
+  endpoints: Endpoint[],
+}
+
+export function isClientInfo(obj: any): obj is ClientInfo {
+  return (
+    typeof obj.client_id === 'string' &&
+    typeof obj.host === 'string' &&
+    Array.isArray(obj.endpoints) &&
+    obj.endpoints.every((endpoint: any) => isEndpoint(endpoint))
+  );
+}

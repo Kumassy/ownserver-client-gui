@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import './App.css'
 import { listen } from '@tauri-apps/api/event'
 import { useAppDispatch, useAppSelector } from './app/hooks'
-import { ClientInfo, updateClientInfo } from './features/tunnelSlice'
+import { updateClientInfo } from './features/tunnelSlice'
 import { useTranslation } from 'react-i18next';
 
 import Box from '@mui/material/Box';
@@ -17,10 +17,7 @@ import { StepContent } from './steps'
 import Inquiry from './Inquiry';
 import { Drawer, Grid, InputLabel, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material'
 import { initializeTauriState } from './features/tauriSlice'
-
-function isClientInfo(arg: any): arg is ClientInfo {
-  return 'client_id' in arg && 'remote_addr' in arg
-}
+import { isClientInfo } from './common'
 
 const steps = [
   'panel.startServer.stepper.selectGame',

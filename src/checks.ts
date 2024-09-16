@@ -25,12 +25,22 @@ export const CHECK_OR_CREATE_EULA: CheckId = 'check-or-create-eula'
 
 export const checkRegistry: CheckRegistry = {
   [CHECK_JAVA_VERSION]: async () => {
-    const output = await new Command('run-java', ['--version']).execute()
-    if (output.code !== 0) {
-      const message = `test exited with non-zero code: ${output.code}, stderr: ${output.stderr}`
+    const output_new = await new Command('run-java', ['--version']).execute()
+    const output_old = await new Command('run-java', ['-version']).execute()
+    if (output_new.code !== 0 && output_old.code !== 0) {
+      const message = `
+       'java --version' exited with non-zero code: ${output_new.code}, stderr: ${output_new.stderr}
+       'java -version' exited with non-zero code: ${output_old.code}, stderr: ${output_old.stderr}
+       `
       throw new StatusCodeError(message)
     }
-    return output.stdout
+
+    if (output_new.code === 0) {
+      return output_new.stdout
+    } else {
+      // old java print versions on stderr
+      return output_old.stderr
+    }
   },
   [CHECK_SH_VERSION]: async () => {
     const output = await new Command('run-sh', ['--version']).execute()

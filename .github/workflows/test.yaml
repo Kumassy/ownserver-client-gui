@@ -13,7 +13,7 @@ jobs:
     - name: install Rust stable
       uses: actions-rs/toolchain@v1
       with:
-        toolchain: stable
+        toolchain: 1.79.0
     - name: install dependencies (ubuntu only)
       run: |
         sudo apt-get update
@@ -65,7 +65,7 @@ jobs:
     - name: install Rust stable
       uses: actions-rs/toolchain@v1
       with:
-        toolchain: stable
+        toolchain: 1.79.0
 
     - name: Cargo test
       uses: actions-rs/cargo@v1

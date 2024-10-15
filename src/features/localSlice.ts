@@ -281,7 +281,7 @@ export const localSlice = createSlice({
           case 'minecraft_forge':
             state.config.filepath = filepath
             state.config.workdir = dirname
-            state.command = `${basename}`
+            state.command = `${filepath}`
             break;
           case 'factorio':
             state.config.savepath = filepath

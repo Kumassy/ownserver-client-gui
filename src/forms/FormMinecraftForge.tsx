@@ -27,14 +27,13 @@ export const FormMinecraftForge: React.FC<FormProps> = ({ handleBack, handleNext
   const localPort = useAppSelector(state => state.local.port)
   const command = useAppSelector(state => state.local.command)
   const checks = useAppSelector(state => state.local.checks)
-  const filepath = useAppSelector(state => 'filepath' in state.local.config ? state.local.config.filepath : t('panel.startServer.steps.launchLocalServer.minecraft.errors.filepath'))
-  const eulaChecked = useAppSelector(state => 'acceptEula' in state.local.config ? state.local.config.acceptEula : false)
+  const filepath = useAppSelector(state => 'filepath' in state.local.config ? state.local.config.filepath : t('panel.startServer.steps.launchLocalServer.minecraft_forge.errors.filepath'))
   const { t } = useTranslation();
   const dispatch = useAppDispatch()
 
   const isBackDisabled = localStatus === 'running'
   const isNextDisabled = localStatus !== 'running'
-  const isOperationButtonDisabled = filepath == null || eulaChecked === false
+  const isOperationButtonDisabled = filepath == null
 
 
   const unlistenRef = useRef<() => void>();
@@ -67,7 +66,7 @@ export const FormMinecraftForge: React.FC<FormProps> = ({ handleBack, handleNext
         }}
       >
         <Typography sx={{ mb: 2 }} variant="h6" component="div">
-          {t('panel.startServer.steps.launchLocalServer.minecraft.settings.label')}
+          {t('panel.startServer.steps.launchLocalServer.minecraft_forge.settings.label')}
         </Typography>
 
         <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 2}}>
@@ -77,8 +76,8 @@ export const FormMinecraftForge: React.FC<FormProps> = ({ handleBack, handleNext
               const file = await open({
                 multiple: false,
                 filters: [{
-                  name: 'jar',
-                  extensions: ['jar']
+                  name: 'script',
+                  extensions: ['sh', 'bat']
                 }]
               });
 
@@ -87,35 +86,25 @@ export const FormMinecraftForge: React.FC<FormProps> = ({ handleBack, handleNext
               }
             }}
           >
-            {t('panel.startServer.steps.launchLocalServer.minecraft.settings.file')}
+            {t('panel.startServer.steps.launchLocalServer.minecraft_forge.settings.file')}
           </Button>
           {filepath == null?
-            <Typography>{t('panel.startServer.steps.launchLocalServer.minecraft.settings.fileDesc')}</Typography>
+            <Typography>{t('panel.startServer.steps.launchLocalServer.minecraft_forge.settings.fileDesc')}</Typography>
           : <Typography>{filepath}</Typography>}
 
         </Stack>
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={eulaChecked}
-                onChange={(e) => dispatch(updateAcceptEula(e.target.checked))} />
-            }
-            label={t('panel.startServer.steps.launchLocalServer.minecraft.settings.eula')} />
-          <FormHelperText>{t('panel.startServer.steps.launchLocalServer.minecraft.settings.eulaDesc')}</FormHelperText>
-        </FormGroup>
 
         <Accordion>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
           >
-            <Typography>{t('panel.startServer.steps.launchLocalServer.minecraft.advancedSettings.label')}</Typography>
+            <Typography>{t('panel.startServer.steps.launchLocalServer.minecraft_forge.advancedSettings.label')}</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <TextField
               fullWidth
               id="local-server-command"
-              label={t('panel.startServer.steps.launchLocalServer.minecraft.advancedSettings.command')}
+              label={t('panel.startServer.steps.launchLocalServer.minecraft_forge.advancedSettings.command')}
               variant="outlined"
               onChange={e => dispatch(updateCommand(e.target.value))}
               value={command}
@@ -123,7 +112,7 @@ export const FormMinecraftForge: React.FC<FormProps> = ({ handleBack, handleNext
             <TextField
               fullWidth
               id="local-port"
-              label={t('panel.startServer.steps.launchLocalServer.minecraft.advancedSettings.port')}
+              label={t('panel.startServer.steps.launchLocalServer.minecraft_forge.advancedSettings.port')}
               type="number"
               variant="outlined"
               onChange={e => dispatch(updateLocalPort(parseInt(e.target.value)))}
@@ -139,7 +128,7 @@ export const FormMinecraftForge: React.FC<FormProps> = ({ handleBack, handleNext
         <Grid container spacing={2} sx={{ mb: 2 }}>
           <Grid item xs={12}>
             <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
-              {t('panel.startServer.steps.launchLocalServer.minecraft.tasks.label')}
+              {t('panel.startServer.steps.launchLocalServer.minecraft_forge.tasks.label')}
             </Typography>
 
             {checks.map(check => {
@@ -162,7 +151,7 @@ export const FormMinecraftForge: React.FC<FormProps> = ({ handleBack, handleNext
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
               >
-                <Typography>{t('panel.startServer.steps.launchLocalServer.minecraft.tasks.start')} <ResultChip status={localStatus} /></Typography>
+                <Typography>{t('panel.startServer.steps.launchLocalServer.minecraft_forge.tasks.start')} <ResultChip status={localStatus} /></Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <AutoScroll
@@ -189,7 +178,7 @@ export const FormMinecraftForge: React.FC<FormProps> = ({ handleBack, handleNext
           alignItems="center"
         >
           <Grid item xs={12}>
-            <Tooltip title={isOperationButtonDisabled ? t('panel.startServer.steps.launchLocalServer.minecraft.control.operationDesc'): ""}>
+            <Tooltip title={isOperationButtonDisabled ? t('panel.startServer.steps.launchLocalServer.minecraft_forge.control.operationDesc'): ""}>
               <span>
                 <OperationButton
                   status={localStatus}
@@ -204,7 +193,7 @@ export const FormMinecraftForge: React.FC<FormProps> = ({ handleBack, handleNext
       </Box>
 
       <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-        <Tooltip title={isBackDisabled ? t('panel.startServer.steps.launchLocalServer.minecraft.control.backDesc'): ""}>
+        <Tooltip title={isBackDisabled ? t('panel.startServer.steps.launchLocalServer.minecraft_forge.control.backDesc'): ""}>
           <span>
             <Button
               color="inherit"
@@ -217,7 +206,7 @@ export const FormMinecraftForge: React.FC<FormProps> = ({ handleBack, handleNext
         </Tooltip>
         <Box sx={{ flex: '1 1 auto' }} />
 
-        <Tooltip title={isNextDisabled ? t('panel.startServer.steps.launchLocalServer.minecraft.control.nextDesc'): ""}>
+        <Tooltip title={isNextDisabled ? t('panel.startServer.steps.launchLocalServer.minecraft_forge.control.nextDesc'): ""}>
           <span>
             <Button
               onClick={handleNext}

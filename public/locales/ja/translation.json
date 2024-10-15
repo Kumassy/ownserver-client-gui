@@ -23,6 +23,7 @@
                             "custom": "カスタム設定",
                             "minecraft": "Minecraft Java Edition",
                             "minecraft_be": "Minecraft Bedrock Edition",
+                            "minecraft_forge": "Minecraft Forge",
                             "factorio": "factorio"
                         }
                     }
@@ -76,6 +77,30 @@
                             "backDesc": "ゲームサーバーを停止してください",
                             "nextDesc": "ゲームサーバーを起動してください",
                             "operationDesc": "bedrock_server.exe を選択してください"
+                        }
+                    },
+                    "minecraft_forge": {
+                        "errors": {
+                            "filepath": "エラー: filepath が存在しません"
+                        },
+                        "settings": {
+                            "label": "設定",
+                            "file": "起動スクリプトを選択",
+                            "fileDesc": "run.sh (Linux) または run.bat (Windows) を選択してください"
+                        },
+                        "advancedSettings": {
+                            "label": "上級者向け設定",
+                            "command": "サーバー起動コマンド",
+                            "port": "ポート"
+                        },
+                        "tasks": {
+                            "label": "タスク一覧",
+                            "start": "ゲームサーバーを起動"
+                        },
+                        "control": {
+                            "backDesc": "ゲームサーバーを停止してください",
+                            "nextDesc": "ゲームサーバーを起動してください",
+                            "operationDesc": "起動スクリプトを選択してください"
                         }
                     },
                     "factorio": {

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './App.css'
 import { listen } from '@tauri-apps/api/event'
-import { open } from '@tauri-apps/api/shell';
 import { useAppDispatch } from './app/hooks'
 import { ClientInfo, updateClientInfo } from './features/tunnelSlice'
 import { useTranslation } from 'react-i18next';
@@ -15,8 +14,8 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 
 import { StepContent } from './steps'
-import { Button, ButtonGroup, Drawer, Grid, InputLabel, Link, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material'
-import { AppType, constructUrl, Game } from './inquiry';
+import { Drawer, Grid, InputLabel, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Select, SelectChangeEvent } from '@mui/material'
+import Inquiry from './Inquiry';
 
 function isClientInfo(arg: any): arg is ClientInfo {
   return 'client_id' in arg && 'remote_addr' in arg
@@ -73,11 +72,6 @@ function App() {
   const handleReset = () => {
     setActiveStep(0);
   };
-
-  const handleFormButtonClick = async () => {
-    const url = constructUrl(Game.MinecraftForge, 'Windows', AppType.GUI, '0.1.0', 'test');
-    await open(url);
-  }
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -168,36 +162,7 @@ function App() {
         </Box>
       }
       {panel === 'inquiry' &&
-        <Box sx={{ flexGrow: 1, padding: 2, display: 'flex', justifyContent: 'space-between', flexDirection: 'column'}}>
-          <Grid container spacing={2} sx={{ mb: 2 }}>
-            <Grid item xs={12}>
-              <Typography sx={{ mb: 2 }} variant="h6" component="div">
-                {t('panel.inquiry.title')}
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sx={{ mb: 2 }}>
-              <Typography>{t('panel.inquiry.description1')}</Typography>
-              <Typography>{t('panel.inquiry.description2')}</Typography>
-              <Link href="https://google.com" target="_blank">
-                {t('panel.inquiry.linkText')}
-              </Link>
-            </Grid>
-            <Grid item xs={12} sx={{ mb: 2 }}>
-              <ButtonGroup
-                orientation="vertical"
-                aria-label="Vertical button group"
-                variant="contained"
-              >
-                <Button variant="contained" onClick={handleFormButtonClick}>
-                  {t('panel.inquiry.formButtonText')}
-                </Button>
-                <Button variant="contained" href="https://google.com" target="_blank">
-                  {t('panel.inquiry.mashmallowButtonText')}
-                </Button>
-              </ButtonGroup>
-            </Grid>
-          </Grid>
-        </Box>
+        <Inquiry />
       }
     </Box>
   )

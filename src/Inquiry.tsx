@@ -80,7 +80,7 @@ function Inquiry() {
         <Grid item xs={12} sx={{ mb: 2 }}>
           <Typography>{t('panel.inquiry.description1')}</Typography>
           <Typography>{t('panel.inquiry.description2')}</Typography>
-          <Link href="https://google.com" target="_blank">
+          <Link href="https://ownserver.kumassy.com/inquiry" target="_blank">
             {t('panel.inquiry.linkText')}
           </Link>
         </Grid>

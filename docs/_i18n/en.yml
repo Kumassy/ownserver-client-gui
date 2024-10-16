@@ -3,6 +3,7 @@ global:
   header:
     how_to_use: Usage
     download: Download
+    guide: Guide
   footer:
     title: OwnServer - Free & Unlimited Gaming Servers
     links:
@@ -13,8 +14,8 @@ global:
         github: GitHub
     instructions:
       title: Guide
-      minecraft: Get a Minecraft Server
-      factorio: Get a Factorio Server
+      minecraft: Hosting Minecraft Server
+      factorio: Hosting Factorio Server
       custom: "[Advanded] Hosting Any Services"
   guides:
     title: Guide
@@ -95,10 +96,10 @@ pages:
   index:
     title: "[TOC] How to use OwnServer"
   minecraft:
-    title: Get a free Java version of Minecraft server with OwnServer
+    title: Hosting free Java version of Minecraft server with OwnServer
   minecraft_be:
-    title: Get a free Bedrock version of Minecraft Server with OwnServer
+    title: Hosting free Bedrock version of Minecraft Server with OwnServer
   factorio:
-    title: Get a free Factorio server with OwnServer
+    title: Hosting free Factorio server with OwnServer
   custom:
     title: Hosting any service to the Internet for free with OwnServer

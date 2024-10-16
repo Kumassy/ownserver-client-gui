@@ -4,6 +4,7 @@ global:
   header:
     how_to_use: 使い方
     download: ダウンロード
+    guide: ガイド
   footer:
     title: OwnServer - 無料で使える無制限のゲーム用サーバー
     links:
@@ -13,7 +14,7 @@ global:
         download: ダウンロード
         github: GitHub
     instructions:
-      title: 使い方
+      title: ガイド
       minecraft: Minecraft のサーバーを用意する
       factorio: factorio のサーバーを用意する
       custom: （上級者向け）任意のサービスを公開する

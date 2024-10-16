@@ -422,6 +422,12 @@ export const killChild = createAsyncThunk<void, undefined, { state: RootState }>
         throw new Error(`failed to stop container ownserver-local-${game}: ${output}`)
       }
       break;
+    case 'minecraft_forge':
+      if (child != null) {
+        await child.write('/stop')  
+      }
+      await child?.kill();
+      break;
     default:
       await child?.kill();
       break;

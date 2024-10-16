@@ -1,54 +1,53 @@
 # Hosting Minecraft Forge Server
 
-## Prerequisite
+## Install Java
+PowerShell を管理者権限で開き、以下のコマンドを実行して Java (OpenJDK) をインストールします
 
-Please refer to this article to install `java` on your computer.
+```
+winget install Microsoft.OpenJDK.21
+```
 
-> Tutorials/Setting up a server
-> [https://minecraft.fandom.com/wiki/Tutorials/Setting_up_a_server#Installing_Java_3](https://minecraft.fandom.com/wiki/Tutorials/Setting_up_a_server#Installing_Java_3)
-> {: .blockquote }
+![](/img/{{ site.lang }}/minecraft_forge/install_java.png)
 
-Create a new folder on your desktop or somewhere else.  
-Download `server.jar` from this web page and place it in the folder you just created.
+## Minecraft Forge をインストールする
+https://files.minecraftforge.net/net/minecraftforge/forge/ から Forge のインストーラをダウンロードします。
 
-> DOWNLOAD THE MINECRAFT: JAVA EDITION SERVER
-> [https://www.minecraft.net/en-us/download/server](https://www.minecraft.net/en-us/download/server)
-> {: .blockquote }
+`forge-<バージョン>-installer.jar` をダブルクリックして実行し、 `Install server` を実行します
 
-Verify that OwnServer Client is installed.
 
-## Publish your Minecraft server to the Internet
+![](/img/{{ site.lang }}/minecraft_forge/install_forge.png)
 
-Start OwnServer Client, select `Minecraft` and click _Next_.
-![](/img/{{ site.lang }}/minecraft/step_selectgame.png)
+## Minecraft Forge サーバーを立ち上げる
 
-Click *SELECT SERVER.jar* and open the `server.jar` you just downloaded. In addition, check *Accept EULA*.
-Next, click *Start* to launch the Minecraft server.
-Saved data will be created in the folder containing `server.jar`.
+OwnServer Client を起動して、 `Minecraft Forge` を選択して _次へ_ をクリックします
+![](/img/{{ site.lang }}/minecraft_forge/step_selectgame.png)
 
-![](/img/{{ site.lang }}/minecraft/step_confgame_start.png)
+_起動スクリプトを選択_ をクリックして、 Forge インストーラによって作られた `run.sh` または `run.bat` を探して開いてください。さらに _EULA に同意する_ にチェックをいれます。
+次に、 _起動_ をクリックして Minecraft Forge サーバーを起動します。
+セーブデータは `run.sh` または `run.bat` があるフォルダに作成されます。
+![](/img/{{ site.lang }}/minecraft_forge/step_confgame_start.png)
 
-Wait a moment, make sure that the status of _Start Game Server_ is `Running` and click _Next_.
-![](/img/{{ site.lang }}/minecraft/step_confgame_next.png)
+しばらく待ち、 _ゲームサーバーを起動_ の状態が `実行中` であることを確認して _次へ_ をクリックします。
+![](/img/{{ site.lang }}/minecraft_forge/step_confgame_next.png)
 
-Clicking _Start_ will expose the Minecraft server running on your computer to the Internet!
-![](/img/{{ site.lang }}/minecraft/step_tunnel_start.png)
+_起動_ をクリックすることで、あなたのパソコンで動いている Minecraft サーバーがインターネットに公開されます！
+![](/img/{{ site.lang }}/minecraft_forge/step_tunnel_start.png)
 
-Verify that the status of _Start OwnServer_ is _Running_ and select _Next_.
-![](/img/{{ site.lang }}/minecraft/step_tunnel_next.png)
+_OwnServer を起動_ のステータスが _実行中_ であることを確認して、 _次へ_ を選択します。
+![](/img/{{ site.lang }}/minecraft_forge/step_tunnel_next.png)
 
-You can see the public address of your Minecraft server. Share this with your friends!
-![](/img/{{ site.lang }}/minecraft/step_monitor.png)
+あなたの Minecraft サーバーに接続するためのアドレスが確認できます。これを友達に共有しましょう！
+![](/img/{{ site.lang }}/minecraft_forge/step_monitor.png)
 
-## Join the Minecraft server
+## Minecraft サーバーに参加する
 
-Start Minecraft and select *Multiplayer* -> *Add Server*.
+Minecraft を起動して、 *Multiplayer* -> *Add Server* を選択します。
 
-Paste the server address.
+サーバーのアドレスを貼り付けてください。
 ![](/img/{{ site.lang }}/minecraft/step_ingame.png)
-Note that the server address changes each time the OwnServer client is started.
+なお、サーバーのアドレスは OwnServer client を起動するたびに変更されることに注意してください。
 
-## Disclaimer
+## 免責事項
 
 ```
 NOT OFFICIAL MINECRAFT PRODUCT.NOT APPROVED BY OR ASSOCIATED WITH MOJANG

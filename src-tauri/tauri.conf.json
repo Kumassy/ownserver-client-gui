@@ -76,16 +76,6 @@
                     "name": "run-docker",
                     "cmd": "docker",
                     "args": true
-                },
-                {
-                    "name": "run-run-sh",
-                    "cmd": "run.sh",
-                    "args": true
-                },
-                {
-                    "name": "run-run-bat",
-                    "cmd": "run.bat",
-                    "args": true
                 }
             ]
         },

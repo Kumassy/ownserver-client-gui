@@ -355,10 +355,6 @@ const getCommand = async (localState: LocalState) => {
       return new Command('run-java', args.splice(1), spawnOptions)
     case 'docker':
       return new Command('run-docker', args.splice(1), spawnOptions)
-    case 'run.sh':
-      return new Command('run-run-sh', args.splice(1), spawnOptions)
-    case 'run.bat':
-      return new Command('run-run-bat', args.splice(1), spawnOptions)
     default:
       if (osType === 'Windows_NT') {
         return new Command('run-cmd', ['/c', command], spawnOptions)

@@ -15,9 +15,6 @@ global:
         github: GitHub
     instructions:
       title: ガイド
-      minecraft: Minecraft のサーバーを用意する
-      factorio: factorio のサーバーを用意する
-      custom: （上級者向け）任意のサービスを公開する
   guides:
     title: ガイド
     index: 目次
@@ -34,7 +31,7 @@ global:
       factorio: factorio
     advanced:
       title: 上級者向け
-      custom: 任意のサービス
+      custom: 任意のサービスを公開する
 
 landing:
   top:
@@ -100,6 +97,8 @@ pages:
     title: OwnServer を使って無料で Minecraft Java 版 のサーバーを用意する
   minecraft_be:
     title: OwnServer を使って無料で Minecraft 統合版 のサーバーを用意する
+  minecraft_forge:
+    title: OwnServer を使って無料で Minecraft Forge のサーバーを用意する
   factorio:
     title: OwnServer を使って無料で factorio のサーバーを用意する
   custom:

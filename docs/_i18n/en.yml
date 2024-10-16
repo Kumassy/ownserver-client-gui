@@ -99,6 +99,8 @@ pages:
     title: Hosting free Java version of Minecraft server with OwnServer
   minecraft_be:
     title: Hosting free Bedrock version of Minecraft Server with OwnServer
+  minecraft_forge:
+    title: Hosting free Minecraft Forge with OwnServer
   factorio:
     title: Hosting free Factorio server with OwnServer
   custom:

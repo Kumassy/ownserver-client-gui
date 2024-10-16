@@ -4,6 +4,7 @@ global:
     how_to_use: Usage
     download: Download
     guide: Guide
+    inquiry: Inquiry
   footer:
     title: OwnServer - Free & Unlimited Gaming Servers
     links:
@@ -17,6 +18,7 @@ global:
       minecraft: Hosting Minecraft Server
       factorio: Hosting Factorio Server
       custom: "[Advanded] Hosting Any Services"
+    inquiry: Inquriy
   guides:
     title: Guide
     index: Table of Contents
@@ -85,8 +87,7 @@ landing:
   contact:
     title: Contact
     content: If you have any feedback, bug reports, feature requests, etc., please send us a message using the link below. We're waiting for your feedback!
-    link: Leave a anonymous message
-    twitter: Send a message on Twitter
+    link: Making Contact
   contributing:
     title: Getting Involved in Development
     content: Some source code of OwnServer is available on GitHub. Feel free to open Issues and Pull Requests.
@@ -95,6 +96,8 @@ landing:
 pages:
   index:
     title: "[TOC] How to use OwnServer"
+  inquiry:
+    title: "Sending an Inquiry"
   minecraft:
     title: Hosting free Java version of Minecraft server with OwnServer
   minecraft_be:

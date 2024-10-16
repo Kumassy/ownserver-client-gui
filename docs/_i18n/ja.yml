@@ -5,6 +5,7 @@ global:
     how_to_use: 使い方
     download: ダウンロード
     guide: ガイド
+    inquiry: お問い合わせ
   footer:
     title: OwnServer - 無料で使える無制限のゲーム用サーバー
     links:
@@ -15,6 +16,7 @@ global:
         github: GitHub
     instructions:
       title: ガイド
+    inquriy: お問い合わせ
   guides:
     title: ガイド
     index: 目次
@@ -83,8 +85,7 @@ landing:
   contact:
     title: お問い合わせ
     content: 使ってみた感想やバグ報告、機能の要望等ありましたら以下のリンクよりメッセージを送ってください。フィードバックお待ちしています！
-    link: メッセージを送る
-    twitter: Twitter でメッセージを送る
+    link: お問い合わせを送る
   contributing:
     title: 開発に参加する
     content: OwnServer の一部のソースコードは GitHub にて公開しています。 Issue や Pull Request 大歓迎です！
@@ -93,6 +94,8 @@ landing:
 pages:
   index:
     title: "[目次] OwnServer の使い方"
+  inquiry:
+    title: "お問い合わせについて"
   minecraft:
     title: OwnServer を使って無料で Minecraft Java 版 のサーバーを用意する
   minecraft_be:

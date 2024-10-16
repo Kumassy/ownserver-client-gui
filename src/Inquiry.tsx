@@ -43,7 +43,7 @@ export const constructUrl = (gameId: GameId, os: string, appType: AppType, appVe
 
 function Inquiry() {
   const dispatch = useAppDispatch()
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const env = useAppSelector(state => state.env)
   const game = useAppSelector(state => state.local.game)

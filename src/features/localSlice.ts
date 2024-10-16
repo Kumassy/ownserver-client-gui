@@ -266,7 +266,7 @@ export const localSlice = createSlice({
         console.error(`rejected runCHecksAndLaunchLocal`)
       })
       .addCase(updateFilepath.fulfilled, (state, action) => {
-        const { dirname, basename } = action.payload
+        const { dirname } = action.payload
         const filepath = action.meta.arg
 
         switch(state.config.kind) {

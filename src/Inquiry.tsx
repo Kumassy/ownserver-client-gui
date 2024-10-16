@@ -93,7 +93,7 @@ function Inquiry() {
             <Button variant="contained" onClick={handleFormButtonClick}>
               {t('panel.inquiry.formButtonText')}
             </Button>
-            <Button variant="contained" href="https://google.com" target="_blank">
+            <Button variant="contained" href="https://marshmallow-qa.com/ownserver?utm_medium=url_text&utm_source=promotion" target="_blank">
               {t('panel.inquiry.mashmallowButtonText')}
             </Button>
           </ButtonGroup>

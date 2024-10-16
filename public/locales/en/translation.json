@@ -87,7 +87,9 @@
                         "settings": {
                             "label": "Settings",
                             "file": "Select server script",
-                            "fileDesc": "Select run.sh for Linux, or select run.bat for Windows"
+                            "fileDesc": "Select run.sh for Linux, or select run.bat for Windows",
+                            "eula": "Accept EULA",
+                            "eulaDesc": "Agree to https://account.mojang.com/documents/minecraft_eula before clicking checkbox"
                         },
                         "advancedSettings": {
                             "label": "Advanced Settings",

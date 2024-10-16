@@ -16,7 +16,7 @@ global:
         github: GitHub
     instructions:
       title: ガイド
-    inquriy: お問い合わせ
+    inquiry: お問い合わせ
   guides:
     title: ガイド
     index: 目次

@@ -28,12 +28,13 @@ export const FormMinecraftForge: React.FC<FormProps> = ({ handleBack, handleNext
   const command = useAppSelector(state => state.local.command)
   const checks = useAppSelector(state => state.local.checks)
   const filepath = useAppSelector(state => 'filepath' in state.local.config ? state.local.config.filepath : t('panel.startServer.steps.launchLocalServer.minecraft_forge.errors.filepath'))
+  const eulaChecked = useAppSelector(state => 'acceptEula' in state.local.config ? state.local.config.acceptEula : false)
   const { t } = useTranslation();
   const dispatch = useAppDispatch()
 
   const isBackDisabled = localStatus === 'running'
   const isNextDisabled = localStatus !== 'running'
-  const isOperationButtonDisabled = filepath == null
+  const isOperationButtonDisabled = filepath == null || eulaChecked === false
 
 
   const unlistenRef = useRef<() => void>();
@@ -93,6 +94,17 @@ export const FormMinecraftForge: React.FC<FormProps> = ({ handleBack, handleNext
           : <Typography>{filepath}</Typography>}
 
         </Stack>
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={eulaChecked}
+                onChange={(e) => dispatch(updateAcceptEula(e.target.checked))} />
+            }
+            label={t('panel.startServer.steps.launchLocalServer.minecraft_forge.settings.eula')} />
+          <FormHelperText>{t('panel.startServer.steps.launchLocalServer.minecraft_forge.settings.eulaDesc')}</FormHelperText>
+        </FormGroup>
+
 
         <Accordion>
           <AccordionSummary

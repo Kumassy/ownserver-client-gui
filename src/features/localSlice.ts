@@ -33,7 +33,8 @@ export type GameConfig = {
 } | {
   kind: 'minecraft_forge',
   filepath: string | null,
-  workdir: string | null
+  workdir: string | null,
+  acceptEula: boolean,
 } | {
   kind: 'factorio',
   savepath: string | null,
@@ -157,6 +158,7 @@ export const localSlice = createSlice({
             kind: 'minecraft_forge',
             filepath: null,
             workdir: null,
+            acceptEula: false,
           }
           state.protocol = 'tcp'
           break;
@@ -170,7 +172,7 @@ export const localSlice = createSlice({
       }
     },
     updateAcceptEula: (state, action: PayloadAction<boolean>) => {
-      if (state.config.kind !== 'minecraft') return
+      if (state.config.kind !== 'minecraft' && state.config.kind !== 'minecraft_forge') return
       state.config.acceptEula = action.payload
     },
     updateProtocol: (state, action: PayloadAction<Protocol>) => {
@@ -424,7 +426,7 @@ export const killChild = createAsyncThunk<void, undefined, { state: RootState }>
       break;
     case 'minecraft_forge':
       if (child != null) {
-        await child.write('/stop')  
+        await child.write('/stop')
       }
       await child?.kill();
       break;

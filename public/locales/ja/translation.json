@@ -87,7 +87,9 @@
                         "settings": {
                             "label": "設定",
                             "file": "起動スクリプトを選択",
-                            "fileDesc": "run.sh (Linux) または run.bat (Windows) を選択してください"
+                            "fileDesc": "run.sh (Linux) または run.bat (Windows) を選択してください",
+                            "eula": "EULA に同意する",
+                            "eulaDesc": "チェックする前に https://account.mojang.com/documents/minecraft_eula に同意してください"
                         },
                         "advancedSettings": {
                             "label": "上級者向け設定",

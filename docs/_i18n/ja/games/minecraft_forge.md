@@ -1,25 +1,24 @@
 # Minecraft Forge のサーバーを用意する
 
-## 事前準備
+## Java をインストールする
+PowerShell を管理者権限で開き、以下のコマンドを実行して Java (OpenJDK) をインストールします
 
-こちらの記事を参考にして、 `java` をパソコンにインストールしてください
+```
+winget install Microsoft.OpenJDK.21
+```
 
-> チュートリアル/サーバーのセットアップ  
-> [https://minecraft.fandom.com/ja/wiki/チュートリアル/サーバーのセットアップ](https://minecraft.fandom.com/ja/wiki/%E3%83%81%E3%83%A5%E3%83%BC%E3%83%88%E3%83%AA%E3%82%A2%E3%83%AB/%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC%E3%81%AE%E3%82%BB%E3%83%83%E3%83%88%E3%82%A2%E3%83%83%E3%83%97)
-> {: .blockquote }
+![](/img/{{ site.lang }}/minecraft_forge/install_java.png)
 
-デスクトップなどに、新しいフォルダを作成します。  
-こちらの Web ページから `server.jar` をダウンロードして、先程作成したフォルダの中に配置します
+## Minecraft Forge をインストールする
+https://files.minecraftforge.net/net/minecraftforge/forge/ から Forge のインストーラをダウンロードします。
 
-> MINECRAFT: JAVA EDITIONのサーバーをダウンロードします  
-> [https://www.minecraft.net/ja-jp/download/server](https://www.minecraft.net/ja-jp/download/server)
-> {: .blockquote }
+`forge-<バージョン>-installer.jar` をダブルクリックして実行し、 `Install server` を実行します
 
-OwnServer Client がインストールされていることを確認します。
 
-## Minecraft サーバーをインターネットに公開する
+![](/img/{{ site.lang }}/minecraft_forge/install_forge.png)
 
-OwnServer Client を起動して、 `Minecraft` を選択して _次へ_ をクリックします
+
+OwnServer Client を起動して、 `Minecraft Forge` を選択して _次へ_ をクリックします
 ![](/img/{{ site.lang }}/minecraft/step_selectgame.png)
 
 _server.jar を選択_ をクリックして、先程ダウンロードした `server.jar` を探して開いてください。さらに _EULA に同意する_ にチェックをいれます。

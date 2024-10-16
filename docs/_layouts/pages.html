@@ -27,12 +27,79 @@
 
 <body>
     {% include header.html %}
-    <section>
-        <div class="container py-5">
-            {{ content }}
 
+    <div class="pages-layout bg-body">
+        <div class="pages-toggler">
+            <button class="btn bd-sidebar-toggle py-2 px-2 ms-3 order-3 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#bd-docs-nav" aria-controls="bd-docs-nav" aria-expanded="false" aria-label="Toggle docs navigation">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi bi-expand" fill="currentColor" viewBox="0 0 16 16">
+                    <title>Expand</title>
+                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zM7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708l2-2zM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10z"></path>
+                </svg>
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi bi-collapse" fill="currentColor" viewBox="0 0 16 16">
+                    <title>Collapse</title>
+                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zm7-8a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 4.293V.5A.5.5 0 0 1 8 0zm-.5 11.707l-1.146 1.147a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 11.707V15.5a.5.5 0 0 1-1 0v-3.793z"></path>
+                </svg>
+            </button>
         </div>
-    </section>
+        <aside class="pages-aside bd-aside sticky-xl-top text-body-secondary align-self-start mb-3 mb-xl-5 px-2">
+            <nav class="bd-links collapse show" id="bd-docs-nav">
+                <span class="fs-5 fw-semibold">{% t global.guides.title %}</span>
+
+                <ul class="list-unstyled mb-0 py-3 pt-md-1">
+                    <li class="mb-1"><a href="{% tl games/index %}"
+                        class="d-inline-flex align-items-center rounded">{% t global.guides.index %}</a></li>
+                    <li class="mb-1">
+                        <button class="btn d-inline-flex align-items-center rounded collapsed" data-bs-toggle="collapse"
+                            data-bs-target="#getting-started-collapse" aria-expanded="false">
+                            {% t global.guides.minecraft.title %}
+                        </button>
+
+                        <div class="collapse" id="getting-started-collapse">
+                            <ul class="list-unstyled fw-normal pb-1 small">
+                                <li><a href="{% tl games/minecraft %}"
+                                        class="d-inline-flex align-items-center rounded">{% t global.guides.minecraft.minecraft %}</a></li>
+                                <li><a href="{% tl games/minecraft_be %}"
+                                        class="d-inline-flex align-items-center rounded">{% t global.guides.minecraft.minecraft_be %}</a></li>
+                                <li><a href="{% tl games/minecraft_forge %}"
+                                        class="d-inline-flex align-items-center rounded">{% t global.guides.minecraft.minecraft_forge %}</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="mb-1">
+                        <button class="btn d-inline-flex align-items-center rounded collapsed" data-bs-toggle="collapse"
+                            data-bs-target="#about-collapse" aria-expanded="false">
+                            {% t global.guides.factorio.title %}
+                        </button>
+
+                        <div class="collapse" id="about-collapse">
+                            <ul class="list-unstyled fw-normal pb-1 small">
+                                <li><a href="{% tl games/factorio %}"
+                                        class="d-inline-flex align-items-center rounded">{% t global.guides.factorio.factorio %}</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="mb-1">
+                        <button class="btn d-inline-flex align-items-center rounded collapsed" data-bs-toggle="collapse"
+                            data-bs-target="#about-collapse" aria-expanded="false">
+                            {% t global.guides.advanced.title %}
+                        </button>
+
+                        <div class="collapse" id="about-collapse">
+                            <ul class="list-unstyled fw-normal pb-1 small">
+                                <li><a href="{% tl games/custom %}"
+                                        class="d-inline-flex align-items-center rounded">{% t global.guides.advanced.custom %}</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+
+        </aside>
+        <div class="pages-content container-fluid py-4">
+            {{ content }}
+        </div>
+    </div>
 
     {% include footer.html %}
 </body>

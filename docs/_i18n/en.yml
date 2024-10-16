@@ -15,7 +15,24 @@ global:
       title: Guide
       minecraft: Get a Minecraft Server
       factorio: Get a Factorio Server
-      custom: "[Advanded] Publish Any Services"
+      custom: "[Advanded] Hosting Any Services"
+  guides:
+    title: Guide
+    index: Table of Contents
+    minecraft:
+      title: Minecraft
+      minecraft:
+        Minecraft Java Edition
+      minecraft_be:
+        Minecraft Bedrock Edition
+      minecraft_forge:
+        Minecraft Forge
+    factorio:
+      title: factorio
+      factorio: factorio
+    advanced:
+      title: Advanced User
+      custom: Hosting any services
 
 landing:
   top:
@@ -75,6 +92,8 @@ landing:
     link: Visit GitHub
 
 pages:
+  index:
+    title: "[TOC] How to use OwnServer"
   minecraft:
     title: Get a free Java version of Minecraft server with OwnServer
   minecraft_be:
@@ -82,4 +101,4 @@ pages:
   factorio:
     title: Get a free Factorio server with OwnServer
   custom:
-    title: Publish any service to the Internet for free with OwnServer
+    title: Hosting any service to the Internet for free with OwnServer

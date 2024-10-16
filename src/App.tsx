@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './App.css'
 import { listen } from '@tauri-apps/api/event'
+import { open } from '@tauri-apps/api/shell';
 import { useAppDispatch } from './app/hooks'
 import { ClientInfo, updateClientInfo } from './features/tunnelSlice'
 import { useTranslation } from 'react-i18next';
@@ -11,9 +12,11 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import SettingsIcon from '@mui/icons-material/Settings';
+import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 
 import { StepContent } from './steps'
-import { Drawer, Grid, InputLabel, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Select, SelectChangeEvent } from '@mui/material'
+import { Button, ButtonGroup, Drawer, Grid, InputLabel, Link, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material'
+import { AppType, constructUrl, Game } from './inquiry';
 
 function isClientInfo(arg: any): arg is ClientInfo {
   return 'client_id' in arg && 'remote_addr' in arg
@@ -31,7 +34,7 @@ const drawerWidth = 240;
 function App() {
   const dispatch = useAppDispatch()
   const [activeStep, setActiveStep] = React.useState(0);
-  const [panel, setPanel] = useState<'startServer' | 'settings'>('startServer');
+  const [panel, setPanel] = useState<'startServer' | 'settings' | 'inquiry'>('startServer');
   const [lang, setLang] = useState<'en-US' | 'ja-JP' | null>(null);
   const { t, i18n } = useTranslation();
 
@@ -71,6 +74,11 @@ function App() {
     setActiveStep(0);
   };
 
+  const handleFormButtonClick = async () => {
+    const url = constructUrl(Game.MinecraftForge, 'Windows', AppType.GUI, '0.1.0', 'test');
+    await open(url);
+  }
+
   return (
     <Box sx={{ display: 'flex' }}>
       <Drawer
@@ -100,6 +108,14 @@ function App() {
                 <SettingsIcon />
               </ListItemIcon>
               <ListItemText primary={t('menu.settings')} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => setPanel('inquiry')}>
+              <ListItemIcon>
+                <ContactSupportIcon />
+              </ListItemIcon>
+              <ListItemText primary={t('menu.inquiry')} />
             </ListItemButton>
           </ListItem>
         </List>
@@ -147,6 +163,38 @@ function App() {
                 <MenuItem value={'en-US'}>{t('lang.en')}</MenuItem>
                 <MenuItem value={'ja-JP'}>{t('lang.ja')}</MenuItem>
               </Select>
+            </Grid>
+          </Grid>
+        </Box>
+      }
+      {panel === 'inquiry' &&
+        <Box sx={{ flexGrow: 1, padding: 2, display: 'flex', justifyContent: 'space-between', flexDirection: 'column'}}>
+          <Grid container spacing={2} sx={{ mb: 2 }}>
+            <Grid item xs={12}>
+              <Typography sx={{ mb: 2 }} variant="h6" component="div">
+                {t('panel.inquiry.title')}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sx={{ mb: 2 }}>
+              <Typography>{t('panel.inquiry.description1')}</Typography>
+              <Typography>{t('panel.inquiry.description2')}</Typography>
+              <Link href="https://google.com" target="_blank">
+                {t('panel.inquiry.linkText')}
+              </Link>
+            </Grid>
+            <Grid item xs={12} sx={{ mb: 2 }}>
+              <ButtonGroup
+                orientation="vertical"
+                aria-label="Vertical button group"
+                variant="contained"
+              >
+                <Button variant="contained" onClick={handleFormButtonClick}>
+                  {t('panel.inquiry.formButtonText')}
+                </Button>
+                <Button variant="contained" href="https://google.com" target="_blank">
+                  {t('panel.inquiry.mashmallowButtonText')}
+                </Button>
+              </ButtonGroup>
             </Grid>
           </Grid>
         </Box>

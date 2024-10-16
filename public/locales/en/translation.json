@@ -5,7 +5,8 @@
     },
     "menu": {
         "startServer": "Run Server",
-        "settings": "Settings"
+        "settings": "Settings",
+        "inquiry": "Inquiry"
     },
     "panel": {
         "startServer": {
@@ -182,6 +183,14 @@
         },
         "settings": {
             "selectLanguage": "Select Language"
+        },
+        "inquiry": {
+            "title": "Inquiry",
+            "description1": "If you are unable to start the server, find bugs, or request suggest new features, please let us know.",
+            "description2": "Before making an inquiry, please read through the following page.",
+            "linkText": "Notes on making inquiries",
+            "formButtonText": "[Google Form] Inquiry Form / For inquiries requiring a response",
+            "mashmallowButtonText": "[Marshmallow] Feature requests, etc. / For inquiries not requiring a response"
         }
     },
     "common": {

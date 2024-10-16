@@ -5,7 +5,8 @@
     },
     "menu": {
         "startServer": "サーバーを起動",
-        "settings": "設定"
+        "settings": "設定",
+        "inquiry": "お問い合わせ"
     },
     "panel": {
         "startServer": {
@@ -182,6 +183,14 @@
         },
         "settings": {
             "selectLanguage": "言語を選択"
+        },
+        "inquiry": {
+            "title": "お問い合わせ",
+            "description1": "うまくサーバーを起動できない、バグを見つけた、新しい機能を提案したいなど、何かありましたらお知らせください。",
+            "description2": "お問い合わせの前に、以下のページをご覧ください。",
+            "linkText": "お問い合わせいただく際の注意事項について",
+            "formButtonText": "[Google Form] お問い合わせフォーム / 返信が必要なもの",
+            "mashmallowButtonText": "[マシュマロ] 機能要望など / 返信が不要なもの"
         }
     },
     "common": {

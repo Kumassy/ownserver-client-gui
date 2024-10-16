@@ -1,4 +1,5 @@
-# Get a Bedrock version of Minecraft Server
+# Hosting Minecraft Server (Bedrock Edition)
+
 The following pages explain how to run the server on Windows.
 
 ## Prerequisite

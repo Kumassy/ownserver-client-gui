@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import tunnelReducer from '../features/tunnelSlice'
 import localReducer from '../features/localSlice'
+import envReducer from '../features/envSlice'
 
 const store = configureStore({
     reducer: {
         tunnel: tunnelReducer,
         local: localReducer,
+        env: envReducer,
     }
 })
 

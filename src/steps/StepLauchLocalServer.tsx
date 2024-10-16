@@ -1,5 +1,5 @@
 import React from "react";
-import { FormCustom, FormFactorio, FormMinecraft, FormMinecraftBe, FormNotFound } from "../forms";
+import { FormCustom, FormFactorio, FormMinecraft, FormMinecraftBe, FormMinecraftForge, FormNotFound } from "../forms";
 import { useAppSelector } from '../app/hooks';
 import { StepLaunchLocalServerProps } from "./types";
 
@@ -13,6 +13,10 @@ export const StepLauchLocalServer: React.FC<StepLaunchLocalServerProps> = (props
     case 'minecraft_be':
       return (
         <FormMinecraftBe {...props} />
+      )
+    case 'minecraft_forge':
+      return (
+        <FormMinecraftForge {...props} />
       )
     case 'factorio':
       return (

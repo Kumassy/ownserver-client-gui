@@ -5,7 +5,8 @@
     },
     "menu": {
         "startServer": "サーバーを起動",
-        "settings": "設定"
+        "settings": "設定",
+        "inquiry": "お問い合わせ"
     },
     "panel": {
         "startServer": {
@@ -23,6 +24,7 @@
                             "custom": "カスタム設定",
                             "minecraft": "Minecraft Java Edition",
                             "minecraft_be": "Minecraft Bedrock Edition",
+                            "minecraft_forge": "Minecraft Forge",
                             "factorio": "factorio"
                         }
                     }
@@ -76,6 +78,32 @@
                             "backDesc": "ゲームサーバーを停止してください",
                             "nextDesc": "ゲームサーバーを起動してください",
                             "operationDesc": "bedrock_server.exe を選択してください"
+                        }
+                    },
+                    "minecraft_forge": {
+                        "errors": {
+                            "filepath": "エラー: filepath が存在しません"
+                        },
+                        "settings": {
+                            "label": "設定",
+                            "file": "起動スクリプトを選択",
+                            "fileDesc": "run.sh (Linux) または run.bat (Windows) を選択してください",
+                            "eula": "EULA に同意する",
+                            "eulaDesc": "チェックする前に https://account.mojang.com/documents/minecraft_eula に同意してください"
+                        },
+                        "advancedSettings": {
+                            "label": "上級者向け設定",
+                            "command": "サーバー起動コマンド",
+                            "port": "ポート"
+                        },
+                        "tasks": {
+                            "label": "タスク一覧",
+                            "start": "ゲームサーバーを起動"
+                        },
+                        "control": {
+                            "backDesc": "ゲームサーバーを停止してください",
+                            "nextDesc": "ゲームサーバーを起動してください",
+                            "operationDesc": "起動スクリプトを選択してください"
                         }
                     },
                     "factorio": {
@@ -157,6 +185,14 @@
         },
         "settings": {
             "selectLanguage": "言語を選択"
+        },
+        "inquiry": {
+            "title": "お問い合わせ",
+            "description1": "うまくサーバーを起動できない、バグを見つけた、新しい機能を提案したいなど、何かありましたらお知らせください。",
+            "description2": "お問い合わせの前に、以下のページをご覧ください。",
+            "linkText": "お問い合わせいただく際の注意事項について",
+            "formButtonText": "[Google Form] お問い合わせフォーム / 返信が必要なもの",
+            "mashmallowButtonText": "[マシュマロ] 機能要望など / 返信が不要なもの"
         }
     },
     "common": {

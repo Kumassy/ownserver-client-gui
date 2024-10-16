@@ -1,4 +1,5 @@
-# Get a Factorio Server
+# Hosting factorio Server
+
 ## Prerequisite
 Please refer to this article to install `docker` on your computer.
 

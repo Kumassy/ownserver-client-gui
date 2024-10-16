@@ -5,7 +5,8 @@
     },
     "menu": {
         "startServer": "Run Server",
-        "settings": "Settings"
+        "settings": "Settings",
+        "inquiry": "Inquiry"
     },
     "panel": {
         "startServer": {
@@ -23,6 +24,7 @@
                             "custom": "Custom",
                             "minecraft": "Minecraft Java Edition",
                             "minecraft_be": "Minecraft Bedrock Edition",
+                            "minecraft_forge": "Minecraft Forge",
                             "factorio": "factorio"
                         }
                     }
@@ -76,6 +78,32 @@
                             "backDesc": "Stop the game server",
                             "nextDesc": "Start the game server",
                             "operationDesc": "Select bedrock_server.exe"
+                        }
+                    },
+                    "minecraft_forge": {
+                        "errors": {
+                            "filepath": "Error: filepath does not exist"
+                        },
+                        "settings": {
+                            "label": "Settings",
+                            "file": "Select server script",
+                            "fileDesc": "Select run.sh for Linux, or select run.bat for Windows",
+                            "eula": "Accept EULA",
+                            "eulaDesc": "Agree to https://account.mojang.com/documents/minecraft_eula before clicking checkbox"
+                        },
+                        "advancedSettings": {
+                            "label": "Advanced Settings",
+                            "command": "Command to start server",
+                            "port": "Port"
+                        },
+                        "tasks": {
+                            "label": "Task List",
+                            "start": "Start game server"
+                        },
+                        "control": {
+                            "backDesc": "Stop the game server",
+                            "nextDesc": "Start the game server",
+                            "operationDesc": "Select server script"
                         }
                     },
                     "factorio": {
@@ -157,6 +185,14 @@
         },
         "settings": {
             "selectLanguage": "Select Language"
+        },
+        "inquiry": {
+            "title": "Inquiry",
+            "description1": "If you are unable to start the server, find bugs, or request suggest new features, please let us know.",
+            "description2": "Before making an inquiry, please read through the following page.",
+            "linkText": "Notes on making inquiries",
+            "formButtonText": "[Google Form] Inquiry Form / For inquiries requiring a response",
+            "mashmallowButtonText": "[Marshmallow] Feature requests, etc. / For inquiries not requiring a response"
         }
     },
     "common": {

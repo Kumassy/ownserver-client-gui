@@ -49,6 +49,6 @@ Minecraft を起動して、 *Multiplayer* -> *Add Server* を選択します。
 
 ## 免責事項
 
-```sh {"id":"01JAA83MAFGAXJMDVC009JZVJK"}
+```
 NOT OFFICIAL MINECRAFT PRODUCT.NOT APPROVED BY OR ASSOCIATED WITH MOJANG
 ```

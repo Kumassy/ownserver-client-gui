@@ -59,7 +59,10 @@ export const checkRegistry: CheckRegistry = {
     return output.stdout
   },
   [CHECK_OR_CREATE_EULA]: async (state?: RootState) => {
-    if (state == null || state.local.config.kind !== 'minecraft') {
+    if (state == null) {
+      throw new Error('config is not for minecraft')
+    }
+    if (state.local.config.kind !== 'minecraft' && state.local.config.kind !== 'minecraft_forge') {
       throw new Error('config is not for minecraft')
     }
 
@@ -96,6 +99,8 @@ export const getCheckList = (game: GameId): Array<CheckEntry> => {
       return [{ id: CHECK_JAVA_VERSION, label: "javaVersion"}, { id: CHECK_OR_CREATE_EULA, label: "createEula"}]
     case 'minecraft_be':
       return []
+    case 'minecraft_forge':
+      return [{ id: CHECK_JAVA_VERSION, label: "javaVersion"}, { id: CHECK_OR_CREATE_EULA, label: "createEula"}]
     case 'factorio':
       return [{ id: CHECK_DOCKER_VERSION, label: "dockerVersion"}]
   }

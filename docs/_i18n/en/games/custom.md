@@ -1,4 +1,5 @@
-# Publish any service to the Internet 
+# Hosting Any Services
+
 OwnServer allows you to publish any service that uses TCP/UDP to the Internet. Here is an example of how to publish a Netcat server to the Internet.
 
 ## Prerequisite

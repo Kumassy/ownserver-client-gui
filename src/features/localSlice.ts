@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import type { RootState } from '../app/store'
-import { dirname } from '@tauri-apps/api/path'
+import { dirname, basename } from '@tauri-apps/api/path'
 import { Child, Command } from '@tauri-apps/api/shell';
 
 import { CheckError, CheckId, checkRegistry, CheckResult, StatusCodeError, getCheckList, CheckEntry } from '../checks'
@@ -30,6 +30,11 @@ export type GameConfig = {
   kind: 'minecraft_be',
   filepath: string | null,
   workdir: string | null
+} | {
+  kind: 'minecraft_forge',
+  filepath: string | null,
+  workdir: string | null,
+  acceptEula: boolean,
 } | {
   kind: 'factorio',
   savepath: string | null,
@@ -147,6 +152,16 @@ export const localSlice = createSlice({
           }
           state.protocol = 'udp'
           break;
+        case 'minecraft_forge':
+          state.command = null
+          state.config = {
+            kind: 'minecraft_forge',
+            filepath: null,
+            workdir: null,
+            acceptEula: false,
+          }
+          state.protocol = 'tcp'
+          break;
         case 'factorio':
           state.command = null
           state.config = {
@@ -157,7 +172,7 @@ export const localSlice = createSlice({
       }
     },
     updateAcceptEula: (state, action: PayloadAction<boolean>) => {
-      if (state.config.kind !== 'minecraft') return
+      if (state.config.kind !== 'minecraft' && state.config.kind !== 'minecraft_forge') return
       state.config.acceptEula = action.payload
     },
     updateProtocol: (state, action: PayloadAction<Protocol>) => {
@@ -251,18 +266,23 @@ export const localSlice = createSlice({
         console.error(`rejected runCHecksAndLaunchLocal`)
       })
       .addCase(updateFilepath.fulfilled, (state, action) => {
-        const dir = action.payload
+        const { dirname } = action.payload
         const filepath = action.meta.arg
 
         switch(state.config.kind) {
           case 'minecraft':
             state.config.filepath = filepath
-            state.config.workdir = dir
+            state.config.workdir = dirname
             state.command = `java -Xmx1024M -Xms1024M -jar ${filepath} nogui`
             break;
           case 'minecraft_be':
             state.config.filepath = filepath
-            state.config.workdir = dir
+            state.config.workdir = dirname
+            state.command = `${filepath}`
+            break;
+          case 'minecraft_forge':
+            state.config.filepath = filepath
+            state.config.workdir = dirname
             state.command = `${filepath}`
             break;
           case 'factorio':
@@ -381,10 +401,12 @@ export const launchLocal = createAsyncThunk<void, undefined, { state: RootState,
     try {
       await p
     } catch (e) {
+      console.error(e)
       const err = e as LaunchLocalError;
       return rejectWithValue(err)
     }
   } catch (e) {
+    console.error(e)
     return rejectWithValue({
       'kind': 'CommandNotSet'
     })
@@ -401,6 +423,12 @@ export const killChild = createAsyncThunk<void, undefined, { state: RootState }>
       if (output.code !==0 ) {
         throw new Error(`failed to stop container ownserver-local-${game}: ${output}`)
       }
+      break;
+    case 'minecraft_forge':
+      if (child != null) {
+        await child.write('/stop')
+      }
+      await child?.kill();
       break;
     default:
       await child?.kill();
@@ -441,8 +469,16 @@ export const runChecksAndLaunchLocal = createAsyncThunk<void, undefined, { state
   await dispatch(launchLocal()).unwrap()
 })
 
-export const updateFilepath = createAsyncThunk<string, string>('updateFilepath', async (filepath) => {
-  return await dirname(filepath)
+interface FilePathInfo {
+  dirname: string,
+  basename: string
+}
+
+export const updateFilepath = createAsyncThunk<FilePathInfo, string>('updateFilepath', async (filepath) => {
+  return {
+    dirname: await dirname(filepath),
+    basename: await basename(filepath),
+  }
 })
 
 type SendInGameCommandError =

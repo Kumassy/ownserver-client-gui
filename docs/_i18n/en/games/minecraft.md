@@ -1,4 +1,5 @@
-# Get a Minecraft Server
+# Hosting Minecraft Server (Java Edition)
+
 ## Prerequisite
 Please refer to this article to install `java` on your computer.
 

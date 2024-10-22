@@ -4,6 +4,8 @@ global:
   header:
     how_to_use: 使い方
     download: ダウンロード
+    guide: ガイド
+    inquiry: お問い合わせ
   footer:
     title: OwnServer - 無料で使える無制限のゲーム用サーバー
     links:
@@ -13,10 +15,25 @@ global:
         download: ダウンロード
         github: GitHub
     instructions:
-      title: 使い方
-      minecraft: Minecraft のサーバーを用意する
-      factorio: factorio のサーバーを用意する
-      custom: （上級者向け）任意のサービスを公開する
+      title: ガイド
+    inquiry: お問い合わせ
+  guides:
+    title: ガイド
+    index: 目次
+    minecraft:
+      title: Minecraft
+      minecraft:
+        Minecraft Java 版
+      minecraft_be:
+        Minecraft 統合版
+      minecraft_forge:
+        Minecraft Forge
+    factorio:
+      title: factorio
+      factorio: factorio
+    advanced:
+      title: 上級者向け
+      custom: 任意のサービスを公開する
 
 landing:
   top:
@@ -57,6 +74,9 @@ landing:
     content:
     - entry: |
         2023/04/30: v0.6.0 を公開しました。v0.6.0 からは自動更新が有効になりました。
+        2023/07/03: v0.7.0 を公開しました。Minecraft 統合版を追加しました。
+        2023/08/12: v0.8.0 を公開しました。サーバー起動コマンドをオプションにしました。
+        2024/09/16: v0.8.1 を公開しました。一部のバージョンの java を使っている場合 Minecraft の起動チェックに失敗する問題を修正しました。
   how_it_works:
     title: しくみ
     content: |
@@ -68,18 +88,23 @@ landing:
   contact:
     title: お問い合わせ
     content: 使ってみた感想やバグ報告、機能の要望等ありましたら以下のリンクよりメッセージを送ってください。フィードバックお待ちしています！
-    link: メッセージを送る
-    twitter: Twitter でメッセージを送る
+    link: お問い合わせを送る
   contributing:
     title: 開発に参加する
     content: OwnServer の一部のソースコードは GitHub にて公開しています。 Issue や Pull Request 大歓迎です！
     link: GitHub を開く
 
 pages:
+  index:
+    title: "[目次] OwnServer の使い方"
+  inquiry:
+    title: "お問い合わせについて"
   minecraft:
     title: OwnServer を使って無料で Minecraft Java 版 のサーバーを用意する
   minecraft_be:
     title: OwnServer を使って無料で Minecraft 統合版 のサーバーを用意する
+  minecraft_forge:
+    title: OwnServer を使って無料で Minecraft Forge のサーバーを用意する
   factorio:
     title: OwnServer を使って無料で factorio のサーバーを用意する
   custom:

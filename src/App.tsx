@@ -11,9 +11,11 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import SettingsIcon from '@mui/icons-material/Settings';
+import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 
 import { StepContent } from './steps'
 import { Drawer, Grid, InputLabel, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Select, SelectChangeEvent } from '@mui/material'
+import Inquiry from './Inquiry';
 
 function isClientInfo(arg: any): arg is ClientInfo {
   return 'client_id' in arg && 'remote_addr' in arg
@@ -31,7 +33,7 @@ const drawerWidth = 240;
 function App() {
   const dispatch = useAppDispatch()
   const [activeStep, setActiveStep] = React.useState(0);
-  const [panel, setPanel] = useState<'startServer' | 'settings'>('startServer');
+  const [panel, setPanel] = useState<'startServer' | 'settings' | 'inquiry'>('startServer');
   const [lang, setLang] = useState<'en-US' | 'ja-JP' | null>(null);
   const { t, i18n } = useTranslation();
 
@@ -102,6 +104,14 @@ function App() {
               <ListItemText primary={t('menu.settings')} />
             </ListItemButton>
           </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => setPanel('inquiry')}>
+              <ListItemIcon>
+                <ContactSupportIcon />
+              </ListItemIcon>
+              <ListItemText primary={t('menu.inquiry')} />
+            </ListItemButton>
+          </ListItem>
         </List>
       </Drawer>
       {panel === 'startServer' &&
@@ -150,6 +160,9 @@ function App() {
             </Grid>
           </Grid>
         </Box>
+      }
+      {panel === 'inquiry' &&
+        <Inquiry />
       }
     </Box>
   )

@@ -3,6 +3,8 @@ global:
   header:
     how_to_use: Usage
     download: Download
+    guide: Guide
+    inquiry: Inquiry
   footer:
     title: OwnServer - Free & Unlimited Gaming Servers
     links:
@@ -13,9 +15,27 @@ global:
         github: GitHub
     instructions:
       title: Guide
-      minecraft: Get a Minecraft Server
-      factorio: Get a Factorio Server
-      custom: "[Advanded] Publish Any Services"
+      minecraft: Hosting Minecraft Server
+      factorio: Hosting Factorio Server
+      custom: "[Advanded] Hosting Any Services"
+    inquiry: Inquriy
+  guides:
+    title: Guide
+    index: Table of Contents
+    minecraft:
+      title: Minecraft
+      minecraft:
+        Minecraft Java Edition
+      minecraft_be:
+        Minecraft Bedrock Edition
+      minecraft_forge:
+        Minecraft Forge
+    factorio:
+      title: factorio
+      factorio: factorio
+    advanced:
+      title: Advanced User
+      custom: Hosting any services
 
 landing:
   top:
@@ -56,6 +76,9 @@ landing:
     content:
     - entry: |
         2023/04/30: Released v0.6.0. From v0.6.0 the app is automatically updated.
+        2023/07/03: Released v0.7.0. Add Minecraft Bedrock Edition.
+        2023/08/12: Released v0.8.0. Make server command optional.
+        2024/09/16: Released v0.8.1. Fix check for Minecraft fails when specific version of Java used.
   how_it_works:
     title: How it works
     content: |
@@ -67,19 +90,24 @@ landing:
   contact:
     title: Contact
     content: If you have any feedback, bug reports, feature requests, etc., please send us a message using the link below. We're waiting for your feedback!
-    link: Leave a anonymous message
-    twitter: Send a message on Twitter
+    link: Making Contact
   contributing:
     title: Getting Involved in Development
     content: Some source code of OwnServer is available on GitHub. Feel free to open Issues and Pull Requests.
     link: Visit GitHub
 
 pages:
+  index:
+    title: "[TOC] How to use OwnServer"
+  inquiry:
+    title: "Sending an Inquiry"
   minecraft:
-    title: Get a free Java version of Minecraft server with OwnServer
+    title: Hosting free Java version of Minecraft server with OwnServer
   minecraft_be:
-    title: Get a free Bedrock version of Minecraft Server with OwnServer
+    title: Hosting free Bedrock version of Minecraft Server with OwnServer
+  minecraft_forge:
+    title: Hosting free Minecraft Forge with OwnServer
   factorio:
-    title: Get a free Factorio server with OwnServer
+    title: Hosting free Factorio server with OwnServer
   custom:
-    title: Publish any service to the Internet for free with OwnServer
+    title: Hosting any service to the Internet for free with OwnServer

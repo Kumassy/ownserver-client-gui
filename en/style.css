@@ -100,3 +100,109 @@ blockquote:before {
 blockquote p {
 	display:		inline;
 }
+
+
+.bd-links .btn::before {
+  width: 1.25em;
+  line-height: 0;
+  content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+  transition: transform 0.35s ease;
+  transform-origin: .5em 50%;
+}
+
+.bd-links a {
+  padding: .1875rem .5rem;
+  margin-top: .125rem;
+  margin-left: 1.25rem;
+  color: rgba(0,0,0,0.65);
+  text-decoration: none
+}
+
+.bd-links a:hover,.bd-links a:focus {
+  color: rgba(0,0,0,0.85);
+  background-color: rgba(121,82,179,0.1)
+}
+
+.bd-links .btn {
+  padding: .25rem .5rem;
+  font-weight: 600;
+  color: rgba(0,0,0,0.65);
+  background-color: transparent;
+  border: 0
+}
+
+.bd-links .btn:hover,.bd-links .btn:focus {
+  color: rgba(0,0,0,0.85);
+  background-color: rgba(121,82,179,0.1)
+}
+
+.bd-links .btn:focus {
+  box-shadow: 0 0 0 1px rgba(121,82,179,0.7)
+}
+
+.bd-links .btn::before {
+  width: 1.25em;
+  line-height: 0;
+  content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+  transition: transform 0.35s ease;
+  transform-origin: .5em 50%
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bd-links .btn::before {
+      transition: none
+  }
+}
+
+.bd-links .btn[aria-expanded="true"] {
+  color: rgba(0,0,0,0.85)
+}
+
+.bd-links .btn[aria-expanded="true"]::before {
+  transform: rotate(90deg)
+}
+
+.bd-links .active {
+  font-weight: 600;
+  color: rgba(0,0,0,0.85)
+}
+
+.bd-sidebar-toggle .bi-collapse {
+  display: none
+}
+
+.bd-sidebar-toggle:not(.collapsed) .bi-expand {
+  display: none
+}
+
+.bd-sidebar-toggle:not(.collapsed) .bi-collapse {
+  display: inline-block
+}
+
+
+.pages-toggler {
+  display: flex;
+  justify-content: end;
+}
+
+.pages-toggler .bd-sidebar-toggle {
+  padding: 4rem;
+}
+
+.pages-layout {
+  min-height: 640px;
+}
+
+/* Layout */
+@media (min-width: 992px) {
+  .pages-layout {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: 1fr 4fr;
+    gap: 1rem;
+  }
+
+  .pages-toggler {
+    display: none;
+  }
+}

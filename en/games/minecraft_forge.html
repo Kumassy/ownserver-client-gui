@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hosting free Factorio server with OwnServer</title>
+    <title>Hosting free Minecraft Forge with OwnServer</title>
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -69,10 +69,10 @@
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 
                             
-                            <li><a class="dropdown-item" href="/games/factorio">🇯🇵 日本語</a></li>
+                            <li><a class="dropdown-item" href="/games/minecraft_forge">🇯🇵 日本語</a></li>
 
                             
-                            <li><a class="dropdown-item" href="/en/games/factorio">🇺🇸 English</a></li>
+                            <li><a class="dropdown-item" href="/en/games/minecraft_forge">🇺🇸 English</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -154,44 +154,57 @@
 
         </aside>
         <div class="pages-content container-fluid py-4">
-            <h1 id="hosting-factorio-server">Hosting factorio Server</h1>
+            <h1 id="hosting-minecraft-forge-server">Hosting Minecraft Forge Server</h1>
 
-<h2 id="prerequisite">Prerequisite</h2>
-<p>Please refer to this article to install <code class="language-plaintext highlighter-rouge">docker</code> on your computer.</p>
+<h2 id="install-java">Install Java</h2>
+<p>PowerShell を管理者権限で開き、以下のコマンドを実行して Java (OpenJDK) をインストールします</p>
 
-<blockquote class="blockquote">
-  <p>Docker Desktop - Docker<br />
-<a href="https://www.docker.com/products/docker-desktop/">https://www.docker.com/products/docker-desktop/</a></p>
-</blockquote>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>winget install Microsoft.OpenJDK.21
+</code></pre></div></div>
 
-<p>Create a new folder on the desktop or elsewhere to store save data.</p>
+<p><img src="/img/en/minecraft_forge/install_java.png" alt="" /></p>
 
-<h2 id="publish-your-factorio-server-to-the-internet">Publish your Factorio server to the Internet</h2>
-<p>Start OwnServer Client, select <code class="language-plaintext highlighter-rouge">factorio</code> and click <em>Next</em>.
-<img src="/img/en/factorio/step_selectgame.png" alt="" /></p>
+<h2 id="minecraft-forge-をインストールする">Minecraft Forge をインストールする</h2>
+<p>https://files.minecraftforge.net/net/minecraftforge/forge/ から Forge のインストーラをダウンロードします。</p>
 
-<p>Click <em>Select Folder</em> and open the folder you just created.
-Next, click <em>Start</em> to start the Factorio server.
-<img src="/img/en/factorio/step_confgame_start.png" alt="" /></p>
+<p><code class="language-plaintext highlighter-rouge">forge-&lt;バージョン&gt;-installer.jar</code> をダブルクリックして実行し、 <code class="language-plaintext highlighter-rouge">Install server</code> を実行します</p>
 
-<p>Wait a moment, make sure that the status of <em>Start Game Server</em> is <code class="language-plaintext highlighter-rouge">Running</code> and click <em>Next</em>.
-<img src="/img/en/factorio/step_confgame_next.png" alt="" /></p>
+<p><img src="/img/en/minecraft_forge/install_forge.png" alt="" /></p>
 
-<p>Clicking <em>Start</em> will expose the Factorio server running on your computer to the Internet!
-<img src="/img/en/factorio/step_tunnel_start.png" alt="" /></p>
+<h2 id="minecraft-forge-サーバーを立ち上げる">Minecraft Forge サーバーを立ち上げる</h2>
 
-<p>Verify that the status of <em>Start OwnServer</em> is <em>Running</em> and select <em>Next</em>.
-<img src="/img/en/factorio/step_tunnel_next.png" alt="" /></p>
+<p>OwnServer Client を起動して、 <code class="language-plaintext highlighter-rouge">Minecraft Forge</code> を選択して <em>次へ</em> をクリックします
+<img src="/img/en/minecraft_forge/step_selectgame.png" alt="" /></p>
 
-<p>You can see the public address of your Minecraft server. Share this with your friends!
-<img src="/img/en/factorio/step_monitor.png" alt="" /></p>
+<p><em>起動スクリプトを選択</em> をクリックして、 Forge インストーラによって作られた <code class="language-plaintext highlighter-rouge">run.sh</code> または <code class="language-plaintext highlighter-rouge">run.bat</code> を探して開いてください。さらに <em>EULA に同意する</em> にチェックをいれます。
+次に、 <em>起動</em> をクリックして Minecraft Forge サーバーを起動します。
+セーブデータは <code class="language-plaintext highlighter-rouge">run.sh</code> または <code class="language-plaintext highlighter-rouge">run.bat</code> があるフォルダに作成されます。
+<img src="/img/en/minecraft_forge/step_confgame_start.png" alt="" /></p>
 
-<h2 id="join-the-factorio-server">Join the Factorio server</h2>
-<p>Start Factorio and select <em>Multiplayer</em> -&gt; <em>Connect to address</em>.</p>
+<p>しばらく待ち、 <em>ゲームサーバーを起動</em> の状態が <code class="language-plaintext highlighter-rouge">実行中</code> であることを確認して <em>次へ</em> をクリックします。
+<img src="/img/en/minecraft_forge/step_confgame_next.png" alt="" /></p>
 
-<p>Paste the server address.<br />
-<img src="/img/en/factorio/step_ingame.png" alt="" />
-Note that the server address changes each time the OwnServer client is started.</p>
+<p><em>起動</em> をクリックすることで、あなたのパソコンで動いている Minecraft サーバーがインターネットに公開されます！
+<img src="/img/en/minecraft_forge/step_tunnel_start.png" alt="" /></p>
+
+<p><em>OwnServer を起動</em> のステータスが <em>実行中</em> であることを確認して、 <em>次へ</em> を選択します。
+<img src="/img/en/minecraft_forge/step_tunnel_next.png" alt="" /></p>
+
+<p>あなたの Minecraft サーバーに接続するためのアドレスが確認できます。これを友達に共有しましょう！
+<img src="/img/en/minecraft_forge/step_monitor.png" alt="" /></p>
+
+<h2 id="minecraft-サーバーに参加する">Minecraft サーバーに参加する</h2>
+
+<p>Minecraft を起動して、 <em>Multiplayer</em> -&gt; <em>Add Server</em> を選択します。</p>
+
+<p>サーバーのアドレスを貼り付けてください。
+<img src="/img/en/minecraft/step_ingame.png" alt="" />
+なお、サーバーのアドレスは OwnServer client を起動するたびに変更されることに注意してください。</p>
+
+<h2 id="免責事項">免責事項</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NOT OFFICIAL MINECRAFT PRODUCT.NOT APPROVED BY OR ASSOCIATED WITH MOJANG
+</code></pre></div></div>
 
 
         </div>

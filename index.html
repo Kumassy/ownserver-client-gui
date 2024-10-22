@@ -38,7 +38,7 @@
     <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#"><img src="/img/logo_t.png" width="42px">OwnServer</a>
+            <a class="navbar-brand" href="/"><img src="/img/logo_t.png" width="42px">OwnServer</a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -51,7 +51,13 @@
                         <a class="nav-link" href="/#how-to-use">使い方</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/games/index">ガイド</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/#download">ダウンロード</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/inquiry">お問い合わせ</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="https://github.com/Kumassy/ownserver-client-gui" target="_blank">GitHub</a>
@@ -262,6 +268,9 @@
             <ul>
                 
                 <li>2023/04/30: v0.6.0 を公開しました。v0.6.0 からは自動更新が有効になりました。
+2023/07/03: v0.7.0 を公開しました。Minecraft 統合版を追加しました。
+2023/08/12: v0.8.0 を公開しました。サーバー起動コマンドをオプションにしました。
+2024/09/16: v0.8.1 を公開しました。一部のバージョンの java を使っている場合 Minecraft の起動チェックに失敗する問題を修正しました。
 </li>
                 
             </ul>
@@ -293,13 +302,8 @@ OwnServer Client を起動すると、 OwnServer とあなたのパソコンの�
                 使ってみた感想やバグ報告、機能の要望等ありましたら以下のリンクよりメッセージを送ってください。フィードバックお待ちしています！
             </p>
             <div class="mb-2">
-                <a href="https://marshmallow-qa.com/ownserver?utm_medium=url_text&utm_source=promotion" target="_blank" class="btn btn-primary">
-                    メッセージを送る
-                </a>
-            </div>
-            <div>
-                <a href="https://twitter.com/OwnServer" target="_blank" class="btn btn-primary">
-                    Twitter でメッセージを送る
+                <a href="/inquiry" target="_blank" class="btn btn-primary">
+                    お問い合わせを送る
                 </a>
             </div>
         </div>
@@ -334,6 +338,9 @@ OwnServer Client を起動すると、 OwnServer とあなたのパソコンの�
                         <a href="/#download">ダウンロード</a>
                     </li>
                     <li>
+                        <a href="/inquiry">お問い合わせ</a>
+                    </li>
+                    <li>
                         <a href="https://github.com/Kumassy/ownserver-client-gui" target="_blank">GitHub</a>
                     </li>
                 </ul>
@@ -341,22 +348,32 @@ OwnServer Client を起動すると、 OwnServer とあなたのパソコンの�
             </div>
             <div class="col-sm-6">
                 <h5>
-                    使い方
+                    ガイド
                 </h5>
                 <ul class="list-unstyled">
                     <li>
                         <a href="/games/minecraft">
-                            Minecraft のサーバーを用意する
+                            Minecraft Java 版
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/games/minecraft_be">
+                            Minecraft 統合版
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/games/minecraft_forge">
+                            Minecraft Forge
                         </a>
                     </li>
                     <li>
                         <a href="/games/factorio">
-                            factorio のサーバーを用意する
+                            factorio
                         </a>
                     </li>
                     <li>
                         <a href="/games/custom">
-                            （上級者向け）任意のサービスを公開する
+                            任意のサービスを公開する
                         </a>
                     </li>
                 </ul>

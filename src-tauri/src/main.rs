@@ -13,8 +13,8 @@ use crate::data::{
 use data::CreateEulaError;
 use tauri::Manager;
 use log::*;
-use ownserver::{proxy_client::run, error::Error};
-use ownserver_lib::{Protocol, EndpointClaim, EndpointClaims};
+use ownserver::{error::Error, proxy_client::{run_client, RequestType}};
+use ownserver_lib::{EndpointClaim, EndpointClaims, Protocol};
 use tokio::{fs, task::JoinSet};
 use tokio_util::sync::CancellationToken;
 
@@ -51,30 +51,37 @@ async fn launch_tunnel(window: tauri::Window, token_server: String, endpoint_cla
         ct.cancel();
     });
 
-    dbg!("{:?}", &endpoint_claims);
-
+    // let payload = match payload.as_str() {
+    //     "udp" => Payload::UDP,
+    //     _ => Payload::Other,
+    // };
     let store = Default::default();
     let control_port: u16 = 5000;
-    // let token_server = "http://localhost:8123/v0/request_token";
 
-    let (client_info, set) =
-        match run(store, control_port, &token_server, cancellation_token, endpoint_claims).await {
-            Ok(r) => r,
-            Err(e) => {
+    let config = Box::leak(Box::new(ownserver::Config {
+        control_port,
+        token_server,
+        ping_interval: 15,
+    }));
+
+    let request = RequestType::NewClient {
+        endpoint_claims
+    };
+    match run_client(config, store, cancellation_token, request).await {
+        Ok(r) => r,
+        Err(e) => {
             window.unlisten(unlisten);
             return Err(LaunchResultError::LaunchFailed{ message: e.to_string() });
-            }
-        };
-    info!("client is running under configuration: {:?}", client_info);
-    let _ = window.emit_all("update_client_info", client_info);
+        }
+    }
 
+    // info!("client is running under configuration: {:?}", client_info);
+    // let _ = window.emit_all("update_client_info", client_info);
 
-
-    let launch_result = collect_join_set(set).await;
     window.unlisten(unlisten);
 
-    debug!("{:?}", launch_result);
-    launch_result
+    Ok(())
+
 }
 
 #[tauri::command]

@@ -4,17 +4,21 @@
 )]
 
 mod data;
-use std::path::Path;
+use std::{path::Path, sync::Arc};
+use std::time::Duration;
+use tauri::Manager;
+use tokio::time::sleep;
 
 use crate::data::{
     LaunchResult,
     LaunchResultError,
 };
 use data::CreateEulaError;
-use ownserver::proxy_client::{run_client, RequestType};
+use ownserver::{proxy_client::{run_client, RequestType}, Store};
 use ownserver_lib::EndpointClaims;
 use tokio::fs;
 use tokio_util::sync::CancellationToken;
+use log::info;
 
 const EULA_CONTENT: &str = r#"
 #By changing the setting below to TRUE you are indicating your agreement to our EULA (https://account.mojang.com/documents/minecraft_eula).
@@ -33,11 +37,30 @@ async fn launch_tunnel(window: tauri::Window, token_server: String, endpoint_cla
     //     "udp" => Payload::UDP,
     //     _ => Payload::Other,
     // };
-    let store = Default::default();
-    let control_port: u16 = 5000;
+    let store = Arc::new(Store::default());
+
+    let window_ = window.clone();
+    let store_ = store.clone();
+    let ct = cancellation_token.clone();
+    tokio::spawn(async move {
+        loop {
+            tokio::select! {
+                _ = sleep(Duration::from_secs(5)) => {
+                    if let Some(client_info) = store_.get_client_info().await {
+                        info!("client is running under configuration: {:?}", client_info);
+                        let _ = window_.emit_all("update_client_info", client_info);
+                    }
+                }
+                _ = ct.cancelled() => {
+                    info!("client info update cancelled");
+                    break;
+                }
+            }
+        }
+    });
 
     let config = ownserver::Config {
-        control_port,
+        control_port: 5000,
         token_server,
         ping_interval: 15,
     };
@@ -53,8 +76,6 @@ async fn launch_tunnel(window: tauri::Window, token_server: String, endpoint_cla
         }
     }
 
-    // info!("client is running under configuration: {:?}", client_info);
-    // let _ = window.emit_all("update_client_info", client_info);
 
     window.unlisten(unlisten);
 

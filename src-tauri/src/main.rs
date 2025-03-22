@@ -11,37 +11,15 @@ use crate::data::{
     LaunchResultError,
 };
 use data::CreateEulaError;
-use tauri::Manager;
-use log::*;
-use ownserver::{error::Error, proxy_client::{run_client, RequestType}};
-use ownserver_lib::{EndpointClaim, EndpointClaims, Protocol};
-use tokio::{fs, task::JoinSet};
+use ownserver::proxy_client::{run_client, RequestType};
+use ownserver_lib::EndpointClaims;
+use tokio::fs;
 use tokio_util::sync::CancellationToken;
 
 const EULA_CONTENT: &str = r#"
 #By changing the setting below to TRUE you are indicating your agreement to our EULA (https://account.mojang.com/documents/minecraft_eula).
 eula=true
 "#;
-
-async fn collect_join_set(mut set: JoinSet<Result<(), Error>>) -> Result<(), LaunchResultError> {
-    while let Some(res) = set.join_next().await {
-        match res {
-            Err(e) => {
-                error!("join error {:?} for client", e);
-                return Err(LaunchResultError::InternalClientError{ message: e.to_string()})
-            }
-            Ok(Err(e)) => {
-                error!("client exited. reason: {:?}", e);
-                return Err(LaunchResultError::ClientExited{ message: e.to_string()})
-            }
-            Ok(Ok(_)) => {
-                info!("client successfully terminated");
-            }
-        }
-    }
-    Ok(())
-}
-
 
 #[tauri::command]
 async fn launch_tunnel(window: tauri::Window, token_server: String, endpoint_claims: EndpointClaims) -> LaunchResult {
@@ -58,16 +36,16 @@ async fn launch_tunnel(window: tauri::Window, token_server: String, endpoint_cla
     let store = Default::default();
     let control_port: u16 = 5000;
 
-    let config = Box::leak(Box::new(ownserver::Config {
+    let config = ownserver::Config {
         control_port,
         token_server,
         ping_interval: 15,
-    }));
+    };
 
     let request = RequestType::NewClient {
         endpoint_claims
     };
-    match run_client(config, store, cancellation_token, request).await {
+    match run_client(&config, store, cancellation_token, request).await {
         Ok(r) => r,
         Err(e) => {
             window.unlisten(unlisten);

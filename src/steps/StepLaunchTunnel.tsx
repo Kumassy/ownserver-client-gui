@@ -1,24 +1,48 @@
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Grid, TextField, Tooltip, Typography } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
-import React from "react";
-import { launchTunnel, interruptTunnel, updateTokenServer } from "../features/tunnelSlice";
+import React, { useEffect, useRef } from "react";
+import { launchTunnel, interruptTunnel, updateTokenServer, receiveMessage } from "../features/tunnelSlice";
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { useTranslation } from "react-i18next";
 import { OperationButton, ResultChip } from "../utils";
 import { StepLaunchTunnelProps } from "./types";
 import { formatProtocol } from "../common";
+import AutoScroll from "@brianmcallister/react-auto-scroll";
+import { listen } from "@tauri-apps/api/event";
 
 export const StepLaunchTunnel: React.FC<StepLaunchTunnelProps> = ({ handleBack, handleNext }) => {
   const tokenServer = useAppSelector(state => state.tunnel.tokenServer)
   const tunnelError = useAppSelector(state => state.tunnel.error)
   const tunnelStatus = useAppSelector(state => state.tunnel.tunnelStatus)
+  const tunnelMessages = useAppSelector(state => state.tunnel.messages)
   const clientInfo = useAppSelector(state => state.tunnel.clientInfo)
   const dispatch = useAppDispatch()
   const { t } = useTranslation();
 
   const isBackDisabled = tunnelStatus === 'running'
   const isNextDisabled = tunnelStatus !== 'running'
+
+  const unlistenRef = useRef<() => void>();
+  useEffect(() => {
+    const setupListener = async () => {
+      const unlisten = await listen('log', event => {
+        if (typeof event.payload === 'string') {
+          const message = event.payload;
+          dispatch(receiveMessage(message));
+        }
+      })
+      unlistenRef.current = unlisten;
+    }
+
+    setupListener()
+
+    return () => {
+      if (unlistenRef.current) {
+        unlistenRef.current()
+      }
+    }
+  }, [dispatch]);
 
   return (
     <React.Fragment>
@@ -78,6 +102,27 @@ export const StepLaunchTunnel: React.FC<StepLaunchTunnelProps> = ({ handleBack, 
                   }
                   {tunnelError ? tunnelError : ""}
                 </Typography>
+                <Box
+                  id="local-server-inf"
+                  sx={{
+                    border: '1px solid gray',
+                    borderRadius: '4px',
+                    padding: 1,
+                  }}
+                >
+                  <AutoScroll
+                    showOption={false}
+                    height={300}
+                  >
+                    {tunnelMessages.map(msg => {
+                      return (
+                        <div key={msg.key}>
+                          {msg.message}
+                        </div>
+                      );
+                    })}
+                  </AutoScroll>
+                </Box>
               </AccordionDetails>
             </Accordion>
           </Grid>

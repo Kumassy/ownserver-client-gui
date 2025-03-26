@@ -22,8 +22,7 @@ impl Log for TauriLogger {
 
     fn log(&self, record: &Record) {
         if self.enabled(record.metadata()) {
-            let message = format!("{} - {}", record.level(), record.args());
-            println!("{}", message);
+            let message = format!("[{}] {}", record.level(), record.args());
 
             // Forward to frontend
             let window = self.window.clone();

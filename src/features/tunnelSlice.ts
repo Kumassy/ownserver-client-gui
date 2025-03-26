@@ -4,14 +4,22 @@ import { invoke } from '@tauri-apps/api/tauri'
 import { isLaunchResultError, LaunchResultError } from '../data'
 import { emit } from '@tauri-apps/api/event'
 import { ClientInfo, EndpointClaimRs } from '../common'
+import { nanoid } from 'nanoid'
 
 
 // Define a type for the slice state
-interface TunnelState {
+export type TunnelStateMessage = {
+  key: string,
+  message: string,
+}
+
+// Define the initial state using that type
+export interface TunnelState {
   tunnelStatus: 'idle' | 'running' | 'succeeded' | 'failed',
   clientInfo: null | ClientInfo,
   error: null | string,
   tokenServer: string,
+  messages: Array<TunnelStateMessage>,
 }
 
 // Define the initial state using that type
@@ -20,6 +28,7 @@ const initialState: TunnelState = {
   clientInfo: null,
   error: null,
   tokenServer: "https://auth.ownserver.kumassy.com/v2/request_token",
+  messages: [],
 }
 
 export const tunnelSlice = createSlice({
@@ -44,7 +53,20 @@ export const tunnelSlice = createSlice({
         console.log(`emit: interrupt_launch_tunnel`)
         return { payload: {} }
       }
-    }
+    },
+    receiveMessage: {
+      reducer: (state, action: PayloadAction<TunnelStateMessage>) => {
+        state.messages.push(action.payload)
+      },
+      prepare: (message: string) => {
+        return {
+          payload: {
+            key: nanoid(),
+            message
+          }
+        }
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -99,7 +121,7 @@ export const launchTunnel = createAsyncThunk<void, undefined, { state: RootState
   }
 })
 
-export const { updateClientInfo, updateTokenServer, interruptTunnel } = tunnelSlice.actions
+export const { updateClientInfo, updateTokenServer, interruptTunnel, receiveMessage } = tunnelSlice.actions
 
 export const selectClientInfo = (state: RootState) => state.tunnel.clientInfo
 

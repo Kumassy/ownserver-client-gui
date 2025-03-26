@@ -3148,7 +3148,7 @@ checksum = "b15813163c1d831bf4a13c3610c05c0d03b39feb07f7e09fa234dac9b15aaf39"
 [[package]]
 name = "ownserver"
 version = "0.6.0"
-source = "git+https://github.com/Kumassy/ownserver.git?branch=feature%2Freconnect-control-v2#5c6daa587ecc97192d9a12e0296c60e2e54d1d56"
+source = "git+https://github.com/Kumassy/ownserver.git?branch=feature%2Freconnect-control-v2#42aa5a047843ad74a0c6bf1e82eac69d76075086"
 dependencies = [
  "anyhow",
  "bytes",
@@ -3193,7 +3193,7 @@ dependencies = [
 [[package]]
 name = "ownserver_lib"
 version = "0.6.0"
-source = "git+https://github.com/Kumassy/ownserver.git?branch=feature%2Freconnect-control-v2#5c6daa587ecc97192d9a12e0296c60e2e54d1d56"
+source = "git+https://github.com/Kumassy/ownserver.git?branch=feature%2Freconnect-control-v2#42aa5a047843ad74a0c6bf1e82eac69d76075086"
 dependencies = [
  "bytes",
  "chrono",

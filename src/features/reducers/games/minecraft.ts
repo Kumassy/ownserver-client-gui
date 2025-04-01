@@ -29,7 +29,7 @@ export const initialState: MinecraftState = {
 }
 
 export const minecraftSlice = createSlice({
-  name: `local/config/${game}`,
+  name: `local/game/${game}`,
   initialState,
   reducers: {
     setAcceptEula: (state, action: PayloadAction<boolean>) => {

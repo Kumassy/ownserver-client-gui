@@ -22,7 +22,7 @@ export const initialState: CustomState = {
 }
 
 export const customSlice = createSlice({
-  name: `local/config/${game}`,
+  name: `local/game/${game}`,
   initialState,
   reducers: {
     updateCommand: (state, action: PayloadAction<string>) => {

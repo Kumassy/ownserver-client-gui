@@ -29,7 +29,7 @@ export const initialState: MinecraftBeState = {
 }
 
 export const minecraftBeSlice = createSlice({
-  name: `local/config/${game}`,
+  name: `local/game/${game}`,
   initialState,
   reducers: {
     updateCommand: (state, action: PayloadAction<string>) => {

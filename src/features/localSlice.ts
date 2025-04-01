@@ -4,7 +4,7 @@ import { Child, Command } from '@tauri-apps/api/shell';
 
 import { CheckError, CheckId, checkRegistry, CheckResult, StatusCodeError, getCheckList, CheckEntry } from '../checks'
 import { GameId } from '../common'
-import { ConfigState, configSlice } from './configSlice';
+import { GameState, gameSlice } from './gameSlice';
 
 export type LocalStateMessage = {
   key: string,
@@ -23,8 +23,8 @@ export interface LocalState {
   status: 'idle' | 'running' | 'succeeded' | 'failed',
   error: null | string,
   messages: Array<LocalStateMessage>,
-  game: keyof ConfigState,
-  config: ConfigState,
+  game: keyof GameState,
+  config: GameState,
   checks: Array<Check>,
   child: Child | null,
   inGameCommand: string, // command sent to local server
@@ -43,7 +43,7 @@ const initialState: LocalState = {
       message: "",
     }
   }),
-  config: configSlice.getInitialState(),
+  config: gameSlice.getInitialState(),
   child: null,
   inGameCommand: ''
 }
@@ -193,9 +193,9 @@ export const localSlice = createSlice({
         console.error(`rejected sendInGameCommand`)
       })
       .addMatcher(
-        (action) => action.type.startsWith('local/config'),
+        (action) => action.type.startsWith('local/game'),
         (state, action) => {
-          configSlice.reducer(state.config, action)
+          gameSlice.reducer(state.config, action)
       })
   },
 })

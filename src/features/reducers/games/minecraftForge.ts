@@ -31,7 +31,7 @@ export const initialState: MinecraftForgeConfig = {
 };
 
 export const minecraftForgeSlice = createSlice({
-  name: `local/config/${game}`,
+  name: `local/game/${game}`,
   initialState,
   reducers: {
     setAcceptEula: (state, action: PayloadAction<boolean>) => {

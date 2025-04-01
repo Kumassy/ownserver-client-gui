@@ -5,7 +5,7 @@ import { minecraftForgeSlice } from "./reducers/games/minecraftForge"
 import { factorioSlice } from "./reducers/games/factorio"
 import { customSlice } from "./reducers/games/custom"
 
-export interface ConfigState {
+export interface GameState {
   custom: ReturnType<typeof customSlice.getInitialState>,
   minecraft: ReturnType<typeof minecraftSlice.getInitialState>,
   minecraft_be: ReturnType<typeof minecraftBeSlice.getInitialState>,
@@ -14,7 +14,7 @@ export interface ConfigState {
 }
 
 // Define the initial state using that type
-const initialState: ConfigState = {
+const initialState: GameState = {
   custom: customSlice.getInitialState(),
   minecraft: minecraftSlice.getInitialState(),
   minecraft_be: minecraftBeSlice.getInitialState(),
@@ -30,8 +30,8 @@ const gamesReducer = combineReducers({
   minecraft_forge: minecraftForgeSlice.reducer,
   factorio: factorioSlice.reducer,
 })
-export const configSlice = createSlice({
-  name: 'local/config',
+export const gameSlice = createSlice({
+  name: 'local/game',
   initialState,
   reducers: {
   },

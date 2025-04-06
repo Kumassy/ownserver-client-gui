@@ -6,7 +6,7 @@ import { emit } from '@tauri-apps/api/event'
 import { ClientInfo, EndpointClaimRs } from '../common'
 import { nanoid } from 'nanoid'
 
-
+const MAX_MESSAGES = 1000
 // Define a type for the slice state
 export type TunnelStateMessage = {
   key: string,
@@ -57,6 +57,9 @@ export const tunnelSlice = createSlice({
     receiveMessage: {
       reducer: (state, action: PayloadAction<TunnelStateMessage>) => {
         state.messages.push(action.payload)
+        if (state.messages.length > MAX_MESSAGES) {
+          state.messages = state.messages.slice(-MAX_MESSAGES)
+        }
       },
       prepare: (message: string) => {
         return {

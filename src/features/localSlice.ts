@@ -6,6 +6,8 @@ import { CheckError, CheckId, checkRegistry, CheckResult, StatusCodeError, getCh
 import { GameId } from '../common'
 import { GameState, gameSlice } from './gameSlice';
 
+const MAX_MESSAGES = 1000
+
 export type LocalStateMessage = {
   key: string,
   message: string,
@@ -62,6 +64,9 @@ export const localSlice = createSlice({
     receiveMessage: {
       reducer: (state, action: PayloadAction<MessagesEntry>) => {
         state.messages.push(action.payload)
+        if (state.messages.length > MAX_MESSAGES) {
+          state.messages = state.messages.slice(-MAX_MESSAGES)
+        }
       },
       prepare: (channel: 'stdout' | 'stderr', message: string) => {
         return { payload: {

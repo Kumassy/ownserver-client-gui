@@ -86,7 +86,9 @@ fn main() {
                 .map(|()| log::set_max_level(LevelFilter::Info))
                 .expect("Failed to initialize logger");
 
-            let _ = init_tauri_event_recorder(window);
+            init_tauri_event_recorder(window)
+                .map_err(|_| "Failed to initialize event recorder")
+                .unwrap();
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![

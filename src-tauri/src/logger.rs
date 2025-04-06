@@ -59,8 +59,7 @@ impl EventRecorder for TauriRecorder {
                 }
 
                 let _ = self.window.emit_all("update_client_info", client_info);
-            },
-            _ => {}
+            }
         }
     }
 }

@@ -1,7 +1,9 @@
-use log::{Level, Log, Metadata, Record};
+use log::{Level, LevelFilter, Log, Metadata, Record};
 use ownserver::recorder::{init_recorder, Event, EventRecorder};
 use std::sync::{Arc, OnceLock};
 use tauri::{Manager, Window};
+
+pub const DEFAULT_LOG_LEVEL: LevelFilter = LevelFilter::Info;
 
 pub struct TauriLogger {
     window: Arc<Window>,
@@ -17,7 +19,7 @@ impl TauriLogger {
 
 impl Log for TauriLogger {
     fn enabled(&self, metadata: &Metadata) -> bool {
-        metadata.level() <= Level::Info
+        metadata.level() <= DEFAULT_LOG_LEVEL
     }
 
     fn log(&self, record: &Record) {

@@ -23,6 +23,7 @@ use tokio_util::sync::CancellationToken;
 use log::{info, LevelFilter};
 
 use crate::logger::TauriLogger;
+use crate::logger::DEFAULT_LOG_LEVEL;
 
 const EULA_CONTENT: &str = r#"
 #By changing the setting below to TRUE you are indicating your agreement to our EULA (https://account.mojang.com/documents/minecraft_eula).
@@ -83,7 +84,7 @@ fn main() {
             let window = app.get_window("main").unwrap();
             let logger = TauriLogger::new(window.clone());
             log::set_boxed_logger(Box::new(logger))
-                .map(|()| log::set_max_level(LevelFilter::Info))
+                .map(|()| log::set_max_level(DEFAULT_LOG_LEVEL))
                 .expect("Failed to initialize logger");
 
             init_tauri_event_recorder(window)

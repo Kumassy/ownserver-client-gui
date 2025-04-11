@@ -6,10 +6,8 @@
 mod data;
 mod logger;
 use std::{path::Path, sync::Arc};
-use std::time::Duration;
-use logger::{init_tauri_event_recorder, TauriRecorder};
+use logger::init_tauri_event_recorder;
 use tauri::Manager;
-use tokio::time::sleep;
 
 use crate::data::{
     LaunchResult,
@@ -20,7 +18,6 @@ use ownserver::{proxy_client::{run_client, RequestType}, Store};
 use ownserver_lib::EndpointClaims;
 use tokio::fs;
 use tokio_util::sync::CancellationToken;
-use log::{info, LevelFilter};
 
 use crate::logger::TauriLogger;
 use crate::logger::DEFAULT_LOG_LEVEL;
@@ -34,7 +31,7 @@ eula=true
 async fn launch_tunnel(window: tauri::Window, token_server: String, endpoint_claims: EndpointClaims) -> LaunchResult {
     let cancellation_token = CancellationToken::new();
     let ct = cancellation_token.clone();
-    let unlisten = window.once("interrupt_launch_tunnel", move |event| {
+    let unlisten = window.once("interrupt_launch_tunnel", move |_| {
         ct.cancel();
     });
 

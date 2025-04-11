@@ -1,5 +1,3 @@
-import { Protocol } from "./common";
-
 export type LaunchResultError =
   | {
     kind: 'LaunchFailed',

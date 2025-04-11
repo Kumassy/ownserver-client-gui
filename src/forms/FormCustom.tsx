@@ -13,7 +13,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import AutoScroll from '@brianmcallister/react-auto-scroll';
-import { Checkbox, Collapse, FormControlLabel, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from '@mui/material';
+import { Checkbox, Collapse, FormControlLabel, MenuItem, Paper, Select, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from '@mui/material';
 import { Protocol } from '../common';
 import { useTranslation } from 'react-i18next';
 import { FormProps } from '../types';

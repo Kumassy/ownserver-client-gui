@@ -1,6 +1,6 @@
-use log::{Level, LevelFilter, Log, Metadata, Record};
-use ownserver::recorder::{init_recorder, Event, EventRecorder};
-use std::sync::{Arc, OnceLock};
+use log::{LevelFilter, Log, Metadata, Record};
+use ownserver::recorder::{init_recorder, Event, EventRecorder, SetEventRecorderError};
+use std::sync::Arc;
 use tauri::{Manager, Window};
 
 pub const DEFAULT_LOG_LEVEL: LevelFilter = LevelFilter::Info;
@@ -67,7 +67,7 @@ impl EventRecorder for TauriRecorder {
 }
 
 
-pub fn init_tauri_event_recorder(window: Window) -> Result<(), &'static dyn EventRecorder> {
+pub fn init_tauri_event_recorder(window: Window) -> Result<(), SetEventRecorderError> {
     let recorder = TauriRecorder { window: Arc::new(window) };
     init_recorder(Box::leak(Box::new(recorder)))
 }

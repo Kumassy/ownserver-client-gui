@@ -63,19 +63,17 @@ jobs:
     - name: install Rust stable
       uses: actions-rs/toolchain@v1
       with:
-        toolchain: 1.79.0
+        toolchain: 1.84.0
 
     - name: Cargo test
       uses: actions-rs/cargo@v1
       with:
-        toolchain: 1.79.0
         command: test
         args: --manifest-path src-tauri/Cargo.toml
 
     - name: Cargo build
       uses: actions-rs/cargo@v1
       with:
-        toolchain: 1.79.0
         command: build
         args: --release --manifest-path src-tauri/Cargo.toml
 

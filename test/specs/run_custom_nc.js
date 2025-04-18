@@ -1,6 +1,6 @@
 const { spawn } = require('child_process')
 
-describe('Run iperf3', () => {
+describe('Run Custom Server with Netcat', () => {
   it('can publish local server', async () => {
     ////
     // Select Custom

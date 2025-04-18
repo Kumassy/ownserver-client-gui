@@ -20,7 +20,11 @@ i18n
   // init i18next
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
-    fallbackLng: 'en',
+    fallbackLng: {
+      'default': ['en'],
+      'C': ['en']  // 明示的にCロケールをenにフォールバック
+    },
+    load: 'languageOnly', // 言語コードのみを使用 (en-USはenとして扱う)
     // lng: 'en-US',
     debug: true,
 

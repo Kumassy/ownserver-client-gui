@@ -84,6 +84,8 @@ landing:
         2024/09/16: Released v0.8.1. Fix check for Minecraft fails when specific version of Java used.
     - entry: |
         2024/10/23: Released v0.9.0. Add Minecraft Forge.
+    - entry: |
+        2025/04/20: Released v0.10.0. Multiple ports can now be published simultaneously. Automatic reconnection is enabled when the connection to OwnServer is lost.
   how_it_works:
     title: How it works
     content: |

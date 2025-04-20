@@ -2,11 +2,6 @@
   "bundle": {
     "active": true,
     "targets": "all",
-    "windows": {
-      "certificateThumbprint": null,
-      "digestAlgorithm": "sha256",
-      "timestampUrl": ""
-    },
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
@@ -31,6 +26,11 @@
       "deb": {
         "depends": []
       }
+    },
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": ""
     },
     "createUpdaterArtifacts": "v1Compatible"
   },

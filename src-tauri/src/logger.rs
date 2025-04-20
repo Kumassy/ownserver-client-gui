@@ -1,16 +1,16 @@
 use log::{LevelFilter, Log, Metadata, Record};
 use ownserver::recorder::{init_recorder, Event, EventRecorder, SetEventRecorderError};
 use std::sync::Arc;
-use tauri::{Manager, Window};
+use tauri::{Emitter, WebviewWindow};
 
 pub const DEFAULT_LOG_LEVEL: LevelFilter = LevelFilter::Info;
 
 pub struct TauriLogger {
-  window: Arc<Window>,
+  window: Arc<WebviewWindow>,
 }
 
 impl TauriLogger {
-  pub fn new(window: Window) -> Self {
+  pub fn new(window: WebviewWindow) -> Self {
     Self {
       window: Arc::new(window),
     }
@@ -42,7 +42,7 @@ impl Log for TauriLogger {
 
 #[derive(Debug)]
 pub struct TauriRecorder {
-  window: Arc<Window>,
+  window: Arc<WebviewWindow>,
 }
 
 impl EventRecorder for TauriRecorder {
@@ -65,13 +65,13 @@ impl EventRecorder for TauriRecorder {
           println!("+{}+", "-".repeat(message.len() + 2));
         }
 
-        let _ = self.window.emit_all("update_client_info", client_info);
+        let _ = self.window.emit("update_client_info", client_info);
       }
     }
   }
 }
 
-pub fn init_tauri_event_recorder(window: Window) -> Result<(), SetEventRecorderError> {
+pub fn init_tauri_event_recorder(window: WebviewWindow) -> Result<(), SetEventRecorderError> {
   let recorder = TauriRecorder {
     window: Arc::new(window),
   };

@@ -7,7 +7,7 @@ mod data;
 mod logger;
 use logger::init_tauri_event_recorder;
 use std::{path::Path, sync::Arc};
-use tauri::Manager;
+use tauri::{Listener, Manager};
 
 use crate::data::{LaunchResult, LaunchResultError};
 use data::CreateEulaError;
@@ -93,7 +93,7 @@ fn main() {
     .plugin(tauri_plugin_os::init())
     .plugin(tauri_plugin_dialog::init())
     .setup(|app| {
-      let window = app.get_window("main").unwrap();
+      let window = app.get_webview_window("main").unwrap();
       let logger = TauriLogger::new(window.clone());
       log::set_boxed_logger(Box::new(logger))
         .map(|()| log::set_max_level(DEFAULT_LOG_LEVEL))

@@ -1,4 +1,4 @@
-import { invoke } from '@tauri-apps/api'
+import { invoke } from "@tauri-apps/api/core"
 import { Command } from '@tauri-apps/plugin-shell'
 import { RootState } from './app/store'
 import { GameId } from './common'
@@ -25,8 +25,8 @@ export const CHECK_OR_CREATE_EULA: CheckId = 'check-or-create-eula'
 
 export const checkRegistry: CheckRegistry = {
   [CHECK_JAVA_VERSION]: async () => {
-    const output_new = await new Command('java', ['--version']).execute()
-    const output_old = await new Command('java', ['-version']).execute()
+    const output_new = await Command.create('java', ['--version']).execute()
+    const output_old = await Command.create('java', ['-version']).execute()
     if (output_new.code !== 0 && output_old.code !== 0) {
       const message = `
        'java --version' exited with non-zero code: ${output_new.code}, stderr: ${output_new.stderr}
@@ -43,7 +43,7 @@ export const checkRegistry: CheckRegistry = {
     }
   },
   [CHECK_SH_VERSION]: async () => {
-    const output = await new Command('sh', ['--version']).execute()
+    const output = await Command.create('sh', ['--version']).execute()
     if (output.code !== 0) {
       const message = `test exited with non-zero code: ${output.code}, stderr: ${output.stderr}`
       throw new StatusCodeError(message)
@@ -51,7 +51,7 @@ export const checkRegistry: CheckRegistry = {
     return output.stdout
   },
   [CHECK_DOCKER_VERSION]: async () => {
-    const output = await new Command('docker', ['--version']).execute()
+    const output = await Command.create('docker', ['--version']).execute()
     if (output.code !== 0) {
       const message = `test exited with non-zero code: ${output.code}, stderr: ${output.stderr}`
       throw new StatusCodeError(message)

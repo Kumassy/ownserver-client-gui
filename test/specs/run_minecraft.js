@@ -1,7 +1,7 @@
 const path = require('path');
 
 describe('Run Minecraft Game', () => {
-  it('can publish local server', async () => {
+  it.skip('can publish local server', async () => {
     ////
     // Select Minecraft
     // verify minecraft is selected

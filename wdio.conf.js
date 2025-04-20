@@ -16,7 +16,6 @@ exports.config = {
       maxInstances: 1,
       'tauri:options': {
         application: './src-tauri/target/release/' + binary,
-        args: ['--lang=en']
       },
     },
   ],

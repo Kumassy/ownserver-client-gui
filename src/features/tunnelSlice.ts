@@ -3,18 +3,23 @@ import type { RootState } from '../app/store'
 import { invoke } from '@tauri-apps/api/tauri'
 import { isLaunchResultError, LaunchResultError } from '../data'
 import { emit } from '@tauri-apps/api/event'
+import { ClientInfo, EndpointClaimRs } from '../common'
+import { nanoid } from 'nanoid'
 
-export interface ClientInfo {
-  client_id: string,
-  remote_addr: string,
+const MAX_MESSAGES = 1000
+// Define a type for the slice state
+export type TunnelStateMessage = {
+  key: string,
+  message: string,
 }
 
-// Define a type for the slice state
-interface TunnelState {
+// Define the initial state using that type
+export interface TunnelState {
   tunnelStatus: 'idle' | 'running' | 'succeeded' | 'failed',
   clientInfo: null | ClientInfo,
   error: null | string,
   tokenServer: string,
+  messages: Array<TunnelStateMessage>,
 }
 
 // Define the initial state using that type
@@ -22,7 +27,8 @@ const initialState: TunnelState = {
   tunnelStatus: 'idle',
   clientInfo: null,
   error: null,
-  tokenServer: "https://auth.ownserver.kumassy.com/v1/request_token",
+  tokenServer: "https://auth.ownserver.kumassy.com/v2/request_token",
+  messages: [],
 }
 
 export const tunnelSlice = createSlice({
@@ -30,11 +36,7 @@ export const tunnelSlice = createSlice({
   initialState,
   reducers: {
     updateClientInfo: (state, action: PayloadAction<ClientInfo>) => {
-      const clientInfo = {
-        client_id: action.payload.client_id,
-        remote_addr: action.payload.remote_addr,
-      }
-      state.clientInfo = clientInfo
+      state.clientInfo = action.payload
     },
     updateTokenServer: (state, action: PayloadAction<string>) => {
       state.tokenServer = action.payload
@@ -51,7 +53,23 @@ export const tunnelSlice = createSlice({
         console.log(`emit: interrupt_launch_tunnel`)
         return { payload: {} }
       }
-    }
+    },
+    receiveMessage: {
+      reducer: (state, action: PayloadAction<TunnelStateMessage>) => {
+        state.messages.push(action.payload)
+        if (state.messages.length > MAX_MESSAGES) {
+          state.messages = state.messages.slice(-MAX_MESSAGES)
+        }
+      },
+      prepare: (message: string) => {
+        return {
+          payload: {
+            key: nanoid(),
+            message
+          }
+        }
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -82,11 +100,20 @@ export const tunnelSlice = createSlice({
 
 export const launchTunnel = createAsyncThunk<void, undefined, { state: RootState, rejectValue: LaunchResultError }>('launchTunnel', async (_, { getState, rejectWithValue }) => {
   const stateBefore = getState()
-  const payload = stateBefore.local.protocol
+  const game = stateBefore.local.game
+  const endpoint_claims = stateBefore.local.config[game].endpoints
+
+  const endpoint_claims_rs: EndpointClaimRs[] = endpoint_claims.map(e => {
+    return {
+      protocol: e.protocol,
+      local_port: e.port,
+      remote_port: 0,
+    }
+  })
   try {
     // this handle Ok value of launch_tunnel, ()
     // when launch_tunnel returns (), invoke is evaluated as null
-    await invoke('launch_tunnel', { tokenServer: stateBefore.tunnel.tokenServer, localPort: stateBefore.local.port, payload })
+    await invoke('launch_tunnel', { tokenServer: stateBefore.tunnel.tokenServer, endpointClaims: endpoint_claims_rs })
     return;
   } catch (e) {
     if (isLaunchResultError(e)) {
@@ -97,7 +124,7 @@ export const launchTunnel = createAsyncThunk<void, undefined, { state: RootState
   }
 })
 
-export const { updateClientInfo, updateTokenServer, interruptTunnel } = tunnelSlice.actions
+export const { updateClientInfo, updateTokenServer, interruptTunnel, receiveMessage } = tunnelSlice.actions
 
 export const selectClientInfo = (state: RootState) => state.tunnel.clientInfo
 

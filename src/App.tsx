@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './App.css'
 import { listen } from '@tauri-apps/api/event'
-import { useAppDispatch } from './app/hooks'
-import { ClientInfo, updateClientInfo } from './features/tunnelSlice'
+import { useAppDispatch, useAppSelector } from './app/hooks'
+import { updateClientInfo } from './features/tunnelSlice'
 import { useTranslation } from 'react-i18next';
 
 import Box from '@mui/material/Box';
@@ -14,12 +14,10 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 
 import { StepContent } from './steps'
-import { Drawer, Grid, InputLabel, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import Inquiry from './Inquiry';
-
-function isClientInfo(arg: any): arg is ClientInfo {
-  return 'client_id' in arg && 'remote_addr' in arg
-}
+import { Drawer, Grid, InputLabel, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material'
+import { initializeTauriState } from './features/tauriSlice'
+import { isClientInfo } from './common'
 
 const steps = [
   'panel.startServer.stepper.selectGame',
@@ -37,6 +35,7 @@ function App() {
   const [lang, setLang] = useState<'en-US' | 'ja-JP' | null>(null);
   const { t, i18n } = useTranslation();
 
+  const appVersion = useAppSelector(state => state.tauri.app?.version ?? '')
 
   const unlistenRef = useRef<() => void>();
   useEffect(() => {
@@ -60,6 +59,10 @@ function App() {
       }
     }
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(initializeTauriState())
+  }, [dispatch])
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -141,6 +144,7 @@ function App() {
       {panel === 'settings' &&
         <Box sx={{ flexGrow: 1, padding: 2, display: 'flex', justifyContent: 'space-between', flexDirection: 'column'}}>
           <Grid container spacing={2} sx={{ mb: 2 }}>
+            <Typography sx={{ p: 2 }}>OwnServer Client GUI version: {appVersion}</Typography>
             <Grid item xs={12}>
               <InputLabel id="select-lang-label">{t('panel.settings.selectLanguage')}</InputLabel>
               <Select

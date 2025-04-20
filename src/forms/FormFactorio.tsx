@@ -1,5 +1,5 @@
 import React from 'react';
-import { killChild, updateCommand, updateFilepath, updateLocalPort, runChecksAndLaunchLocal } from '../features/localSlice';
+import { killChild, runChecksAndLaunchLocal } from '../features/localSlice';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 
 import { open } from '@tauri-apps/api/dialog';
@@ -19,16 +19,16 @@ import { Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { FormProps } from '../types';
 import { OperationButton, ResultChip } from '../utils';
-
+import { updateCommand, updateFilepath, updateLocalPort } from '../features/reducers/games/factorio';
 
 export const FormFactorio: React.FC<FormProps> = ({ handleBack, handleNext }) => {
   const localMessages = useAppSelector(state => state.local.messages)
   const localStatus = useAppSelector(state => state.local.status)
-  const localPort = useAppSelector(state => state.local.port)
-  const command = useAppSelector(state => state.local.command)
+  const localPort = useAppSelector(state => state.local.config.factorio.endpoints[0].port)
+  const command = useAppSelector(state => state.local.config.factorio.command)
   const checks = useAppSelector(state => state.local.checks)
   const { t } = useTranslation();
-  const filepath = useAppSelector(state => 'savepath' in state.local.config ? state.local.config.savepath : t('panel.startServer.steps.launchLocalServer.factorio.errors.savepath'))
+  const filepath = useAppSelector(state => state.local.config.factorio.savepath)
   const dispatch = useAppDispatch()
 
   const isBackDisabled = localStatus === 'running'
@@ -51,10 +51,10 @@ export const FormFactorio: React.FC<FormProps> = ({ handleBack, handleNext }) =>
             <Button
               variant="contained"
               onClick={async () => {
-                const file = await open({ multiple: false, directory: true });
+                const filepath = await open({ multiple: false, directory: true });
 
-                if (typeof file === 'string') {
-                  dispatch(updateFilepath(file))
+                if (typeof filepath === 'string') {
+                  dispatch(updateFilepath(filepath))
                 }
               }}
             >

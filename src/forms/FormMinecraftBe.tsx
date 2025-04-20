@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { killChild, updateCommand, updateFilepath, updateLocalPort, runChecksAndLaunchLocal } from '../features/localSlice';
+import { killChild, runChecksAndLaunchLocal } from '../features/localSlice';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 
 import { open } from '@tauri-apps/api/dialog';
@@ -20,15 +20,16 @@ import { useTranslation } from 'react-i18next';
 import { listen } from '@tauri-apps/api/event';
 import { FormProps } from '../types';
 import { OperationButton, ResultChip } from '../utils';
+import { updateCommand, updateFilepath, updateLocalPort } from '../features/reducers/games/minecraftBe';
 
 export const FormMinecraftBe: React.FC<FormProps> = ({ handleBack, handleNext }) => {
+  const { t } = useTranslation();
   const localMessages = useAppSelector(state => state.local.messages)
   const localStatus = useAppSelector(state => state.local.status)
-  const localPort = useAppSelector(state => state.local.port)
-  const command = useAppSelector(state => state.local.command)
+  const localPort = useAppSelector(state => state.local.config.minecraft_be.endpoints[0].port)
+  const command = useAppSelector(state => state.local.config.minecraft_be.command)
   const checks = useAppSelector(state => state.local.checks)
-  const filepath = useAppSelector(state => 'filepath' in state.local.config ? state.local.config.filepath : t('panel.startServer.steps.launchLocalServer.minecraft_be.errors.filepath'))
-  const { t } = useTranslation();
+  const filepath = useAppSelector(state => state.local.config.minecraft_be.filepath)
   const dispatch = useAppDispatch()
 
   const isBackDisabled = localStatus === 'running'
@@ -41,8 +42,8 @@ export const FormMinecraftBe: React.FC<FormProps> = ({ handleBack, handleNext })
     const setupListener = async () => {
       const unlisten = await listen<Array<string>>('tauri://file-drop', event => {
         if (event.payload.length === 1) {
-          let file = event.payload[0];
-          dispatch(updateFilepath(file))
+          let filepath = event.payload[0];
+          dispatch(updateFilepath(filepath))
         }
       })
       unlistenRef.current = unlisten;
@@ -73,7 +74,7 @@ export const FormMinecraftBe: React.FC<FormProps> = ({ handleBack, handleNext })
           <Button
             variant="contained"
             onClick={async () => {
-              const file = await open({
+              const filepath = await open({
                 multiple: false,
                 filters: [{
                   name: 'exe',
@@ -81,8 +82,8 @@ export const FormMinecraftBe: React.FC<FormProps> = ({ handleBack, handleNext })
                 }]
               });
 
-              if (typeof file === 'string') {
-                dispatch(updateFilepath(file))
+              if (typeof filepath === 'string') {
+                dispatch(updateFilepath(filepath))
               }
             }}
           >

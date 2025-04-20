@@ -7,6 +7,8 @@ import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import { Button, ButtonGroup,  Grid,  Link, Typography } from '@mui/material'
 import { initEnv } from './features/envSlice';
+import { LocalState } from './features/localSlice';
+import { TunnelState } from './features/tunnelSlice';
 
 
 const ENTRY_GAME = 'entry.665497736'
@@ -40,6 +42,22 @@ export const constructUrl = (gameId: GameId, os: string, appType: AppType, appVe
   return `https://docs.google.com/forms/d/e/1FAIpQLSekB3eFJBI3bEscx1y9FjIEEVzA6hAchlAO55EKZIhbEMvFSQ/viewform?usp=pp_url&${ENTRY_GAME}=${encodeURI(getGameName(gameId))}&${ENTRY_OS}=${encodeURI(os)}&${ENTRY_APP_TYPE}=${encodeURI(appType)}&${ENTRY_APP_VERSION}=${encodeURI(appVersion)}&${ENTRY_LOG}=${encodeURI(log)}`
 }
 
+const constructLogLines = (local: LocalState, tunnel: TunnelState) => {
+  // Create a copy of local state without messages
+  const localWithoutMessages = {
+    ...local,
+    messages: undefined
+  }
+  const tunnelWithoutMessages = {
+    ...tunnel,
+    messages: undefined
+  }
+  return `Local State:\n${JSON.stringify(localWithoutMessages)}\n
+Tunnel State:\n${JSON.stringify(tunnelWithoutMessages)}\n
+Tunnel Messages:\n${tunnel.messages.map(m => m.message).join('\n')}\n
+Local Messages:\n${local.messages.map(m => m.message).join('\n')}\n
+    `
+}
 
 function Inquiry() {
   const dispatch = useAppDispatch()
@@ -64,7 +82,7 @@ function Inquiry() {
       `OS: ${os.type} Platform: ${os.platform} Arch: ${os.arch} Version: ${os.version}`,
       AppType.GUI,
       `App: ${app.appVersion} Tauri: ${app.tauriVersion}`,
-      JSON.stringify({ local, tunnel })
+      constructLogLines(local, tunnel)
     );
     await open(url);
   }

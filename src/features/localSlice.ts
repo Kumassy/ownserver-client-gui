@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import type { RootState } from '../app/store'
-import { dirname, basename } from '@tauri-apps/api/path'
 import { Child, Command } from '@tauri-apps/api/shell';
 
 import { CheckError, CheckId, checkRegistry, CheckResult, StatusCodeError, getCheckList, CheckEntry } from '../checks'
-import { GameId, toLocalPort, Protocol } from '../common'
-import { type } from '@tauri-apps/api/os';
+import { GameId } from '../common'
+import { GameState, gameSlice } from './gameSlice';
+
+const MAX_MESSAGES = 1000
 
 export type LocalStateMessage = {
   key: string,
@@ -19,38 +20,13 @@ export interface Check {
   message: string,
 }
 
-export type GameConfig = {
-  kind: 'custom',
-} | {
-  kind: 'minecraft',
-  filepath: string | null,
-  workdir: string | null,
-  acceptEula: boolean,
-} | {
-  kind: 'minecraft_be',
-  filepath: string | null,
-  workdir: string | null
-} | {
-  kind: 'minecraft_forge',
-  filepath: string | null,
-  workdir: string | null,
-  acceptEula: boolean,
-} | {
-  kind: 'factorio',
-  savepath: string | null,
-}
-
-
 // Define a type for the slice state
 export interface LocalState {
   status: 'idle' | 'running' | 'succeeded' | 'failed',
   error: null | string,
   messages: Array<LocalStateMessage>,
-  command: string | null, // command to launch local server
-  port: number,
-  protocol: Protocol,
-  game: GameId,
-  config: GameConfig,
+  game: keyof GameState,
+  config: GameState,
   checks: Array<Check>,
   child: Child | null,
   inGameCommand: string, // command sent to local server
@@ -60,9 +36,6 @@ const initialState: LocalState = {
   status: 'idle',
   error: null,
   messages: [],
-  command: null,
-  port: toLocalPort('minecraft'),
-  protocol: 'tcp',
   game: 'minecraft',
   checks: getCheckList('minecraft').map((entry: CheckEntry) => {
     return {
@@ -72,12 +45,7 @@ const initialState: LocalState = {
       message: "",
     }
   }),
-  config: {
-    kind: 'minecraft',
-    filepath: null,
-    workdir: null,
-    acceptEula: false,
-  },
+  config: gameSlice.getInitialState(),
   child: null,
   inGameCommand: ''
 }
@@ -87,6 +55,8 @@ type MessagesEntry = {
   channel: 'stdout' | 'stderr',
   message: string,
 }
+
+
 export const localSlice = createSlice({
   name: 'local',
   initialState,
@@ -94,6 +64,9 @@ export const localSlice = createSlice({
     receiveMessage: {
       reducer: (state, action: PayloadAction<MessagesEntry>) => {
         state.messages.push(action.payload)
+        if (state.messages.length > MAX_MESSAGES) {
+          state.messages = state.messages.slice(-MAX_MESSAGES)
+        }
       },
       prepare: (channel: 'stdout' | 'stderr', message: string) => {
         return { payload: {
@@ -105,12 +78,6 @@ export const localSlice = createSlice({
     },
     setChild: (state, action: PayloadAction<Child | null>) => {
       state.child = action.payload
-    },
-    updateCommand: (state, action: PayloadAction<string>) => {
-      state.command = action.payload
-    },
-    updateLocalPort: (state, action: PayloadAction<number>) => {
-      state.port = action.payload
     },
     updateGame: (state, action: PayloadAction<GameId>) => {
       const game = action.payload;
@@ -124,59 +91,6 @@ export const localSlice = createSlice({
         }
       })
 
-      state.port = toLocalPort(game);
-      switch (game) {
-        case 'custom':
-          state.command = 'nc -kl 3010'
-          state.config = {
-            kind: 'custom',
-          }
-          state.protocol = 'tcp'
-          break;
-        case 'minecraft':
-          state.command = null
-          state.config = {
-            kind: 'minecraft',
-            filepath: null,
-            workdir: null,
-            acceptEula: false,
-          }
-          state.protocol = 'tcp'
-          break;
-        case 'minecraft_be':
-          state.command = null
-          state.config = {
-            kind: 'minecraft_be',
-            filepath: null,
-            workdir: null,
-          }
-          state.protocol = 'udp'
-          break;
-        case 'minecraft_forge':
-          state.command = null
-          state.config = {
-            kind: 'minecraft_forge',
-            filepath: null,
-            workdir: null,
-            acceptEula: false,
-          }
-          state.protocol = 'tcp'
-          break;
-        case 'factorio':
-          state.command = null
-          state.config = {
-            kind: 'factorio',
-            savepath: null
-          }
-          state.protocol = 'udp'
-      }
-    },
-    updateAcceptEula: (state, action: PayloadAction<boolean>) => {
-      if (state.config.kind !== 'minecraft' && state.config.kind !== 'minecraft_forge') return
-      state.config.acceptEula = action.payload
-    },
-    updateProtocol: (state, action: PayloadAction<Protocol>) => {
-      state.protocol = action.payload
     },
     updateInGameCommand: (state, action: PayloadAction<string>) => {
       state.inGameCommand = action.payload
@@ -265,35 +179,6 @@ export const localSlice = createSlice({
       .addCase(runChecksAndLaunchLocal.rejected, (state, action) => {
         console.error(`rejected runCHecksAndLaunchLocal`)
       })
-      .addCase(updateFilepath.fulfilled, (state, action) => {
-        const { dirname } = action.payload
-        const filepath = action.meta.arg
-
-        switch(state.config.kind) {
-          case 'minecraft':
-            state.config.filepath = filepath
-            state.config.workdir = dirname
-            state.command = `java -Xmx1024M -Xms1024M -jar ${filepath} nogui`
-            break;
-          case 'minecraft_be':
-            state.config.filepath = filepath
-            state.config.workdir = dirname
-            state.command = `${filepath}`
-            break;
-          case 'minecraft_forge':
-            state.config.filepath = filepath
-            state.config.workdir = dirname
-            state.command = `${filepath}`
-            break;
-          case 'factorio':
-            state.config.savepath = filepath
-            state.command = `docker run --rm -i -p ${state.port}:34197/udp -v ${state.config.savepath}:/factorio --name ownserver-local-factorio factoriotools/factorio`
-            break;
-        }
-      })
-      .addCase(updateFilepath.rejected, () => {
-        console.error(`rejected updateFilepath`)
-      })
       .addCase(sendInGameCommand.pending, (state, action) => {
         console.log(`start sendInGameCommand`)
       })
@@ -311,6 +196,11 @@ export const localSlice = createSlice({
           state.error = `Unkwown error: ${action.error.message}`
         }
         console.error(`rejected sendInGameCommand`)
+      })
+      .addMatcher(
+        (action) => action.type.startsWith('local/game'),
+        (state, action) => {
+          gameSlice.reducer(state.config, action)
       })
   },
 })
@@ -332,13 +222,24 @@ type LaunchLocalError =
   }
 
 
-const getCommand = async (localState: LocalState) => {
-  const { command, config } = localState
+const getCommand = async (rootState: RootState) => {
+  const localState = rootState.local
+  const game = localState.game
+
+  let command = null
+  switch (game) {
+    case 'custom':
+    case 'minecraft':
+    case 'minecraft_be':
+    case 'minecraft_forge':
+    case 'factorio':
+      command = localState.config[game].command
+      break;
+  }
   if (command === null) {
     throw new Error('command is null')
   }
 
-  const osType = await type();
   // note: '.split('\s+')' -> [']
   const args = command.trim().split(/\s+/)
   if (args[0] === '') {
@@ -346,29 +247,40 @@ const getCommand = async (localState: LocalState) => {
   }
 
   let spawnOptions = undefined
-  if ('workdir' in config && config.workdir) {
-    spawnOptions = {
-      cwd: config.workdir
-    }
+  switch (game) {
+    case 'minecraft':
+    case 'minecraft_be':
+    case 'minecraft_forge':
+      const workdir = localState.config[game].workdir
+      if (workdir !== null) {
+        spawnOptions = {
+          cwd: workdir
+        }
+      }
+      break;
   }
 
+  const osType = rootState.tauri.os?.type ?? null
   switch(args[0]) {
     case 'java':
-      return new Command('run-java', args.splice(1), spawnOptions)
     case 'docker':
-      return new Command('run-docker', args.splice(1), spawnOptions)
+    case 'bedrock_server':
+    case 'bedrock_server.exe':
+      return new Command(args[0], args.splice(1), spawnOptions)
     default:
       if (osType === 'Windows_NT') {
-        return new Command('run-cmd', ['/c', command], spawnOptions)
+        return new Command('cmd', ['/c', command], spawnOptions)
+      } else if (osType !== null) {
+        return new Command('sh', ['-c', command], spawnOptions)
       } else {
-        return new Command('run-sh', ['-c', command], spawnOptions)
+        throw new Error('tauri state is not initialized')
       }
   }
 }
 
 export const launchLocal = createAsyncThunk<void, undefined, { state: RootState, rejectValue: LaunchLocalError }>('launchLocal', async (_, { getState, rejectWithValue, dispatch }) => {
   try {
-    const command = await getCommand(getState().local)
+    const command = await getCommand(getState())
     const p = new Promise((res, rej) => {
       command.on('close', data => {
         console.log(`command finished with code ${data.code} and signal ${data.signal}`);
@@ -408,7 +320,8 @@ export const launchLocal = createAsyncThunk<void, undefined, { state: RootState,
   } catch (e) {
     console.error(e)
     return rejectWithValue({
-      'kind': 'CommandNotSet'
+      kind: 'CommandNotSet',
+      error: e
     })
   }
 })
@@ -469,18 +382,6 @@ export const runChecksAndLaunchLocal = createAsyncThunk<void, undefined, { state
   await dispatch(launchLocal()).unwrap()
 })
 
-interface FilePathInfo {
-  dirname: string,
-  basename: string
-}
-
-export const updateFilepath = createAsyncThunk<FilePathInfo, string>('updateFilepath', async (filepath) => {
-  return {
-    dirname: await dirname(filepath),
-    basename: await basename(filepath),
-  }
-})
-
 type SendInGameCommandError =
   | {
     kind: "ChildNotSet";
@@ -501,6 +402,6 @@ export const sendInGameCommand = createAsyncThunk<void, string, { state: RootSta
 })
 
 const { setChild } = localSlice.actions;
-export const { receiveMessage, updateCommand, updateLocalPort, updateGame, updateProtocol, updateInGameCommand, updateAcceptEula } = localSlice.actions
+export const { receiveMessage, updateGame, updateInGameCommand } = localSlice.actions
 
 export default localSlice.reducer

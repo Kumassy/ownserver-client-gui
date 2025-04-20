@@ -4,19 +4,23 @@
 )]
 
 mod data;
-use std::path::Path;
+mod logger;
+use std::{path::Path, sync::Arc};
+use logger::init_tauri_event_recorder;
+use tauri::Manager;
 
 use crate::data::{
     LaunchResult,
     LaunchResultError,
 };
 use data::CreateEulaError;
-use tauri::Manager;
-use log::*;
-use ownserver::{proxy_client::run, error::Error};
-use ownserver_lib::Payload;
+use ownserver::{proxy_client::{run_client, RequestType}, Store};
+use ownserver_lib::EndpointClaims;
 use tokio::fs;
 use tokio_util::sync::CancellationToken;
+
+use crate::logger::TauriLogger;
+use crate::logger::DEFAULT_LOG_LEVEL;
 
 const EULA_CONTENT: &str = r#"
 #By changing the setting below to TRUE you are indicating your agreement to our EULA (https://account.mojang.com/documents/minecraft_eula).
@@ -24,54 +28,37 @@ eula=true
 "#;
 
 #[tauri::command]
-async fn launch_tunnel(window: tauri::Window, token_server: String, local_port: u16, payload: String) -> LaunchResult {
+async fn launch_tunnel(window: tauri::Window, token_server: String, endpoint_claims: EndpointClaims) -> LaunchResult {
     let cancellation_token = CancellationToken::new();
     let ct = cancellation_token.clone();
-    let unlisten = window.once("interrupt_launch_tunnel", move |event| {
+    let unlisten = window.once("interrupt_launch_tunnel", move |_| {
         ct.cancel();
     });
 
-    let payload = match payload.as_str() {
-        "udp" => Payload::UDP,
-        _ => Payload::Other,
-    };
-    let store = Default::default();
-    let control_port: u16 = 5000;
-    // let token_server = "http://localhost:8123/v0/request_token";
+    let store = Arc::new(Store::default());
 
-    let (client_info, handle) =
-        match run(store, control_port, local_port, &token_server, payload, cancellation_token).await {
-            Ok(r) => r,
-            Err(e) => {
+    let config = ownserver::Config {
+        control_port: 5000,
+        token_server,
+        ping_interval: 15,
+    };
+
+    let request = RequestType::NewClient {
+        endpoint_claims
+    };
+    match run_client(&config, store, cancellation_token, request).await {
+        Ok(r) => r,
+        Err(e) => {
             window.unlisten(unlisten);
             return Err(LaunchResultError::LaunchFailed{ message: e.to_string() });
-            }
-        };
-    info!("client is running under configuration: {:?}", client_info);
-    let _ = window.emit_all("update_client_info", client_info);
-
-    let v = handle.await;
-    window.unlisten(unlisten);
-
-    println!("{:?}", v);
-    match v {
-        Err(e) => {
-            error!("join error {:?} for client", e);
-            Err(LaunchResultError::InternalClientError{ message: e.to_string()})
-        }
-        Ok(Err(Error::JoinError(e))) => {
-            error!("internal join error {:?} for client", e);
-            Err(LaunchResultError::InternalClientError{ message: e.to_string()})
-        }
-        Ok(Err(e)) => {
-            error!("client exited. reason: {:?}", e);
-            Err(LaunchResultError::ClientExited{ message: e.to_string()})
-        }
-        Ok(Ok(_)) => {
-            info!("client successfully terminated");
-            Ok(())
         }
     }
+
+
+    window.unlisten(unlisten);
+
+    Ok(())
+
 }
 
 #[tauri::command]
@@ -89,8 +76,19 @@ async fn create_eula(basedir: String) -> Result<(), CreateEulaError> {
 }
 
 fn main() {
-    pretty_env_logger::init();
     tauri::Builder::default()
+        .setup(|app| {
+            let window = app.get_window("main").unwrap();
+            let logger = TauriLogger::new(window.clone());
+            log::set_boxed_logger(Box::new(logger))
+                .map(|()| log::set_max_level(DEFAULT_LOG_LEVEL))
+                .expect("Failed to initialize logger");
+
+            init_tauri_event_recorder(window)
+                .map_err(|_| "Failed to initialize event recorder")
+                .unwrap();
+            Ok(())
+        })
         .invoke_handler(tauri::generate_handler![
             launch_tunnel,
             create_eula,

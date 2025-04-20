@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
-import { arch, OsType, Platform, platform, type } from '@tauri-apps/api/os';
+import { arch, OsType, Platform, platform, type } from '@tauri-apps/plugin-os';
 import { getVersion } from '@tauri-apps/api/app';
 
 interface TauriState {

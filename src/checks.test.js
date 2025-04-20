@@ -1,5 +1,5 @@
 import { checkRegistry, CHECK_JAVA_VERSION } from "./checks";
-import { Command } from '@tauri-apps/api/shell';
+import { Command } from '@tauri-apps/plugin-shell';
 
 jest.mock('@tauri-apps/api/shell');
 

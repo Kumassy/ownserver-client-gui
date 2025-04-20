@@ -1,5 +1,5 @@
 import { invoke } from '@tauri-apps/api'
-import { Command } from '@tauri-apps/api/shell'
+import { Command } from '@tauri-apps/plugin-shell'
 import { RootState } from './app/store'
 import { GameId } from './common'
 import { isCreateEulaError } from './data'

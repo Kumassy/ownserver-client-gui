@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../app/store'
-import { invoke } from '@tauri-apps/api/tauri'
+import { invoke } from '@tauri-apps/api/core'
 import { isLaunchResultError, LaunchResultError } from '../data'
 import { emit } from '@tauri-apps/api/event'
 import { ClientInfo, EndpointClaimRs } from '../common'

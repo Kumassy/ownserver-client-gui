@@ -9,7 +9,17 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.2",
     "@reduxjs/toolkit": "^1.9.5",
-    "@tauri-apps/api": "^1.2.0",
+    "@tauri-apps/api": "^2.0.0",
+    "@tauri-apps/plugin-clipboard-manager": "~2",
+    "@tauri-apps/plugin-dialog": "~2",
+    "@tauri-apps/plugin-fs": "~2",
+    "@tauri-apps/plugin-global-shortcut": "~2",
+    "@tauri-apps/plugin-http": "~2",
+    "@tauri-apps/plugin-notification": "~2",
+    "@tauri-apps/plugin-os": "~2",
+    "@tauri-apps/plugin-process": "~2",
+    "@tauri-apps/plugin-shell": "~2",
+    "@tauri-apps/plugin-updater": "~2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
@@ -56,7 +66,7 @@
     ]
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^1.2.3",
+    "@tauri-apps/cli": "^2.5.0",
     "@wdio/local-runner": "^7.9.1",
     "@wdio/mocha-framework": "^7.9.1",
     "@wdio/spec-reporter": "^7.9.0"

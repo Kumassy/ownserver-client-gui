@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { Arch, OsType, Platform } from "@tauri-apps/api/os"
+import { Arch, OsType, Platform } from "@tauri-apps/plugin-os"
 import { getVersion, getTauriVersion } from '@tauri-apps/api/app';
-import { arch, platform, type, version } from '@tauri-apps/api/os';
+import { arch, platform, type, version } from '@tauri-apps/plugin-os';
 
 
 interface AppEnvState {

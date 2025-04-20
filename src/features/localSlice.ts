@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import type { RootState } from '../app/store'
-import { Child, Command } from '@tauri-apps/api/shell';
+import { Child, Command } from '@tauri-apps/plugin-shell';
 
 import { CheckError, CheckId, checkRegistry, CheckResult, StatusCodeError, getCheckList, CheckEntry } from '../checks'
 import { GameId } from '../common'

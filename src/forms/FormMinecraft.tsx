@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { killChild, runChecksAndLaunchLocal } from '../features/localSlice';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 
-import { open } from '@tauri-apps/api/dialog';
+import { open } from '@tauri-apps/plugin-dialog';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';

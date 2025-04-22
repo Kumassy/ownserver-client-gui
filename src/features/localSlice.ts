@@ -264,8 +264,6 @@ const getCommand = async (rootState: RootState) => {
   switch(args[0]) {
     case 'java':
     case 'docker':
-    case 'bedrock_server':
-    case 'bedrock_server.exe':
       return new Command(args[0], args.splice(1), spawnOptions)
     default:
       if (osType === 'Windows_NT') {

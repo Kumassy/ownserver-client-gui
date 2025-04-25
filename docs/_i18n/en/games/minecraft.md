@@ -4,7 +4,7 @@
 Please refer to this article to install `java` on your computer.
 
 > Tutorials/Setting up a server
-> [https://minecraft.fandom.com/wiki/Tutorials/Setting_up_a_server#Installing_Java_3](https://minecraft.fandom.com/wiki/Tutorials/Setting_up_a_server#Installing_Java_3)
+> [https://minecraft.wiki/w/Tutorial:Setting_up_a_Java_Edition_server](https://minecraft.wiki/w/Tutorial:Setting_up_a_Java_Edition_server)
 {: .blockquote }
 
 Create a new folder on your desktop or somewhere else.  

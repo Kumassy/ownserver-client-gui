@@ -31,7 +31,7 @@ export const StepMonitoring: React.FC<StepMonitoringProps> = ({ handleBack, hand
     <React.Fragment>
       <Box>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={{xs: 12}}>
             <Typography>
               <p>{t('panel.startServer.steps.monitor.publicAddress')}</p>
               {clientInfo && (
@@ -43,7 +43,7 @@ export const StepMonitoring: React.FC<StepMonitoringProps> = ({ handleBack, hand
               )}
             </Typography>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={{xs: 12}}>
             <Typography>
               {t('panel.startServer.steps.monitor.serverLogs')}:
             </Typography>
@@ -70,7 +70,7 @@ export const StepMonitoring: React.FC<StepMonitoringProps> = ({ handleBack, hand
               </AutoScroll>
             </Box>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={{xs: 12}}>
             <FormControl fullWidth variant="outlined">
               <InputLabel htmlFor="local-server-send-command">{t('panel.startServer.steps.monitor.inputCommand')}</InputLabel>
               <OutlinedInput

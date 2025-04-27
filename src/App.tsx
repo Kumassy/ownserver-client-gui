@@ -37,7 +37,7 @@ function App() {
 
   const appVersion = useAppSelector(state => state.tauri.app?.version ?? '')
 
-  const unlistenRef = useRef<() => void>();
+  const unlistenRef = useRef<() => void>(null);
   useEffect(() => {
     const setupListener = async () => {
       const unlisten = await listen('update_client_info', event => {
@@ -145,7 +145,7 @@ function App() {
         <Box sx={{ flexGrow: 1, padding: 2, display: 'flex', justifyContent: 'space-between', flexDirection: 'column'}}>
           <Grid container spacing={2} sx={{ mb: 2 }}>
             <Typography sx={{ p: 2 }}>OwnServer Client GUI version: {appVersion}</Typography>
-            <Grid item xs={12}>
+            <Grid size={{xs: 12}}>
               <InputLabel id="select-lang-label">{t('panel.settings.selectLanguage')}</InputLabel>
               <Select
                 labelId="select-lang-label"

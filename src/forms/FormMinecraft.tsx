@@ -38,7 +38,7 @@ export const FormMinecraft: React.FC<FormProps> = ({ handleBack, handleNext }) =
   const isOperationButtonDisabled = filepath == null || eulaChecked === false
 
 
-  const unlistenRef = useRef<() => void>();
+  const unlistenRef = useRef<() => void>(null);
   useEffect(() => {
     const setupListener = async () => {
       const unlisten = await listen<Array<string>>('tauri://file-drop', event => {
@@ -138,7 +138,7 @@ export const FormMinecraft: React.FC<FormProps> = ({ handleBack, handleNext }) =
 
 
         <Grid container spacing={2} sx={{ mb: 2 }}>
-          <Grid item xs={12}>
+          <Grid size={{xs: 12}}>
             <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
               {t('panel.startServer.steps.launchLocalServer.minecraft.tasks.label')}
             </Typography>
@@ -189,7 +189,7 @@ export const FormMinecraft: React.FC<FormProps> = ({ handleBack, handleNext }) =
           justifyContent="center"
           alignItems="center"
         >
-          <Grid item xs={12}>
+          <Grid size={{xs: 12}}>
             <Tooltip title={isOperationButtonDisabled ? t('panel.startServer.steps.launchLocalServer.minecraft.control.operationDesc'): ""}>
               <span>
                 <OperationButton

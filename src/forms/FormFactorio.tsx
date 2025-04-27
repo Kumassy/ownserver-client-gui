@@ -96,7 +96,7 @@ export const FormFactorio: React.FC<FormProps> = ({ handleBack, handleNext }) =>
 
 
         <Grid container spacing={2} sx={{ mb: 2 }}>
-          <Grid item xs={12}>
+          <Grid size={{xs: 12}}>
             <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
               {t('panel.startServer.steps.launchLocalServer.factorio.tasks.label')}
             </Typography>
@@ -147,7 +147,7 @@ export const FormFactorio: React.FC<FormProps> = ({ handleBack, handleNext }) =>
           justifyContent="center"
           alignItems="center"
         >
-          <Grid item xs={12}>
+          <Grid size={{xs: 12}}>
             <Tooltip title={isOperationButtonDisabled ? t('panel.startServer.steps.launchLocalServer.factorio.control.operationDesc'): ""}>
               <span>
                 <OperationButton

@@ -90,7 +90,130 @@
         }
       ]
     },
+    {
+      "identifier": "shell:allow-kill",
+      "allow": [
+        {
+          "args": true,
+          "cmd": "sh",
+          "name": "sh",
+          "sidecar": false
+        },
+        {
+          "args": true,
+          "cmd": "cmd",
+          "name": "cmd",
+          "sidecar": false
+        },
+        {
+          "args": true,
+          "cmd": "java",
+          "name": "java",
+          "sidecar": false
+        },
+        {
+          "args": true,
+          "cmd": "docker",
+          "name": "docker",
+          "sidecar": false
+        },
+        {
+          "args": true,
+          "cmd": "bedrock_server",
+          "name": "bedrock_server",
+          "sidecar": false
+        },
+        {
+          "args": true,
+          "cmd": "bedrock_server.exe",
+          "name": "bedrock_server.exe",
+          "sidecar": false
+        }
+      ]
+    },
     "shell:allow-open",
+    {
+      "identifier": "shell:allow-spawn",
+      "allow": [
+        {
+          "args": true,
+          "cmd": "sh",
+          "name": "sh",
+          "sidecar": false
+        },
+        {
+          "args": true,
+          "cmd": "cmd",
+          "name": "cmd",
+          "sidecar": false
+        },
+        {
+          "args": true,
+          "cmd": "java",
+          "name": "java",
+          "sidecar": false
+        },
+        {
+          "args": true,
+          "cmd": "docker",
+          "name": "docker",
+          "sidecar": false
+        },
+        {
+          "args": true,
+          "cmd": "bedrock_server",
+          "name": "bedrock_server",
+          "sidecar": false
+        },
+        {
+          "args": true,
+          "cmd": "bedrock_server.exe",
+          "name": "bedrock_server.exe",
+          "sidecar": false
+        }
+      ]
+    },
+    {
+      "identifier": "shell:allow-stdin-write",
+      "allow": [
+        {
+          "args": true,
+          "cmd": "sh",
+          "name": "sh",
+          "sidecar": false
+        },
+        {
+          "args": true,
+          "cmd": "cmd",
+          "name": "cmd",
+          "sidecar": false
+        },
+        {
+          "args": true,
+          "cmd": "java",
+          "name": "java",
+          "sidecar": false
+        },
+        {
+          "args": true,
+          "cmd": "docker",
+          "name": "docker",
+          "sidecar": false
+        },
+        {
+          "args": true,
+          "cmd": "bedrock_server",
+          "name": "bedrock_server",
+          "sidecar": false
+        },
+        {
+          "args": true,
+          "cmd": "bedrock_server.exe",
+          "name": "bedrock_server.exe",
+          "sidecar": false
+        }
+      ]
+    },
     "dialog:allow-open",
     "dialog:allow-save",
     "dialog:allow-message",

@@ -147,7 +147,7 @@ export const FormFactorio: React.FC<FormProps> = ({ handleBack, handleNext }) =>
           justifyContent="center"
           alignItems="center"
         >
-          <Grid size={{xs: 12}}>
+          <Grid>
             <Tooltip title={isOperationButtonDisabled ? t('panel.startServer.steps.launchLocalServer.factorio.control.operationDesc'): ""}>
               <span>
                 <OperationButton

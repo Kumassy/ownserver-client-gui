@@ -178,7 +178,7 @@ export const FormMinecraftBe: React.FC<FormProps> = ({ handleBack, handleNext })
           justifyContent="center"
           alignItems="center"
         >
-          <Grid size={{xs: 12}}>
+          <Grid>
             <Tooltip title={isOperationButtonDisabled ? t('panel.startServer.steps.launchLocalServer.minecraft_be.control.operationDesc'): ""}>
               <span>
                 <OperationButton

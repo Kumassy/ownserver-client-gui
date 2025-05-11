@@ -134,7 +134,7 @@ export const StepLaunchTunnel: React.FC<StepLaunchTunnelProps> = ({ handleBack, 
           justifyContent="center"
           alignItems="center"
         >
-          <Grid size={{xs: 12}}>
+          <Grid>
             <OperationButton
               status={tunnelStatus}
               launch={launchTunnel}

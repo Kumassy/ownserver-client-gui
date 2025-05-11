@@ -178,7 +178,7 @@ export const FormCustom: React.FC<FormProps> = ({ handleBack, handleNext }) => {
             justifyContent="center"
             alignItems="center"
           >
-            <Grid size={{xs: 12}}>
+            <Grid>
               <OperationButton
                 status={localStatus}
                 launch={runChecksAndLaunchLocal}

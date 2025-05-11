@@ -3238,7 +3238,7 @@ dependencies = [
 
 [[package]]
 name = "ownserver-client-gui"
-version = "0.10.1"
+version = "0.10.2"
 dependencies = [
  "chrono",
  "futures",

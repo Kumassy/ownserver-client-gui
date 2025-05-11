@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import type { RootState } from '../app/store'
-import { Child, Command } from '@tauri-apps/api/shell';
+import { Child, Command } from '@tauri-apps/plugin-shell';
 
 import { CheckError, CheckId, checkRegistry, CheckResult, StatusCodeError, getCheckList, CheckEntry } from '../checks'
 import { GameId } from '../common'
@@ -264,12 +264,12 @@ const getCommand = async (rootState: RootState) => {
   switch(args[0]) {
     case 'java':
     case 'docker':
-      return new Command(args[0], args.splice(1), spawnOptions)
+      return Command.create(args[0], args.slice(1), spawnOptions)
     default:
-      if (osType === 'Windows_NT') {
-        return new Command('cmd', ['/c', command], spawnOptions)
+      if (osType === 'windows') {
+        return Command.create('cmd', ['/c', command], spawnOptions)
       } else if (osType !== null) {
-        return new Command('sh', ['-c', command], spawnOptions)
+        return Command.create('sh', ['-c', command], spawnOptions)
       } else {
         throw new Error('tauri state is not initialized')
       }
@@ -330,7 +330,7 @@ export const killChild = createAsyncThunk<void, undefined, { state: RootState }>
 
   switch(game) {
     case 'factorio':
-      const output = await new Command('run-docker', ['stop', `ownserver-local-${game}`]).execute()
+      const output = await Command.create('run-docker', ['stop', `ownserver-local-${game}`]).execute()
       if (output.code !==0 ) {
         throw new Error(`failed to stop container ownserver-local-${game}: ${output}`)
       }

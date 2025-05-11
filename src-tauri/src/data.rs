@@ -1,17 +1,11 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "kind")]
 pub enum LaunchResultError {
-    LaunchFailed {
-        message: String
-    },
-    InternalClientError {
-        message: String
-    },
-    ClientExited {
-        message: String
-    }
+  LaunchFailed { message: String },
+  InternalClientError { message: String },
+  ClientExited { message: String },
 }
 
 pub type LaunchResult = Result<(), LaunchResultError>;
@@ -19,7 +13,5 @@ pub type LaunchResult = Result<(), LaunchResultError>;
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "kind")]
 pub enum CreateEulaError {
-    IoError {
-        message: String
-    },
+  IoError { message: String },
 }

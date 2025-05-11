@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { killChild, runChecksAndLaunchLocal } from '../features/localSlice';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 
-import { open } from '@tauri-apps/api/dialog';
+import { open } from '@tauri-apps/plugin-dialog';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -37,7 +37,7 @@ export const FormMinecraftBe: React.FC<FormProps> = ({ handleBack, handleNext })
   const isOperationButtonDisabled = filepath == null
 
 
-  const unlistenRef = useRef<() => void>();
+  const unlistenRef = useRef<() => void>(null);
   useEffect(() => {
     const setupListener = async () => {
       const unlisten = await listen<Array<string>>('tauri://file-drop', event => {
@@ -127,7 +127,7 @@ export const FormMinecraftBe: React.FC<FormProps> = ({ handleBack, handleNext })
 
 
         <Grid container spacing={2} sx={{ mb: 2 }}>
-          <Grid item xs={12}>
+          <Grid size={{xs: 12}}>
             <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
               {t('panel.startServer.steps.launchLocalServer.minecraft_be.tasks.label')}
             </Typography>
@@ -178,7 +178,7 @@ export const FormMinecraftBe: React.FC<FormProps> = ({ handleBack, handleNext })
           justifyContent="center"
           alignItems="center"
         >
-          <Grid item xs={12}>
+          <Grid>
             <Tooltip title={isOperationButtonDisabled ? t('panel.startServer.steps.launchLocalServer.minecraft_be.control.operationDesc'): ""}>
               <span>
                 <OperationButton

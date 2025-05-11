@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { open } from '@tauri-apps/api/shell';
+import { open } from '@tauri-apps/plugin-shell';
 import { useAppDispatch, useAppSelector } from './app/hooks'
 import { GameId } from "./common"
 import { useTranslation } from 'react-i18next';
@@ -90,19 +90,19 @@ function Inquiry() {
   return (
     <Box sx={{ flexGrow: 1, padding: 2, display: 'flex', justifyContent: 'space-between', flexDirection: 'column'}}>
       <Grid container spacing={2} sx={{ mb: 2 }}>
-        <Grid item xs={12}>
+        <Grid size={{xs: 12}}>
           <Typography sx={{ mb: 2 }} variant="h6" component="div">
             {t('panel.inquiry.title')}
           </Typography>
         </Grid>
-        <Grid item xs={12} sx={{ mb: 2 }}>
+        <Grid size={{xs: 12}} sx={{ mb: 2 }}>
           <Typography>{t('panel.inquiry.description1')}</Typography>
           <Typography>{t('panel.inquiry.description2')}</Typography>
           <Link href="https://ownserver.kumassy.com/inquiry" target="_blank">
             {t('panel.inquiry.linkText')}
           </Link>
         </Grid>
-        <Grid item xs={12} sx={{ mb: 2 }}>
+        <Grid size={{xs: 12}} sx={{ mb: 2 }}>
           <ButtonGroup
             orientation="vertical"
             aria-label="Vertical button group"

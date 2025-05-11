@@ -23,7 +23,7 @@ export const StepLaunchTunnel: React.FC<StepLaunchTunnelProps> = ({ handleBack, 
   const isBackDisabled = tunnelStatus === 'running'
   const isNextDisabled = tunnelStatus !== 'running'
 
-  const unlistenRef = useRef<() => void>();
+  const unlistenRef = useRef<() => void>(null);
   useEffect(() => {
     const setupListener = async () => {
       const unlisten = await listen('log', event => {
@@ -53,7 +53,7 @@ export const StepLaunchTunnel: React.FC<StepLaunchTunnelProps> = ({ handleBack, 
         }}
       >
         <Grid container spacing={2} sx={{ mb: 2 }}>
-          <Grid item xs={12}>
+          <Grid size={{xs: 12}}>
             <Typography sx={{ mb: 2 }} variant="h6" component="div">
               {t('panel.startServer.steps.configureOwnServer.settings')}
             </Typography>
@@ -75,7 +75,7 @@ export const StepLaunchTunnel: React.FC<StepLaunchTunnelProps> = ({ handleBack, 
               </AccordionDetails>
             </Accordion>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={{xs: 12}}>
             <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
               {t('panel.startServer.steps.configureOwnServer.tasks.label')}
             </Typography>
@@ -134,7 +134,7 @@ export const StepLaunchTunnel: React.FC<StepLaunchTunnelProps> = ({ handleBack, 
           justifyContent="center"
           alignItems="center"
         >
-          <Grid item xs={12}>
+          <Grid>
             <OperationButton
               status={tunnelStatus}
               launch={launchTunnel}

@@ -3276,6 +3276,7 @@ dependencies = [
 name = "ownserver-client-gui"
 version = "0.10.1"
 dependencies = [
+ "chrono",
  "futures",
  "lazy_static",
  "log",

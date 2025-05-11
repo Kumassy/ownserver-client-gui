@@ -2,6 +2,7 @@ use log::{LevelFilter, Log, Metadata, Record};
 use ownserver::recorder::{init_recorder, Event, EventRecorder, SetEventRecorderError};
 use std::sync::Arc;
 use tauri::{Emitter, WebviewWindow};
+use chrono::Local;
 
 pub const DEFAULT_LOG_LEVEL: LevelFilter = LevelFilter::Info;
 
@@ -24,7 +25,9 @@ impl Log for TauriLogger {
 
   fn log(&self, record: &Record) {
     if self.enabled(record.metadata()) {
-      let message = format!("[{}] {}", record.level(), record.args());
+    let now = Local::now();
+    let timestamp = now.to_rfc3339();
+    let message = format!("[{}] [{}] {}", timestamp, record.level(), record.args());
 
       // Forward to frontend
       let window = self.window.clone();

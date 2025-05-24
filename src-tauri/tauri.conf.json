@@ -42,7 +42,7 @@
   },
   "productName": "ownserver-client-gui",
   "mainBinaryName": "ownserver-client-gui",
-  "version": "0.10.2",
+  "version": "0.10.3",
   "identifier": "com.kumassy.ownserver",
   "plugins": {
     "updater": {

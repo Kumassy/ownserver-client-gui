@@ -1,7 +1,7 @@
 const { spawn } = require('child_process')
 
 describe('Run Custom Server with Netcat', () => {
-  it.skip('can publish local server', async () => {
+  it('can publish local server', async () => {
     ////
     // Select Custom
     {
@@ -11,10 +11,10 @@ describe('Run Custom Server with Netcat', () => {
       const custom = await $('aria/Custom')
       await custom.click()
 
-      const next = await $('button*=Next')
+      const next = await $('button=Next')
       await next.waitUntil(async () => await next.isClickable(), {
-        timeout: 15000,
-        timeoutMsg: 'expected next button to be enabled after 15s'
+        timeout: 5000,
+        timeoutMsg: 'expected next button to be enabled in 5s'
       });
       await next.click()
     }
@@ -27,18 +27,22 @@ describe('Run Custom Server with Netcat', () => {
       const useLocalFeature = await $('span*=Enter the command')
       await useLocalFeature.click()
 
-      const start = await $('button*=Start')
+      const start = await $('button=Start')
       await start.waitUntil(async () => await start.isEnabled(), {
         timeout: 5000,
-        timeoutMsg: 'expected srat button to be enabled after 5s'
+        timeoutMsg: 'expected start button to be enabled in 5s'
+      });
+      await start.waitUntil(async () => await start.isClickable(), {
+        timeout: 5000,
+        timeoutMsg: 'expected start button to be clickable in 5s'
       });
       await start.click()
 
 
-      const next = await $('button*=Next')
+      const next = await $('button=Next')
       await next.waitUntil(async () => await next.isEnabled(), {
-        timeout: 15000,
-        timeoutMsg: 'expected next button to be enabled after 15s'
+        timeout: 5000,
+        timeoutMsg: 'expected next button to be enabled in 5s'
       });
       await next.click()
     }
@@ -47,14 +51,14 @@ describe('Run Custom Server with Netcat', () => {
     // Configure ownserver
     //
     {
-      const start = await $('button*=Start')
+      const start = await $('button=Start')
       await start.click()
 
-      const next = await $('button*=Next')
+      const next = await $('button=Next')
       await next.waitUntil(async () => await next.isEnabled(), {
-        timeout: 15000,
-        timeoutMsg: 'expected next button to be enabled after 15s'
-      });
+        timeout: 5000,
+        timeoutMsg: 'expected next button to be enabled in 5s'
+      })
       await next.click()
     }
 
@@ -62,18 +66,29 @@ describe('Run Custom Server with Netcat', () => {
     // Monitor
     //
     {
-      const address = await $('p*=Your Public Address')
+      const addressLabel = await $('p*=Your Public Address')
+      const address = addressLabel.parentElement()
+
       await address.waitUntil(async function () {
         return (await address.getText()).includes('ownserver.kumassy.com')
       }, {
         timeout: 5000,
-        timeoutMsg: 'expected public address to be available after 5s'
-      });
+        timeoutMsg: 'expected public address to be available in 5s'
+      })
+      const addressText = await address.getText();
+      console.log("Raw address text:", addressText);
+
+      const addressMatch = addressText.match(/([a-zA-Z0-9\-]+\.ownserver\.kumassy\.com:\d+)/);
+      if (!addressMatch) {
+        throw new Error(`Failed to extract server address from: ${addressText}`);
+      }
+      const serverAddress = addressMatch[1]
+      const [ip, port] = serverAddress.split(':')
+      console.log("Extracted server address:", ip, port);
 
       // assert flag pattern is echo by local nc server via ownserver
       const flag = 'hello from webdriver'
 
-      const [ip, port] = (await address.getText()).replace('Your Public Address: ', '').split(':')
       const nc = spawn('nc', [ip, port, '-N'], {
         input: flag,
         timeout: 30000

@@ -1,7 +1,7 @@
 const path = require('path');
 
 describe('Run Minecraft Game', () => {
-  it.skip('can publish local server', async () => {
+  it('can publish local server', async () => {
     ////
     // Select Minecraft
     // verify minecraft is selected
@@ -9,7 +9,12 @@ describe('Run Minecraft Game', () => {
       const minecraft = await $('aria/Minecraft Java Edition')
       await expect(minecraft).toBePresent()
 
-      await $('button*=Next').click()
+      const next = await $('button=Next')
+      await next.waitUntil(async () => await next.isClickable(), {
+        timeout: 5000,
+        timeoutMsg: 'expected next button to be enabled in 5s'
+      });
+      await next.click()
     }
 
 
@@ -24,31 +29,45 @@ describe('Run Minecraft Game', () => {
         'minecraft-java-vanilla',
         'server.jar'
       )
-      await browser.execute((server_jar_path) => {
-        window.__TAURI_INVOKE__('tauri', {
-          __tauriModule: 'Event',
-          message: {
-            cmd: 'emit',
-            event: "tauri://file-drop",
-            windowLabel: "main",
-            payload: [server_jar_path]
-          }
-        })
-      }, server_jar_path)
+      console.log(`server_jar_path: ${server_jar_path}`)
+
+      await browser.waitUntil(async () => {
+        await browser.execute((server_jar_path) => {
+          window.__TAURI_INTERNALS__.invoke('plugin:event|emit', {
+            event: 'tauri://drag-drop',
+            payload: {
+              type: 'drop',
+              paths: [server_jar_path],
+              position: { x: 0, y: 0 }
+            }
+          })
+        }, server_jar_path)
+
+        try {
+          const element = await $(`p*=${server_jar_path}`);
+          return await element.isExisting();
+        } catch (error) {
+          return false;
+        }
+      }, {
+        timeout: 5000,
+        interval: 1000,
+        timeoutMsg: 'expected drag-drop event to be emitted in 5s'
+      })
 
       $('aria/Accept EULA').click()
 
-      const start = await $('button*=Start')
+      const start = await $('button=Start')
       await start.waitUntil(async () => await start.isEnabled(), {
         timeout: 5000,
-        timeoutMsg: 'expected srat button to be enabled after 5s'
+        timeoutMsg: 'expected srat button to be enabled in 5s'
       });
       await start.click()
 
-      const next = await $('button*=Next')
+      const next = await $('button=Next')
       await next.waitUntil(async () => await next.isEnabled(), {
-        timeout: 15000,
-        timeoutMsg: 'expected next button to be enabled after 60s'
+        timeout: 5000,
+        timeoutMsg: 'expected next button to be enabled in 5s'
       });
       await next.click()
 
@@ -58,13 +77,13 @@ describe('Run Minecraft Game', () => {
     // Configure ownserver
     //
     {
-      const start = await $('button*=Start')
+      const start = await $('button=Start')
       await start.click()
 
-      const next = await $('button*=Next')
+      const next = await $('button=Next')
       await next.waitUntil(async () => await next.isEnabled(), {
-        timeout: 15000,
-        timeoutMsg: 'expected next button to be enabled after 15s'
+        timeout: 5000,
+        timeoutMsg: 'expected next button to be enabled in 5s'
       });
       await next.click()
     }
@@ -73,12 +92,14 @@ describe('Run Minecraft Game', () => {
     // Monitor
     //
     {
-      const address = await $('p*=Your Public Address')
+      const addressLabel = await $('p*=Your Public Address')
+      const address = addressLabel.parentElement()
+
       await address.waitUntil(async function () {
         return (await address.getText()).includes('ownserver.kumassy.com')
       }, {
         timeout: 5000,
-        timeoutMsg: 'expected public address to be available after 5s'
+        timeoutMsg: 'expected public address to be available in 5s'
       });
 
 
@@ -87,7 +108,7 @@ describe('Run Minecraft Game', () => {
         return (await terminal.getText()).includes('For help, type "help"')
       }, {
         timeout: 300000,
-        timeoutMsg: 'expected local server to be available after 30s'
+        timeoutMsg: 'expected local server to be available in 30s'
       });
     }
 

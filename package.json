@@ -1,6 +1,6 @@
 {
   "name": "ownserver-client-gui",
-  "version": "0.10.2",
+  "version": "0.10.3",
   "private": true,
   "dependencies": {
     "@brianmcallister/react-auto-scroll": "^1.1.0",

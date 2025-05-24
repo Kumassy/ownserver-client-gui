@@ -42,7 +42,7 @@
   },
   "productName": "ownserver-client-gui",
   "mainBinaryName": "ownserver-client-gui",
-  "version": "0.10.2",
+  "version": "0.10.3",
   "identifier": "com.kumassy.ownserver",
   "plugins": {
     "updater": {
@@ -54,7 +54,11 @@
   },
   "app": {
     "security": {
-      "csp": "default-src blob: data: filesystem: ws: wss: http: https: tauri: 'unsafe-eval' 'unsafe-inline' 'self' img-src: 'self'; connect-src ipc: http://ipc.localhost"
+      "csp": {
+        "default-src": "blob: data: filesystem: ws: wss: http: https: tauri: 'unsafe-eval' 'unsafe-inline' 'self'",
+        "img-src": "'self'",
+        "connect-src": ["ipc: http://ipc.localhost", "tauri://localhost"]
+      }
     },
     "windows": [
       {

@@ -17,7 +17,7 @@ import AutoScroll from '@brianmcallister/react-auto-scroll';
 import Stack from '@mui/material/Stack';
 import { Checkbox, FormControlLabel, FormGroup, FormHelperText, Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { listen } from '@tauri-apps/api/event';
+import { getCurrentWebview } from "@tauri-apps/api/webview";
 import { FormProps } from '../types';
 import { OperationButton, ResultChip } from '../utils';
 import { setAcceptEula, updateCommand, updateFilepath, updateLocalPort } from '../features/reducers/games/minecraft';
@@ -41,10 +41,12 @@ export const FormMinecraft: React.FC<FormProps> = ({ handleBack, handleNext }) =
   const unlistenRef = useRef<() => void>(null);
   useEffect(() => {
     const setupListener = async () => {
-      const unlisten = await listen<Array<string>>('tauri://file-drop', event => {
-        if (event.payload.length === 1) {
-          let filepath = event.payload[0];
-          dispatch(updateFilepath(filepath))
+      const unlisten = await getCurrentWebview().onDragDropEvent(event => {
+        if (event.payload.type === 'drop') {
+          if (event.payload.paths.length === 1) {
+            let filepath = event.payload.paths[0];
+            dispatch(updateFilepath(filepath))
+          }
         }
       })
       unlistenRef.current = unlisten;

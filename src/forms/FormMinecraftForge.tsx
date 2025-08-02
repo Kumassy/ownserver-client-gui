@@ -1,35 +1,31 @@
 import React, { useEffect, useRef } from 'react';
 import { updateCommand, updateFilepath, updateLocalPort, setAcceptEula } from '../features/reducers/games/minecraftForge';
-import { killChild, runChecksAndLaunchLocal } from '../features/localSlice';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 
 import { open } from '@tauri-apps/plugin-dialog';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import AutoScroll from '@brianmcallister/react-auto-scroll';
 import Stack from '@mui/material/Stack';
-import { Checkbox, FormControlLabel, FormGroup, FormHelperText, Tooltip } from '@mui/material';
+import { Checkbox, FormControlLabel, FormGroup, FormHelperText } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { listen } from '@tauri-apps/api/event';
 import { FormProps } from '../types';
-import { OperationButton, ResultChip } from '../utils';
+import { GameTaskSection } from './components/GameTaskSection';
+import { FormFooter } from './components/FormFooter';
 
 export const FormMinecraftForge: React.FC<FormProps> = ({ handleBack, handleNext }) => {
-  const localMessages = useAppSelector(state => state.local.messages)
-  const localStatus = useAppSelector(state => state.local.status)
-  const localPort = useAppSelector(state => state.local.config.minecraft_forge.endpoints[0].port)
-  const command = useAppSelector(state => state.local.config.minecraft_forge.command)
-  const checks = useAppSelector(state => state.local.checks)
-  const filepath = useAppSelector(state => state.local.config.minecraft_forge.filepath)
-  const eulaChecked = useAppSelector(state => state.local.config.minecraft_forge.acceptEula)
+  const localStatus = useAppSelector(state => state.local.status);
+  const localPort = useAppSelector(state => state.local.config.minecraft_forge.endpoints[0].port);
+  const command = useAppSelector(state => state.local.config.minecraft_forge.command);
+  const filepath = useAppSelector(state => state.local.config.minecraft_forge.filepath);
+  const eulaChecked = useAppSelector(state => state.local.config.minecraft_forge.acceptEula);
   const { t } = useTranslation();
   const dispatch = useAppDispatch()
 
@@ -138,98 +134,16 @@ export const FormMinecraftForge: React.FC<FormProps> = ({ handleBack, handleNext
 
 
 
-        <Grid container spacing={2} sx={{ mb: 2 }}>
-          <Grid size={{xs: 12}}>
-            <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
-              {t('panel.startServer.steps.launchLocalServer.minecraft_forge.tasks.label')}
-            </Typography>
-
-            {checks.map(check => {
-              return (
-                <Accordion key={check.id}>
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                  >
-                    <Typography>{t(`panel.startServer.checks.${check.label}`)} <ResultChip status={check.status} /></Typography>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <Typography>
-                      {check.message}
-                    </Typography>
-                  </AccordionDetails>
-                </Accordion>
-              )
-            })}
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-              >
-                <Typography>{t('panel.startServer.steps.launchLocalServer.minecraft_forge.tasks.start')} <ResultChip status={localStatus} /></Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <AutoScroll
-                  showOption={false}
-                  height={100}
-                >
-                  {localMessages.map(msg => {
-                    return (
-                      <div key={msg.key}>
-                        {msg.message}
-                      </div>
-                    );
-                  })}
-                </AutoScroll>
-              </AccordionDetails>
-            </Accordion>
-          </Grid>
-        </Grid>
-
-        <Grid
-          container
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Grid>
-            <Tooltip title={isOperationButtonDisabled ? t('panel.startServer.steps.launchLocalServer.minecraft_forge.control.operationDesc'): ""}>
-              <span>
-                <OperationButton
-                  status={localStatus}
-                  disabled={isOperationButtonDisabled}
-                  launch={runChecksAndLaunchLocal}
-                  interrupt={killChild}
-                />
-              </span>
-            </Tooltip>
-          </Grid>
-        </Grid>
+        <GameTaskSection gameKey="minecraft_forge" isOperationButtonDisabled={isOperationButtonDisabled} />
       </Box>
 
-      <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-        <Tooltip title={isBackDisabled ? t('panel.startServer.steps.launchLocalServer.minecraft_forge.control.backDesc'): ""}>
-          <span>
-            <Button
-              color="inherit"
-              disabled={isBackDisabled}
-              onClick={handleBack}
-            >
-              {t('common.control.back')}
-            </Button>
-          </span>
-        </Tooltip>
-        <Box sx={{ flex: '1 1 auto' }} />
-
-        <Tooltip title={isNextDisabled ? t('panel.startServer.steps.launchLocalServer.minecraft_forge.control.nextDesc'): ""}>
-          <span>
-            <Button
-              onClick={handleNext}
-              disabled={isNextDisabled}
-            >
-              {t('common.control.next')}
-            </Button>
-          </span>
-        </Tooltip>
-      </Box>
+      <FormFooter
+        gameKey="minecraft_forge"
+        handleBack={handleBack}
+        handleNext={handleNext}
+        isBackDisabled={isBackDisabled}
+        isNextDisabled={isNextDisabled}
+      />
     </React.Fragment>
   )
 }

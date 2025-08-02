@@ -24,7 +24,7 @@ function debounce<T extends (...args: any[]) => void>(func: T, delay: number): T
 
 (async () => {
     try {
-        const persisted = await loadState(['local', 'tunnel']);
+        const persisted = await loadState();
         if (persisted) {
             store.dispatch(hydrate(persisted));
         }
@@ -33,7 +33,7 @@ function debounce<T extends (...args: any[]) => void>(func: T, delay: number): T
     }
 
     const debouncedSave = debounce(() => {
-        saveState(store.getState(), ['local', 'tunnel']).catch(err => console.error('failed to save state', err));
+        saveState(store.getState()).catch(err => console.error('failed to save state', err));
     }, 3000);
     store.subscribe(debouncedSave);
 })();

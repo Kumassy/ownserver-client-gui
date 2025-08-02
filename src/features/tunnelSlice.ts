@@ -23,10 +23,6 @@ export interface TunnelState {
   messages: Array<TunnelStateMessage>,
 }
 
-export interface TunnelPersistedState {
-  tokenServer: string,
-}
-
 // Define the initial state using that type
 const initialState: TunnelState = {
   tunnelStatus: 'idle',

@@ -58,11 +58,6 @@ type MessagesEntry = {
 }
 
 
-export interface LocalPersistedState {
-  game: keyof GameState,
-  config: GameState,
-}
-
 export const localSlice = createSlice({
   name: 'local',
   initialState,

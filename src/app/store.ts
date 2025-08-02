@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
 import tunnelReducer from '../features/tunnelSlice'
-import localReducer, { hydrate, loadLocalState, saveLocalState, selectPersistedLocalState } from '../features/localSlice'
+import localReducer from '../features/localSlice'
 import envReducer from '../features/envSlice'
 import tauriReducer from '../features/tauriSlice'
+import { hydrate, loadState, saveState } from './persist'
 
 const store = configureStore({
     reducer: {
@@ -23,17 +24,16 @@ function debounce<T extends (...args: any[]) => void>(func: T, delay: number): T
 
 (async () => {
     try {
-        const persisted = await loadLocalState();
+        const persisted = await loadState();
         if (persisted) {
             store.dispatch(hydrate(persisted));
         }
     } catch (e) {
-        console.error('failed to load local state', e);
+        console.error('failed to load state', e);
     }
 
     const debouncedSave = debounce(() => {
-        const data = selectPersistedLocalState(store.getState());
-        saveLocalState(data).catch(err => console.error('failed to save local state', err));
+        saveState(store.getState()).catch(err => console.error('failed to save state', err));
     }, 3000);
     store.subscribe(debouncedSave);
 })();

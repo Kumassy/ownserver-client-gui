@@ -5,6 +5,7 @@ import { isLaunchResultError, LaunchResultError } from '../data'
 import { emit } from '@tauri-apps/api/event'
 import { ClientInfo, EndpointClaimRs } from '../common'
 import { nanoid } from 'nanoid'
+import { hydrate } from '../app/persist'
 
 const MAX_MESSAGES = 1000
 // Define a type for the slice state
@@ -73,6 +74,12 @@ export const tunnelSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(hydrate, (state, action) => {
+        const tunnel = action.payload.tunnel
+        if (tunnel) {
+          state.tokenServer = tunnel.tokenServer
+        }
+      })
       .addCase(launchTunnel.pending, (state) => {
         state.tunnelStatus = 'running'
         state.clientInfo = null

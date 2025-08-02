@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import type { RootState } from '../app/store'
 import { Child, Command } from '@tauri-apps/plugin-shell';
+import { appConfigDir, join } from '@tauri-apps/api/path';
+import { readTextFile, writeTextFile, exists, mkdir } from '@tauri-apps/plugin-fs';
 
 import { CheckError, CheckId, checkRegistry, CheckResult, StatusCodeError, getCheckList, CheckEntry } from '../checks'
 import { GameId } from '../common'
@@ -57,6 +59,46 @@ type MessagesEntry = {
 }
 
 
+export type LocalPersistedState = {
+  game: keyof GameState,
+  config: GameState,
+}
+
+const STATE_FILE = 'local-state.json'
+
+const getStateFilePath = async () => {
+  const dir = await appConfigDir()
+  await mkdir(dir, { recursive: true })
+  return await join(dir, STATE_FILE)
+}
+
+export const loadLocalState = async (): Promise<LocalPersistedState | null> => {
+  try {
+    const path = await getStateFilePath()
+    if (await exists(path)) {
+      const text = await readTextFile(path)
+      return JSON.parse(text) as LocalPersistedState
+    }
+  } catch (e) {
+    console.error(e)
+  }
+  return null
+}
+
+export const saveLocalState = async (state: LocalPersistedState) => {
+  try {
+    const path = await getStateFilePath()
+    await writeTextFile(path, JSON.stringify(state))
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export const selectPersistedLocalState = (state: RootState): LocalPersistedState => ({
+  game: state.local.game,
+  config: state.local.config,
+})
+
 export const localSlice = createSlice({
   name: 'local',
   initialState,
@@ -94,6 +136,18 @@ export const localSlice = createSlice({
     },
     updateInGameCommand: (state, action: PayloadAction<string>) => {
       state.inGameCommand = action.payload
+    },
+    hydrate: (state, action: PayloadAction<LocalPersistedState>) => {
+      state.game = action.payload.game
+      state.config = action.payload.config
+      state.checks = getCheckList(action.payload.game).map((entry: CheckEntry) => {
+        return {
+          id: entry.id,
+          label: entry.label,
+          status: 'idle',
+          message: "",
+        }
+      })
     },
   },
   extraReducers: (builder) => {
@@ -399,7 +453,8 @@ export const sendInGameCommand = createAsyncThunk<void, string, { state: RootSta
   return await child.write(cleanedCommand)
 })
 
-const { setChild } = localSlice.actions;
+const { setChild, hydrate } = localSlice.actions;
 export const { receiveMessage, updateGame, updateInGameCommand } = localSlice.actions
+export { hydrate }
 
 export default localSlice.reducer

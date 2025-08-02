@@ -13,6 +13,14 @@ const store = configureStore({
     }
 });
 
+function debounce<T extends (...args: any[]) => void>(func: T, delay: number): T {
+    let timeoutId: NodeJS.Timeout;
+    return ((...args: any[]) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => func(...args), delay);
+    }) as T;
+}
+
 (async () => {
     try {
         const persisted = await loadLocalState();
@@ -22,10 +30,12 @@ const store = configureStore({
     } catch (e) {
         console.error('failed to load local state', e);
     }
-    store.subscribe(() => {
+
+    const debouncedSave = debounce(() => {
         const data = selectPersistedLocalState(store.getState());
         saveLocalState(data).catch(err => console.error('failed to save local state', err));
-    });
+    }, 3000);
+    store.subscribe(debouncedSave);
 })();
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

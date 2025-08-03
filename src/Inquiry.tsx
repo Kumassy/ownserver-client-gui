@@ -38,6 +38,10 @@ export enum AppType {
   CLI = 'コマンド, CLI',
 }
 
+const constructUrlRaw = (gameId: GameId, log: string) => {
+  return `https://docs.google.com/forms/d/e/1FAIpQLSekB3eFJBI3bEscx1y9FjIEEVzA6hAchlAO55EKZIhbEMvFSQ/viewform?usp=pp_url&${ENTRY_GAME}=${encodeURI(getGameName(gameId))}&${ENTRY_LOG}=${encodeURI(log)}`
+}
+
 export const constructUrl = (gameId: GameId, os: string, appType: AppType, appVersion: string, log: string) => {
   return `https://docs.google.com/forms/d/e/1FAIpQLSekB3eFJBI3bEscx1y9FjIEEVzA6hAchlAO55EKZIhbEMvFSQ/viewform?usp=pp_url&${ENTRY_GAME}=${encodeURI(getGameName(gameId))}&${ENTRY_OS}=${encodeURI(os)}&${ENTRY_APP_TYPE}=${encodeURI(appType)}&${ENTRY_APP_VERSION}=${encodeURI(appVersion)}&${ENTRY_LOG}=${encodeURI(log)}`
 }
@@ -74,17 +78,19 @@ function Inquiry() {
 
   const handleFormButtonClick = async () => {
     if (tauri.status !== 'ready') {
-      return;
+      const url = constructUrlRaw(game, constructLogLines(local, tunnel));
+      await open(url);
+    } else {
+      const { os, app } = tauri;
+      const url = constructUrl(
+        game,
+        `OS: ${os.type} Platform: ${os.platform} Arch: ${os.arch} Version: ${os.version}`,
+        AppType.GUI,
+        `App: ${app.appVersion} Tauri: ${app.tauriVersion}`,
+        constructLogLines(local, tunnel)
+      );
+      await open(url);
     }
-    const { os, app } = tauri;
-    const url = constructUrl(
-      game,
-      `OS: ${os.type} Platform: ${os.platform} Arch: ${os.arch} Version: ${os.version}`,
-      AppType.GUI,
-      `App: ${app.appVersion} Tauri: ${app.tauriVersion}`,
-      constructLogLines(local, tunnel)
-    );
-    await open(url);
   }
 
   return (

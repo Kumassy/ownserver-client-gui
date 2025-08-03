@@ -72,10 +72,6 @@ function Inquiry() {
   const local = useAppSelector(state => state.local)
   const tunnel = useAppSelector(state => state.tunnel)
 
-  useEffect(() => {
-    dispatch(initializeTauriState());
-  }, [dispatch])
-
   const handleFormButtonClick = async () => {
     if (tauri.status !== 'ready') {
       const url = constructUrlRaw(game, constructLogLines(local, tunnel));

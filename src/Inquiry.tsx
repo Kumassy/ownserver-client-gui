@@ -1,5 +1,5 @@
 import { open } from '@tauri-apps/plugin-shell';
-import { useAppDispatch, useAppSelector } from './app/hooks'
+import { useAppSelector } from './app/hooks'
 import { GameId } from "./common"
 import { useTranslation } from 'react-i18next';
 

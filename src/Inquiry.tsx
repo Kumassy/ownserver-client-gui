@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { open } from '@tauri-apps/plugin-shell';
 import { useAppDispatch, useAppSelector } from './app/hooks'
 import { GameId } from "./common"
@@ -6,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 
 import Box from '@mui/material/Box';
 import { Button, ButtonGroup,  Grid,  Link, Typography } from '@mui/material'
-import { initializeTauriState } from './features/tauriSlice';
 import { LocalState } from './features/localSlice';
 import { TunnelState } from './features/tunnelSlice';
 
@@ -64,7 +62,6 @@ Local Messages:\n${local.messages.map(m => m.message).join('\n')}\n
 }
 
 function Inquiry() {
-  const dispatch = useAppDispatch()
   const { t } = useTranslation();
 
   const tauri = useAppSelector(state => state.tauri)

@@ -35,7 +35,9 @@ function App() {
   const [lang, setLang] = useState<'en-US' | 'ja-JP' | null>(null);
   const { t, i18n } = useTranslation();
 
-  const appVersion = useAppSelector(state => state.tauri.app?.version ?? '')
+  const appVersion = useAppSelector(state =>
+    state.tauri.status === 'ready' ? state.tauri.app.appVersion : ''
+  )
 
   const unlistenRef = useRef<() => void>(null);
   useEffect(() => {

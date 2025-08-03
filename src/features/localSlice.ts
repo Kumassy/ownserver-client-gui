@@ -276,7 +276,7 @@ const getCommand = async (rootState: RootState) => {
       break;
   }
 
-  const osType = rootState.tauri.os?.type ?? null
+  const osType = rootState.tauri.status === 'ready' ? rootState.tauri.os.type : null
   switch(args[0]) {
     case 'java':
     case 'docker':

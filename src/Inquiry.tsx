@@ -1,12 +1,10 @@
-import { useEffect } from 'react'
 import { open } from '@tauri-apps/plugin-shell';
-import { useAppDispatch, useAppSelector } from './app/hooks'
+import { useAppSelector } from './app/hooks'
 import { GameId } from "./common"
 import { useTranslation } from 'react-i18next';
 
 import Box from '@mui/material/Box';
 import { Button, ButtonGroup,  Grid,  Link, Typography } from '@mui/material'
-import { initEnv } from './features/envSlice';
 import { LocalState } from './features/localSlice';
 import { TunnelState } from './features/tunnelSlice';
 
@@ -38,6 +36,10 @@ export enum AppType {
   CLI = 'コマンド, CLI',
 }
 
+const constructUrlRaw = (gameId: GameId, log: string) => {
+  return `https://docs.google.com/forms/d/e/1FAIpQLSekB3eFJBI3bEscx1y9FjIEEVzA6hAchlAO55EKZIhbEMvFSQ/viewform?usp=pp_url&${ENTRY_GAME}=${encodeURI(getGameName(gameId))}&${ENTRY_LOG}=${encodeURI(log)}`
+}
+
 export const constructUrl = (gameId: GameId, os: string, appType: AppType, appVersion: string, log: string) => {
   return `https://docs.google.com/forms/d/e/1FAIpQLSekB3eFJBI3bEscx1y9FjIEEVzA6hAchlAO55EKZIhbEMvFSQ/viewform?usp=pp_url&${ENTRY_GAME}=${encodeURI(getGameName(gameId))}&${ENTRY_OS}=${encodeURI(os)}&${ENTRY_APP_TYPE}=${encodeURI(appType)}&${ENTRY_APP_VERSION}=${encodeURI(appVersion)}&${ENTRY_LOG}=${encodeURI(log)}`
 }
@@ -60,31 +62,28 @@ Local Messages:\n${local.messages.map(m => m.message).join('\n')}\n
 }
 
 function Inquiry() {
-  const dispatch = useAppDispatch()
   const { t } = useTranslation();
 
-  const env = useAppSelector(state => state.env)
+  const tauri = useAppSelector(state => state.tauri)
   const game = useAppSelector(state => state.local.game)
   const local = useAppSelector(state => state.local)
   const tunnel = useAppSelector(state => state.tunnel)
 
-  useEffect(() => {
-    dispatch(initEnv());
-  }, [dispatch])
-
   const handleFormButtonClick = async () => {
-    const { os, app } = env;
-    if (!os || !app) {
-      return;
+    if (tauri.status !== 'ready') {
+      const url = constructUrlRaw(game, constructLogLines(local, tunnel));
+      await open(url);
+    } else {
+      const { os, app } = tauri;
+      const url = constructUrl(
+        game,
+        `OS: ${os.type} Platform: ${os.platform} Arch: ${os.arch} Version: ${os.version}`,
+        AppType.GUI,
+        `App: ${app.appVersion} Tauri: ${app.tauriVersion}`,
+        constructLogLines(local, tunnel)
+      );
+      await open(url);
     }
-    const url = constructUrl(
-      game,
-      `OS: ${os.type} Platform: ${os.platform} Arch: ${os.arch} Version: ${os.version}`,
-      AppType.GUI,
-      `App: ${app.appVersion} Tauri: ${app.tauriVersion}`,
-      constructLogLines(local, tunnel)
-    );
-    await open(url);
   }
 
   return (

@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import Box from '@mui/material/Box';
 import { Button, ButtonGroup,  Grid,  Link, Typography } from '@mui/material'
-import { initEnv } from './features/envSlice';
+import { initializeTauriState } from './features/tauriSlice';
 import { LocalState } from './features/localSlice';
 import { TunnelState } from './features/tunnelSlice';
 
@@ -63,20 +63,20 @@ function Inquiry() {
   const dispatch = useAppDispatch()
   const { t } = useTranslation();
 
-  const env = useAppSelector(state => state.env)
+  const tauri = useAppSelector(state => state.tauri)
   const game = useAppSelector(state => state.local.game)
   const local = useAppSelector(state => state.local)
   const tunnel = useAppSelector(state => state.tunnel)
 
   useEffect(() => {
-    dispatch(initEnv());
+    dispatch(initializeTauriState());
   }, [dispatch])
 
   const handleFormButtonClick = async () => {
-    const { os, app } = env;
-    if (!os || !app) {
+    if (tauri.status !== 'ready') {
       return;
     }
+    const { os, app } = tauri;
     const url = constructUrl(
       game,
       `OS: ${os.type} Platform: ${os.platform} Arch: ${os.arch} Version: ${os.version}`,
